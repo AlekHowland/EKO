@@ -12,4 +12,8 @@ public class Personaje extends Objeto {
     public void mover(float dy){
         sprite.setY(sprite.getY()+dy);
     }
+
+    public void setTexture(Texture textura){
+        sprite.setTexture(textura);
+    }
 }

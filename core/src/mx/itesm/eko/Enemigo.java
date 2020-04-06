@@ -8,8 +8,11 @@ public class Enemigo extends Objeto {
         super(textura, x, y);
     }
 
-    public void mover(float dx){
+    public void moverHorizontal(float dx){
         sprite.setX(sprite.getX()+dx);
+    }
+    public void moverVertical(float dy){
+        sprite.setY(sprite.getY()+dy);
     }
 
 

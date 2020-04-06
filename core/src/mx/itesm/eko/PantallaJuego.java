@@ -21,16 +21,20 @@ class PantallaJuego extends Pantalla {
     private final String assets;
 
     private EstadoJuego estadoJuego=EstadoJuego.JUGANDO;
-    //Personaje
+
     private Personaje personaje;
     private Enemigo enemigo;
 
     private Texture texturaPersonaje;
     private Texture texturaFondo;
     private Texture texturaEnemigo;
+    private Texture texturaPersonajeAbajo;
 
     private Movimiento movimientoPersonaje=Movimiento.QUIETO;
     private Movimiento movimientoEnemigo=Movimiento.IZQUIERDA;
+    private float timerPersonaje=0;
+    private float timerEnemigo=0;
+    private int pasoEnemigo=7;
 
     private Marcador marcador;
 
@@ -67,6 +71,7 @@ class PantallaJuego extends Pantalla {
 
         texturaPersonaje=new Texture("asset"+assets+".png");
         texturaEnemigo=new Texture("enemigo"+assets+".png");
+        texturaPersonajeAbajo=new Texture("asset"+assets+"Abajo.png");
     }
 
 
@@ -78,12 +83,13 @@ class PantallaJuego extends Pantalla {
         if(estadoJuego==EstadoJuego.JUGANDO) {
             actualizar(delta);
         }
-        moverPersonaje();
-        moverEnemigo();
+
+        moverEnemigo(delta);
         borrarPantalla(0,0,0);
         batch.setProjectionMatrix(camara.combined);
 
         batch.begin();
+        moverPersonaje(delta);
         batch.draw(texturaFondo,0,0);
         personaje.render(batch);
         enemigo.render(batch);
@@ -97,23 +103,37 @@ class PantallaJuego extends Pantalla {
         marcador.marcar(1);
     }
 
-    private void moverPersonaje() {
+    private void moverPersonaje(float delta) {
+        timerPersonaje=delta;
         switch (movimientoPersonaje){
             case ARRIBA:
-                personaje.mover(10);
+
+                if (personaje.sprite.getY()<0.35*ALTO){
+                    personaje.mover(20);
+
+                }
                 break;
             case ABAJO:
-                personaje.mover(-10);
+                personaje.setTexture(texturaPersonajeAbajo);
+            case QUIETO:
+                personaje.sprite.setY(0.05f*ALTO);
+
                 break;
             default:
                 break;
         }
     }
 
-    private void moverEnemigo(){
+    private void moverEnemigo(float delta){
         switch (movimientoEnemigo){
             case IZQUIERDA:
-                enemigo.mover(-10);
+                enemigo.moverHorizontal(-7);
+                timerEnemigo+=delta;
+                if (timerEnemigo>0.5){
+                    timerEnemigo=0;
+                    pasoEnemigo=-pasoEnemigo;
+                }
+                enemigo.moverVertical(pasoEnemigo);
                 if(enemigo.sprite.getX()<-100) {
                     enemigo.sprite.setPosition(ANCHO, rnd.nextFloat()*ALTO/4);
                 }

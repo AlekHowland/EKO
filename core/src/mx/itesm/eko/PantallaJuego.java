@@ -110,6 +110,7 @@ class PantallaJuego extends Pantalla {
 
                 if (personaje.sprite.getY()<0.35*ALTO){
                     personaje.mover(20);
+                    personaje.setTexture(texturaPersonaje);
 
                 }
                 break;

@@ -19,6 +19,8 @@ class PantallaJuego extends Pantalla {
     private final Juego juego;
     private Random rnd = new Random();
     private final String assets;
+
+    private EstadoJuego estadoJuego=EstadoJuego.JUGANDO;
     //Personaje
     private Personaje personaje;
     private Enemigo enemigo;
@@ -29,6 +31,8 @@ class PantallaJuego extends Pantalla {
 
     private Movimiento movimientoPersonaje=Movimiento.QUIETO;
     private Movimiento movimientoEnemigo=Movimiento.IZQUIERDA;
+
+    private Marcador marcador;
 
 
     public PantallaJuego(Juego juego,String assets) {
@@ -41,6 +45,7 @@ class PantallaJuego extends Pantalla {
         cargarTexturas();
         createPersonaje();
         createEnemigo();
+        createMarcador();
 
 
         texturaFondo=new Texture("fondo"+assets+".jpg");
@@ -49,6 +54,8 @@ class PantallaJuego extends Pantalla {
 
 
     }
+
+    private void createMarcador() {marcador=new Marcador(ANCHO/2,0.95f*ALTO);}
 
     private void createPersonaje() {
         personaje =new Personaje(texturaPersonaje,0,ALTO*0.05f);
@@ -68,6 +75,9 @@ class PantallaJuego extends Pantalla {
     public void render(float delta) {
 
         //ACTUALIZACIONES (MOVER OBJETOS,COLISIONES.ETC)
+        if(estadoJuego==EstadoJuego.JUGANDO) {
+            actualizar(delta);
+        }
         moverPersonaje();
         moverEnemigo();
         borrarPantalla(0,0,0);
@@ -77,7 +87,14 @@ class PantallaJuego extends Pantalla {
         batch.draw(texturaFondo,0,0);
         personaje.render(batch);
         enemigo.render(batch);
+        marcador.render(batch);
+
+
         batch.end();
+    }
+
+    private void actualizar(float delta) {
+        marcador.marcar(1);
     }
 
     private void moverPersonaje() {
@@ -148,14 +165,12 @@ class PantallaJuego extends Pantalla {
             Vector3 v =new Vector3(screenX,screenY,0);
             camara.unproject(v);
             if(v.y>=ALTO/2){
-                //Derecha
                 movimientoPersonaje=Movimiento.ARRIBA;
                 if (v.y>=ALTO*0.85f && v.x>=ANCHO*0.9f){
                     juego.setScreen(new PantallaMenu(juego));
                 }
             }
             else{
-                //Izquierda
                 movimientoPersonaje=Movimiento.ABAJO;
             }
             return true;
@@ -195,4 +210,9 @@ class PantallaJuego extends Pantalla {
         QUIETO
     }
 
+    private enum EstadoJuego {
+        JUGANDO,
+        PAUSADO,
+        MUERTO
+    }
 }

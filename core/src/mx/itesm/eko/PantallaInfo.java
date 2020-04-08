@@ -2,39 +2,32 @@ package mx.itesm.eko;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-public class PantallaInfo extends Pantalla{
+public class PantallaInfo extends PantallaAbstracta {
+
 
     private final Juego juego;
-
+    // Elementos del Menu
     private Texture texturaFondo;
+    private Stage escenaMenu;
 
-    //MENU
-    private Stage escenaMenu; //botones...
-
+    // Constructor
     public PantallaInfo(Juego juego) {
         this.juego=juego;
     }
 
     @Override
     public void show() {
-        texturaFondo=new Texture("fondoIntro.jpg");
-
+        texturaFondo = new Texture("fondoIntro.jpg");
         crearMenu();
-
-
     }
 
     private void crearMenu() {
-        escenaMenu=new Stage(vista);
-
-        Boton botonInfo=new Boton("btnReturn.png","btnReturnP.png");
+        escenaMenu = new Stage(vista);
+        Boton botonInfo = new Boton("btnReturn.png","btnReturnP.png");
         botonInfo.setPosition(ANCHO/2-botonInfo.getWidth()/2,ALTO*0.115f);
 
         botonInfo.getBtn().addListener(new ClickListener() {
@@ -47,8 +40,6 @@ public class PantallaInfo extends Pantalla{
         escenaMenu.addActor(botonInfo.getBtn());
 
         Gdx.input.setInputProcessor(escenaMenu);
-
-
     }
 
     @Override

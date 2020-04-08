@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mx.itesm.eko" >
 
+
+    //Fragmento de código que permitirá la utilización correcta de las transiciones
+    <uses-feature android:glEsVersion="0x00020000"
+        android:required="true"/>
+
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -12,7 +18,7 @@
         <activity
             android:name="mx.itesm.eko.AndroidLauncher"
             android:label="@string/app_name" 
-            android:screenOrientation="landscape"
+            android:screenOrientation="fullSensor"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -124,7 +124,7 @@ class PantallaJuego extends PantallaAbstracta {
                     pasoEnemigo =- pasoEnemigo;
                 }
                 enemigo.moverVertical(pasoEnemigo);
-                if(enemigo.sprite.getX()<-100) {
+                if(enemigo.sprite.getX()<-300) {
                     enemigo.sprite.setPosition(ANCHO, rnd.nextFloat()*ALTO/4);
                 }
                 break;

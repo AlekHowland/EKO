@@ -108,7 +108,8 @@ class PantallaJuego extends PantallaAbstracta {
                 break;
             case QUIETO:
                 personaje.setTexture(texturaPersonaje);
-                personaje.sprite.setY(0.05f*ALTO);
+                if(personaje.sprite.getY()>0.05f*ALTO)
+                    personaje.mover(-20);
 
                 break;
             default:

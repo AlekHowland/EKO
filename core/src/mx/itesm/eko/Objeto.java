@@ -15,4 +15,11 @@ public class Objeto {
     public void render(SpriteBatch batch){
         sprite.draw(batch);
     }
+
+    public void setTexture(Texture textura){
+        float yt=sprite.getY();
+        float xt=sprite.getX();
+        sprite=new Sprite(textura);
+        sprite.setPosition(xt,yt);
+    }
 }

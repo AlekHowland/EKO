@@ -2,6 +2,7 @@ package mx.itesm.eko;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Personaje extends Objeto {
 
@@ -13,9 +14,5 @@ public class Personaje extends Objeto {
         sprite.setY(sprite.getY()+dy);
     }
 
-    public void setTexture(Texture textura){
 
-        sprite.setTexture(textura);
-
-    }
 }

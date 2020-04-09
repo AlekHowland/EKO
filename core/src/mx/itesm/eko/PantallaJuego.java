@@ -26,7 +26,7 @@ class PantallaJuego extends PantallaAbstracta {
     private Movimiento movimientoEnemigo = Movimiento.IZQUIERDA;
     private float timerPersonaje = 0;
     private float timerEnemigo = 0;
-    private int pasoEnemigo = 7;
+    private int pasoEnemigo = 5;
 
     private Marcador marcador;
 
@@ -105,7 +105,9 @@ class PantallaJuego extends PantallaAbstracta {
                 break;
             case ABAJO:
                 personaje.setTexture(texturaPersonajeAbajo);
+                break;
             case QUIETO:
+                personaje.setTexture(texturaPersonaje);
                 personaje.sprite.setY(0.05f*ALTO);
 
                 break;
@@ -117,7 +119,7 @@ class PantallaJuego extends PantallaAbstracta {
     private void moverEnemigo(float delta){
         switch (movimientoEnemigo){
             case IZQUIERDA:
-                enemigo.moverHorizontal(-7);
+                enemigo.moverHorizontal(-9);
                 timerEnemigo += delta;
                 if (timerEnemigo > 0.5){
                     timerEnemigo = 0;
@@ -179,7 +181,7 @@ class PantallaJuego extends PantallaAbstracta {
                     juego.setScreen(new PantallaMenu(juego));
                 }
             }
-            else{
+            else  if(v.y < ALTO/2){
                 movimientoPersonaje = Movimiento.ABAJO;
             }
             return true;

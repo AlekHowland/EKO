@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -84,9 +85,10 @@ class PantallaJuego extends PantallaAbstracta {
         //ACTUALIZACIONES (MOVER OBJETOS,COLISIONES.ETC)
         if(estadoJuego == EstadoJuego.JUGANDO) {
             actualizar(delta);
+            moverEnemigo(delta);
+            probarColisiones();
         }
 
-        moverEnemigo(delta);
         borrarPantalla(0,0,0);
         batch.setProjectionMatrix(camara.combined);
 
@@ -192,13 +194,17 @@ class PantallaJuego extends PantallaAbstracta {
 
             Vector3 v = new Vector3(screenX,screenY,0);
             camara.unproject(v);
-            if(v.y >= ALTO/2){
-                movimientoPersonaje=Movimiento.ARRIBA;
-                estadoJuego = EstadoJuego.PAUSADO;
-                if(escenaPausa == null){
-                    escenaPausa = new EscenaPausa(vista, batch);
-                }
+            if(v.y >= ALTO/2 && !(v.y>=ALTO*0.85f && v.x>=ANCHO*0.9f)) {
+                movimientoPersonaje = Movimiento.ARRIBA;
             }
+                //Detectar pausa
+            if (v.y>=ALTO*0.85f && v.x>=ANCHO*0.9f){
+                    estadoJuego = EstadoJuego.PAUSADO;
+                    if(escenaPausa == null){
+                        escenaPausa = new EscenaPausa(vista, batch);
+                    }
+                }
+
             else  if(v.y < ALTO/2){
                 movimientoPersonaje = Movimiento.ABAJO;
             }
@@ -255,7 +261,7 @@ class PantallaJuego extends PantallaAbstracta {
             Image imgPausa = new Image(texturaPausa);
             imgPausa.setPosition(0,0);
 
-            //Boton regresar a juego
+            //Boton regresar a Menu
             Boton botonMenu = new Boton("btnReturn.png","btnReturnP.png");
             botonMenu.setPosition(ANCHO/3-botonMenu.getWidth()/2,ALTO*0.2f);
             botonMenu.getBtn().addListener(new ClickListener() {
@@ -266,8 +272,7 @@ class PantallaJuego extends PantallaAbstracta {
                 }
             });
 
-            //Boton regresar a menu
-            //Boton Scores
+            //Boton regresar a juego
             Boton botonBack = new Boton("btnReturn.png","btnReturnP.png");
             botonBack.setPosition(ANCHO/2+botonBack.getWidth()/2,ALTO*0.2f);
             botonBack.getBtn().addListener(new ClickListener() {
@@ -277,6 +282,7 @@ class PantallaJuego extends PantallaAbstracta {
                     //Cambia estado
                     estadoJuego = EstadoJuego.JUGANDO;
                     escenaPausa = null;
+
                 }
             });
 
@@ -292,5 +298,13 @@ class PantallaJuego extends PantallaAbstracta {
         JUGANDO,
         PAUSADO,
         MUERTO
+    }
+
+    private void probarColisiones() {
+        Rectangle rectPersonaje = personaje.sprite.getBoundingRectangle();
+        Rectangle rectEnemigo = enemigo.sprite.getBoundingRectangle();
+        if(rectPersonaje.overlaps(rectEnemigo)){
+            enemigo.sprite.setPosition(ANCHO,rnd.nextFloat()*ALTO/4);
+        }
     }
 }

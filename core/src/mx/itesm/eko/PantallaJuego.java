@@ -2,8 +2,19 @@ package mx.itesm.eko;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Random;
 
@@ -30,6 +41,8 @@ class PantallaJuego extends PantallaAbstracta {
 
     private Marcador marcador;
 
+    //Pausa
+    private EscenaPausa escenaPausa;
 
     public PantallaJuego(Juego juego,String assets) {
         this.juego = juego;
@@ -85,6 +98,9 @@ class PantallaJuego extends PantallaAbstracta {
         marcador.render(batch);
 
         batch.end();
+        if(estadoJuego == EstadoJuego.PAUSADO){
+            escenaPausa.draw();
+        }
     }
 
     private void actualizar(float delta) {
@@ -178,8 +194,9 @@ class PantallaJuego extends PantallaAbstracta {
             camara.unproject(v);
             if(v.y >= ALTO/2){
                 movimientoPersonaje=Movimiento.ARRIBA;
-                if (v.y >= (ALTO * 0.85f) && v.x >= (ANCHO * 0.9f)){
-                    juego.setScreen(new PantallaMenu(juego));
+                estadoJuego = EstadoJuego.PAUSADO;
+                if(escenaPausa == null){
+                    escenaPausa = new EscenaPausa(vista, batch);
                 }
             }
             else  if(v.y < ALTO/2){
@@ -213,6 +230,9 @@ class PantallaJuego extends PantallaAbstracta {
 
 
     }
+
+
+
     //Movimiento
     private enum Movimiento{
         ARRIBA,
@@ -220,6 +240,52 @@ class PantallaJuego extends PantallaAbstracta {
         IZQUIERDA,
         DERECHA,
         QUIETO
+    }
+
+    //Clase Pausa (Ventana que se muestra cuando el usuario pausa la app)
+    class EscenaPausa extends Stage
+    {
+
+
+        public EscenaPausa(Viewport vista, SpriteBatch batch){
+            super(vista, batch);
+
+            Texture texturaPausa = new Texture("pantallaPausa.png");
+
+            Image imgPausa = new Image(texturaPausa);
+            imgPausa.setPosition(0,0);
+
+            //Boton regresar a juego
+            Boton botonMenu = new Boton("btnReturn.png","btnReturnP.png");
+            botonMenu.setPosition(ANCHO/3-botonMenu.getWidth()/2,ALTO*0.2f);
+            botonMenu.getBtn().addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    juego.setScreen(new PantallaMenu(juego));
+                }
+            });
+
+            //Boton regresar a menu
+            //Boton Scores
+            Boton botonBack = new Boton("btnReturn.png","btnReturnP.png");
+            botonBack.setPosition(ANCHO/2+botonBack.getWidth()/2,ALTO*0.2f);
+            botonBack.getBtn().addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    //Cambia estado
+                    estadoJuego = EstadoJuego.JUGANDO;
+                    escenaPausa = null;
+                }
+            });
+
+            this.addActor(imgPausa);
+            this.addActor(botonBack.getBtn());
+            this.addActor(botonMenu.getBtn());
+
+            Gdx.input.setInputProcessor(this);
+        }
     }
 
     private enum EstadoJuego {

@@ -55,7 +55,7 @@ class PantallaJuego extends PantallaAbstracta {
 
     private void createPersonaje() {personaje = new Personaje(texturaPersonaje,0,ALTO*0.05f);}
 
-    private void createEnemigo(){enemigo=new Enemigo(texturaEnemigo,ANCHO,ALTO*0.05f);}
+    private void createEnemigo(){enemigo=new Enemigo(texturaEnemigo,ANCHO,ALTO*0.05f,1);}
 
     private void cargarTexturas() {
         texturaPersonaje = new Texture("asset"+assets+".png");
@@ -99,6 +99,7 @@ class PantallaJuego extends PantallaAbstracta {
                 if (personaje.sprite.getY()<0.35*ALTO){
                     personaje.mover(20);
                     personaje.setTexture(texturaPersonaje);
+
 
                 }
                 break;

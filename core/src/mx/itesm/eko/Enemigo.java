@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Enemigo extends Objeto {
 
-    public Enemigo(Texture textura, float x, float y) {
+    public Enemigo(Texture textura, float x, float y,int tipoEnemigo) {
         super(textura, x, y);
     }
 

@@ -14,6 +14,8 @@ public class Personaje extends Objeto {
     }
 
     public void setTexture(Texture textura){
+
         sprite.setTexture(textura);
+
     }
 }

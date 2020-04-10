@@ -1,19 +1,21 @@
 package mx.itesm.eko;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class PantallaPersonajes extends PantallaAbstracta {
-    private final Juego juego;
+
+    private final ControlJuego juego;
     private Texture texturaFondo;
-    private String assets="Oso";
+    private String assets = "Oso";
     //MENU
     private Stage escenaMenu; //botones...
 
-    public PantallaPersonajes(Juego juego,String assets) {
+    public PantallaPersonajes(ControlJuego juego, String assets) {
         this.juego=juego;
         this.assets=assets;
     }
@@ -106,5 +108,10 @@ public class PantallaPersonajes extends PantallaAbstracta {
     @Override
     public void dispose() {
         texturaFondo.dispose();
+    }
+
+    @Override
+    public InputProcessor getInputProcessor() {
+        return escenaMenu;
     }
 }

@@ -1,34 +1,41 @@
 package mx.itesm.eko;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import mx.itesm.eko.transiciones.TransicionPantalla;
+import mx.itesm.eko.transiciones.efectoTransicion;
 
-class PantallaMenu extends PantallaAbstracta {
-    private final Juego juego;
-
+public class PantallaMenu extends PantallaAbstracta
+{
+    // Juego & Texturas
+    private final ControlJuego juego;
     private Texture texturaFondo;
-
     //MENU
     private Stage escenaMenu; //botones...
 
-    public PantallaMenu(Juego juego) {
+
+    @Override
+    public InputProcessor getInputProcessor() {
+        return escenaMenu;
+    }
+
+    public PantallaMenu(ControlJuego juego) {
         this.juego=juego;
     }
 
     @Override
     public void show() {
         texturaFondo=new Texture("fondo.jpg");
-
         crearMenu();
-
-
     }
 
     private void crearMenu() {
         escenaMenu=new Stage(vista);
+        final TransicionPantalla transicion = efectoTransicion.inicializacion(2.0f);
 
         //Boton Jugar
         Boton botonJugar=new Boton("btnJugar.png","btnJugarP.png");
@@ -37,7 +44,7 @@ class PantallaMenu extends PantallaAbstracta {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setScreen(new PantallaPersonajes(juego,"Oso"));
+                juego.setScreen(new PantallaPersonajes(juego,"Oso"), transicion);
             }
         });
         escenaMenu.addActor(botonJugar.getBtn());
@@ -99,4 +106,5 @@ class PantallaMenu extends PantallaAbstracta {
     public void dispose() {
         texturaFondo.dispose();
     }
+
 }

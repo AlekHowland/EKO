@@ -2,7 +2,7 @@ package mx.itesm.eko;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-class Marcador {
+public class Marcador {
     private int score;
 
     private float x,y;

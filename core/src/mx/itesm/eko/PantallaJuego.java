@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -85,6 +86,7 @@ class PantallaJuego extends PantallaAbstracta {
         if(estadoJuego == EstadoJuego.JUGANDO) {
             actualizar(delta);
             moverEnemigo(delta);
+            probarColisiones();
         }
 
         borrarPantalla(0,0,0);
@@ -296,5 +298,13 @@ class PantallaJuego extends PantallaAbstracta {
         JUGANDO,
         PAUSADO,
         MUERTO
+    }
+
+    private void probarColisiones() {
+        Rectangle rectPersonaje = personaje.sprite.getBoundingRectangle();
+        Rectangle rectEnemigo = enemigo.sprite.getBoundingRectangle();
+        if(rectPersonaje.overlaps(rectEnemigo)){
+            enemigo.sprite.setPosition(ANCHO,rnd.nextFloat()*ALTO/4);
+        }
     }
 }

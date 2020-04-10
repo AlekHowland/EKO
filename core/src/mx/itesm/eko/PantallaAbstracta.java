@@ -1,8 +1,8 @@
 package mx.itesm.eko;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -67,4 +67,12 @@ public abstract class PantallaAbstracta implements Screen
         // Las subclases están obligadas a sobrescribir el método dispose()
         dispose();
     }
+
+    // Código necesario para la transición de pantallas
+    public abstract InputProcessor getInputProcessor();
+    protected ControlJuego pantalla;
+    public PantallaAbstracta (ControlJuego pantalla){
+        this.pantalla = pantalla;
+    }
+
 }

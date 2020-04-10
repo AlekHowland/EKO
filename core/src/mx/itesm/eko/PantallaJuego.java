@@ -2,50 +2,49 @@ package mx.itesm.eko;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import java.util.Random;
 
 class PantallaJuego extends PantallaAbstracta {
-    private final Juego juego;
+    // Juego
+    private final ControlJuego juego;
     private Random rnd = new Random();
     private final String assets;
-
     private EstadoJuego estadoJuego = EstadoJuego.JUGANDO;
 
+    // Personaje
     private Personaje personaje;
     private Enemigo enemigo;
 
+    // Texturas
     private Texture texturaPersonaje;
     private Texture texturaFondo;
     private Texture texturaEnemigo;
     private Texture texturaPersonajeAbajo;
 
+    // Movimientos
     private Movimiento movimientoPersonaje = Movimiento.QUIETO;
     private Movimiento movimientoEnemigo = Movimiento.IZQUIERDA;
     private float timerPersonaje = 0;
     private float timerEnemigo = 0;
     private int pasoEnemigo = 5;
 
+    // Marcador
     private Marcador marcador;
 
-    //Pausa
+    // Pausa
     private EscenaPausa escenaPausa;
 
-    public PantallaJuego(Juego juego,String assets) {
+
+    public PantallaJuego(ControlJuego juego, String assets) {
         this.juego = juego;
         this.assets = assets;
     }
@@ -57,19 +56,22 @@ class PantallaJuego extends PantallaAbstracta {
         createEnemigo();
         createMarcador();
 
-
         texturaFondo=new Texture("fondo"+assets+".jpg");
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
-
-
     }
 
-    private void createMarcador() {marcador = new Marcador(ANCHO/2,0.95f*ALTO);}
+    private void createMarcador() {
+        marcador = new Marcador(ANCHO/2,0.95f*ALTO);
+    }
 
-    private void createPersonaje() {personaje = new Personaje(texturaPersonaje,0,ALTO*0.05f);}
+    private void createPersonaje() {
+        personaje = new Personaje(texturaPersonaje,0,ALTO*0.05f);
+    }
 
-    private void createEnemigo(){enemigo=new Enemigo(texturaEnemigo,ANCHO,ALTO*0.05f,1);}
+    private void createEnemigo(){
+        enemigo=new Enemigo(texturaEnemigo,ANCHO,ALTO*0.05f,1);
+    }
 
     private void cargarTexturas() {
         texturaPersonaje = new Texture("asset"+assets+".png");
@@ -77,11 +79,8 @@ class PantallaJuego extends PantallaAbstracta {
         texturaPersonajeAbajo = new Texture("asset"+assets+"Abajo.png");
     }
 
-
-
     @Override
     public void render(float delta) {
-
         //ACTUALIZACIONES (MOVER OBJETOS,COLISIONES.ETC)
         if(estadoJuego == EstadoJuego.JUGANDO) {
             actualizar(delta);
@@ -135,7 +134,7 @@ class PantallaJuego extends PantallaAbstracta {
         }
     }
 
-    private void moverEnemigo(float delta){
+    private void moverEnemigo(float delta) {
         switch (movimientoEnemigo){
             case IZQUIERDA:
                 enemigo.moverHorizontal(-9);
@@ -155,7 +154,6 @@ class PantallaJuego extends PantallaAbstracta {
         }
     }
 
-
     @Override
     public void pause() {
 
@@ -171,8 +169,12 @@ class PantallaJuego extends PantallaAbstracta {
 
     }
 
-    private class ProcesadorEntrada implements InputProcessor {
+    @Override
+    public InputProcessor getInputProcessor() {
+        return new ProcesadorEntrada();
+    }
 
+    private class ProcesadorEntrada implements InputProcessor {
 
         @Override
         public boolean keyDown(int keycode) {
@@ -204,7 +206,6 @@ class PantallaJuego extends PantallaAbstracta {
                         escenaPausa = new EscenaPausa(vista, batch);
                     }
                 }
-
             else  if(v.y < ALTO/2){
                 movimientoPersonaje = Movimiento.ABAJO;
             }
@@ -231,29 +232,12 @@ class PantallaJuego extends PantallaAbstracta {
         public boolean scrolled(int amount) {
             return false;
         }
-
-
-
-
-    }
-
-
-
-    //Movimiento
-    private enum Movimiento{
-        ARRIBA,
-        ABAJO,
-        IZQUIERDA,
-        DERECHA,
-        QUIETO
     }
 
     //Clase Pausa (Ventana que se muestra cuando el usuario pausa la app)
     class EscenaPausa extends Stage
     {
-
-
-        public EscenaPausa(Viewport vista, SpriteBatch batch){
+        public EscenaPausa(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
 
             Texture texturaPausa = new Texture("pantallaPausa.png");
@@ -294,12 +278,23 @@ class PantallaJuego extends PantallaAbstracta {
         }
     }
 
+    // Estado del Juego
     private enum EstadoJuego {
         JUGANDO,
         PAUSADO,
         MUERTO
     }
 
+    // Movimiento
+    private enum Movimiento{
+        ARRIBA,
+        ABAJO,
+        IZQUIERDA,
+        DERECHA,
+        QUIETO
+    }
+
+    // Colisiones de enemigos
     private void probarColisiones() {
         Rectangle rectPersonaje = personaje.sprite.getBoundingRectangle();
         Rectangle rectEnemigo = enemigo.sprite.getBoundingRectangle();

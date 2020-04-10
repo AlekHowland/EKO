@@ -1,6 +1,7 @@
 package mx.itesm.eko;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -8,14 +9,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class PantallaInfo extends PantallaAbstracta {
 
-
-    private final Juego juego;
+    private final ControlJuego juego;
     // Elementos del Menu
     private Texture texturaFondo;
     private Stage escenaMenu;
 
+    @Override
+    public InputProcessor getInputProcessor() {
+        return escenaMenu;
+    }
+
     // Constructor
-    public PantallaInfo(Juego juego) {
+    public PantallaInfo(ControlJuego juego) {
         this.juego=juego;
     }
 
@@ -68,6 +73,5 @@ public class PantallaInfo extends PantallaAbstracta {
     public void dispose() {
         texturaFondo.dispose();
     }
-
 
 }

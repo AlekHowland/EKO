@@ -1,4 +1,4 @@
-package mx.itesm.eko;
+package mx.itesm.eko.transiciones;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

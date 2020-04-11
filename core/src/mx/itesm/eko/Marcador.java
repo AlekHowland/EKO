@@ -39,4 +39,8 @@ public class Marcador {
     public float getHeight(){
         return texto.getHeight();
     }
+
+    public int getScore(){
+        return score;
+    }
 }

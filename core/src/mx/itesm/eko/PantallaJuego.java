@@ -23,11 +23,16 @@ class PantallaJuego extends PantallaAbstracta {
     // Personaje
     private Personaje personaje;
     private Enemigo enemigo;
+    private Enemigo enemigo1;
+    private Enemigo enemigo2;
+    private Enemigo enemigo3;
 
     // Texturas
     private Texture texturaPersonaje;
     private Texture texturaFondo;
-    private Texture texturaEnemigo;
+    private Texture texturaEnemigo1;
+    private Texture texturaEnemigo2;
+    private Texture texturaEnemigo3;
     private Texture texturaPersonajeAbajo;
 
     // Movimientos
@@ -35,7 +40,8 @@ class PantallaJuego extends PantallaAbstracta {
     private Movimiento movimientoEnemigo = Movimiento.IZQUIERDA;
     private float timerPersonaje = 0;
     private float timerEnemigo = 0;
-    private int pasoEnemigo = 5;
+    private int pasoEnemigo = 10;
+    private float velocidadEnemigo;
 
     // Marcador
     private Marcador marcador;
@@ -73,12 +79,17 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void createEnemigo(){
-        enemigo=new Enemigo(texturaEnemigo,ANCHO,ALTO*0.05f,1);
+        enemigo1=new Enemigo(texturaEnemigo1,ANCHO,ALTO*0.05f,1);
+        enemigo2=new Enemigo(texturaEnemigo2,ANCHO,ALTO*0.05f,2);
+        enemigo3=new Enemigo(texturaEnemigo3,ANCHO,ALTO*0.05f,3);
+        cambiarEnemigo();
     }
 
     private void cargarTexturas() {
         texturaPersonaje = new Texture("asset"+assets+".png");
-        texturaEnemigo = new Texture("enemigo"+assets+".png");
+        texturaEnemigo1 = new Texture("enemigo"+assets+"1.png");
+        texturaEnemigo2 = new Texture("enemigo"+assets+"2.png");
+        texturaEnemigo3 = new Texture("enemigo"+assets+"3.png");
         texturaPersonajeAbajo = new Texture("asset"+assets+"Abajo.png");
     }
 
@@ -114,6 +125,10 @@ class PantallaJuego extends PantallaAbstracta {
 
     private void actualizar(float delta) {
         marcador.marcar(1);
+        if (velocidadEnemigo<=25) {
+            velocidadEnemigo = 15 + marcador.getScore() * 0.0005f;
+
+        }
     }
 
     private void moverPersonaje(float delta) {
@@ -143,16 +158,44 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void moverEnemigo(float delta) {
-        switch (movimientoEnemigo){
-            case IZQUIERDA:
-                enemigo.moverHorizontal(-9);
+        switch (enemigo.getTipo()){
+            case 1:
+                enemigo.moverHorizontal(-velocidadEnemigo);
                 timerEnemigo += delta;
                 if (timerEnemigo > 0.5){
                     timerEnemigo = 0;
                     pasoEnemigo =- pasoEnemigo;
                 }
-                enemigo.moverVertical(pasoEnemigo);
+                if (enemigo.sprite.getY()<=0){
+                    timerEnemigo = 0;
+                    pasoEnemigo =10;
+                }
+                if (enemigo.sprite.getY()>=0.35f*ALTO){
+                    timerEnemigo = 0;
+                    pasoEnemigo =-10;
+                }
+                if (enemigo.sprite.getX()>=ANCHO*0.6f) {
+                    enemigo.moverVertical(pasoEnemigo);
+                }
+
                 if(enemigo.sprite.getX()<-300) {
+                    cambiarEnemigo();
+                    enemigo.sprite.setPosition(ANCHO, rnd.nextFloat()*ALTO/4);
+                }
+                break;
+            case 2:
+                enemigo.sprite.setY(-0.05f*ALTO);
+                enemigo.moverHorizontal(-velocidadEnemigo);
+                if(enemigo.sprite.getX()<-300) {
+                    cambiarEnemigo();
+                    enemigo.sprite.setPosition(ANCHO, rnd.nextFloat()*ALTO/4);
+                }
+                break;
+            case 3:
+                enemigo.sprite.setY(0.3f*ALTO);
+                enemigo.moverHorizontal(-velocidadEnemigo);
+                if(enemigo.sprite.getX()<-300) {
+                    cambiarEnemigo();
                     enemigo.sprite.setPosition(ANCHO, rnd.nextFloat()*ALTO/4);
                 }
                 break;
@@ -160,6 +203,23 @@ class PantallaJuego extends PantallaAbstracta {
                 break;
 
         }
+    }
+
+    private void cambiarEnemigo() {
+        switch ((int)(Math.floor(Math.random()*3+1))) {
+            case 1:
+                enemigo=enemigo1;
+                break;
+            case 2:
+                enemigo=enemigo2;
+                break;
+            case 3:
+                enemigo=enemigo3;
+                break;
+            default:
+                break;
+        }
+
     }
 
     @Override
@@ -342,7 +402,7 @@ class PantallaJuego extends PantallaAbstracta {
         Rectangle rectPersonaje = personaje.sprite.getBoundingRectangle();
         Rectangle rectEnemigo = enemigo.sprite.getBoundingRectangle();
         if(rectPersonaje.overlaps(rectEnemigo)){
-            enemigo.sprite.setPosition(ANCHO,rnd.nextFloat()*ALTO/4);
-        }
+            cambiarEnemigo();
+            enemigo.sprite.setX(ANCHO);        }
     }
 }

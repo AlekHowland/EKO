@@ -3,9 +3,10 @@ package mx.itesm.eko;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Enemigo extends Objeto {
-
+    int tipoEnemigo;
     public Enemigo(Texture textura, float x, float y,int tipoEnemigo) {
         super(textura, x, y);
+        this.tipoEnemigo=tipoEnemigo;
     }
 
     public void moverHorizontal(float dx){
@@ -17,6 +18,11 @@ public class Enemigo extends Objeto {
 
 
     public void setPosition(float x, float y){
-    sprite.setPosition(x,y);
+        sprite.setPosition(x,y);
     }
+
+    public int getTipo(){
+        return tipoEnemigo;
+    }
+
 }

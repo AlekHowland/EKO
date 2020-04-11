@@ -3,6 +3,8 @@ package mx.itesm.eko;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -10,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.Random;
 
@@ -43,6 +46,10 @@ class PantallaJuego extends PantallaAbstracta {
     private int pasoEnemigo = 10;
     private float velocidadEnemigo;
 
+    //Sistema de partículas
+    private ParticleEffect sistemaParticulas;
+    private ParticleEmitter emisorParticulas;
+
     // Marcador
     private Marcador marcador;
 
@@ -64,10 +71,20 @@ class PantallaJuego extends PantallaAbstracta {
         createPersonaje();
         createEnemigo();
         createMarcador();
+        createParticulas();
 
         texturaFondo=new Texture("fondo"+assets+".jpg");
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
+    }
+
+    private void createParticulas() {
+        sistemaParticulas=new ParticleEffect();
+        sistemaParticulas.load(Gdx.files.internal("particulas"+assets+".p"),Gdx.files.internal(""));
+        Array<ParticleEmitter> emisores=sistemaParticulas.getEmitters();
+        emisorParticulas=emisores.get(0);
+        emisores.get(0).setPosition(ANCHO,ALTO/2);
+        sistemaParticulas.start();
     }
 
     private void createMarcador() {
@@ -114,6 +131,7 @@ class PantallaJuego extends PantallaAbstracta {
             marcador.render(batch);
         }else if (estadoJuego == EstadoJuego.MUERTO){ marcador.render(batch);}
 
+        sistemaParticulas.draw(batch);
         batch.end();
         if(estadoJuego == EstadoJuego.PAUSADO){
             escenaPausa.draw();
@@ -129,6 +147,7 @@ class PantallaJuego extends PantallaAbstracta {
             velocidadEnemigo = 15 + marcador.getScore() * 0.0005f;
 
         }
+        sistemaParticulas.update(delta);
     }
 
     private void moverPersonaje(float delta) {

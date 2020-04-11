@@ -43,6 +43,9 @@ class PantallaJuego extends PantallaAbstracta {
     // Pausa
     private EscenaPausa escenaPausa;
 
+    // Muerto
+    private EscenaMuerto escenaMuerto;
+
 
     public PantallaJuego(ControlJuego juego, String assets) {
         this.juego = juego;
@@ -96,11 +99,16 @@ class PantallaJuego extends PantallaAbstracta {
         batch.draw(texturaFondo,0,0);
         personaje.render(batch);
         enemigo.render(batch);
-        marcador.render(batch);
+        if(estadoJuego == EstadoJuego.JUGANDO){
+            marcador.render(batch);
+        }else if (estadoJuego == EstadoJuego.MUERTO){ marcador.render(batch);}
 
         batch.end();
         if(estadoJuego == EstadoJuego.PAUSADO){
             escenaPausa.draw();
+        }
+        if(estadoJuego == EstadoJuego.MUERTO){
+            escenaMuerto.draw();
         }
     }
 
@@ -237,7 +245,7 @@ class PantallaJuego extends PantallaAbstracta {
     //Clase Pausa (Ventana que se muestra cuando el usuario pausa la app)
     class EscenaPausa extends Stage
     {
-        public EscenaPausa(Viewport vista, SpriteBatch batch) {
+        public EscenaPausa(final Viewport vista, final SpriteBatch batch) {
             super(vista, batch);
 
             Texture texturaPausa = new Texture("pantallaPausa.png");
@@ -252,7 +260,12 @@ class PantallaJuego extends PantallaAbstracta {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    juego.setScreen(new PantallaMenu(juego));
+                    estadoJuego = estadoJuego.MUERTO;
+                    if(escenaMuerto == null) {
+                        escenaMuerto = new EscenaMuerto(vista, batch);
+                    }
+
+                    //juego.setScreen(new PantallaMenu(juego));
                 }
             });
 
@@ -272,6 +285,36 @@ class PantallaJuego extends PantallaAbstracta {
 
             this.addActor(imgPausa);
             this.addActor(botonBack.getBtn());
+            this.addActor(botonMenu.getBtn());
+
+            Gdx.input.setInputProcessor(this);
+        }
+    }
+    //Clase Muerto (Ventana que se muestra cuando el usuario muere o sale)
+    class EscenaMuerto extends Stage
+    {
+        public EscenaMuerto(Viewport vista, SpriteBatch batch) {
+            super(vista, batch);
+
+            Texture texturaMuerto = new Texture("calaverita.png");
+
+            Image imgMuerto = new Image(texturaMuerto);
+            imgMuerto.setPosition(0,0);
+
+
+            //Boton regresar a Menu
+            Boton botonMenu = new Boton("btnReturn.png","btnReturnP.png");
+            botonMenu.setPosition(ANCHO/2-botonMenu.getWidth()/2,ALTO*0.2f);
+            botonMenu.getBtn().addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    juego.setScreen(new PantallaMenu(juego));
+                }
+            });
+
+
+            this.addActor(imgMuerto);
             this.addActor(botonMenu.getBtn());
 
             Gdx.input.setInputProcessor(this);

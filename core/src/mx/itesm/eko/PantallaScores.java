@@ -7,14 +7,18 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import mx.itesm.eko.musica.ControladorAudio;
+
 public class PantallaScores extends PantallaAbstracta {
 
     private final ControlJuego juego;
-
     private Texture texturaFondo;
 
     //MENU
     private Stage escenaMenu; //botones...
+
+    //AUDIO
+    private ControladorAudio audio = new ControladorAudio();
 
     @Override
     public InputProcessor getInputProcessor() {
@@ -27,12 +31,16 @@ public class PantallaScores extends PantallaAbstracta {
 
     @Override
     public void show() {
-        texturaFondo=new Texture("fondoScores.jpg");
+        texturaFondo = new Texture("fondoScores.jpg");
         crearMenu();
     }
 
     private void crearMenu() {
-        escenaMenu=new Stage(vista);
+        escenaMenu = new Stage(vista);
+
+        //Musica
+        //audio.setMusica("musicaScores.mp3", true, true);
+
         //Boton Scores
         Boton botonScores=new Boton("btnReturn.png","btnReturnP.png");
         botonScores.setPosition(ANCHO/2-botonScores.getWidth()/2,ALTO*0.115f);
@@ -40,12 +48,14 @@ public class PantallaScores extends PantallaAbstracta {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                //audio.setEfecto("botonPlay.mp3");
                 juego.setScreen(new PantallaMenu(juego));
             }
         });
         escenaMenu.addActor(botonScores.getBtn());
 
         Gdx.input.setInputProcessor(escenaMenu);
+
     }
 
     @Override

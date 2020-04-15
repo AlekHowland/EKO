@@ -2,10 +2,14 @@ package mx.itesm.eko;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+import mx.itesm.eko.musica.ControladorAudio;
 import mx.itesm.eko.transiciones.TransicionPantalla;
 import mx.itesm.eko.transiciones.efectoTransicion;
 
@@ -14,9 +18,12 @@ public class PantallaMenu extends PantallaAbstracta
     // Juego & Texturas
     private final ControlJuego juego;
     private Texture texturaFondo;
-    //MENU
+
+    // Menu
     private Stage escenaMenu; //botones...
 
+    // Audio
+    private ControladorAudio audio = new ControladorAudio();
 
     @Override
     public InputProcessor getInputProcessor() {
@@ -24,7 +31,7 @@ public class PantallaMenu extends PantallaAbstracta
     }
 
     public PantallaMenu(ControlJuego juego) {
-        this.juego=juego;
+        this.juego = juego;
     }
 
     @Override
@@ -34,7 +41,12 @@ public class PantallaMenu extends PantallaAbstracta
     }
 
     private void crearMenu() {
-        escenaMenu=new Stage(vista);
+        escenaMenu = new Stage(vista);
+
+        //Música
+        audio.setMusica("musicaMenu.mp3", true, true);
+
+        //Transición
         final TransicionPantalla transicion = efectoTransicion.inicializacion(2.0f);
 
         //Boton Jugar
@@ -44,6 +56,7 @@ public class PantallaMenu extends PantallaAbstracta
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                audio.setEfecto("boton.mp3");
                 juego.setScreen(new PantallaPersonajes(juego,"Oso"), transicion);
             }
         });

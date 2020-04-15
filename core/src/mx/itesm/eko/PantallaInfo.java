@@ -7,12 +7,18 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import mx.itesm.eko.musica.ControladorAudio;
+
 public class PantallaInfo extends PantallaAbstracta {
 
     private final ControlJuego juego;
+
     // Elementos del Menu
     private Texture texturaFondo;
     private Stage escenaMenu;
+
+    // Audio
+    private ControladorAudio audio = new ControladorAudio();
 
     @Override
     public InputProcessor getInputProcessor() {
@@ -32,6 +38,10 @@ public class PantallaInfo extends PantallaAbstracta {
 
     private void crearMenu() {
         escenaMenu = new Stage(vista);
+
+        //Música
+        //audio.setMusica("musicaInfo.mp3", true, true);
+
         Boton botonInfo = new Boton("btnReturn.png","btnReturnP.png");
         botonInfo.setPosition(ANCHO/2-botonInfo.getWidth()/2,ALTO*0.115f);
 
@@ -39,6 +49,8 @@ public class PantallaInfo extends PantallaAbstracta {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                //audio
+                //audio.setEfecto("efectoBoton.mp3");
                 juego.setScreen(new PantallaMenu(juego));
             }
         });

@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.Random;
+import mx.itesm.eko.musica.ControladorAudio;
 
 class PantallaJuego extends PantallaAbstracta {
     // Juego
@@ -23,12 +24,8 @@ class PantallaJuego extends PantallaAbstracta {
     private final String assets;
     private EstadoJuego estadoJuego = EstadoJuego.JUGANDO;
 
-    // Personaje
-    private Personaje personaje;
-    private Enemigo enemigo;
-    private Enemigo enemigo1;
-    private Enemigo enemigo2;
-    private Enemigo enemigo3;
+    // Audio
+    private ControladorAudio audio = new ControladorAudio();
 
     // Texturas
     private Texture texturaPersonaje;
@@ -37,6 +34,13 @@ class PantallaJuego extends PantallaAbstracta {
     private Texture texturaEnemigo2;
     private Texture texturaEnemigo3;
     private Texture texturaPersonajeAbajo;
+
+    // Personaje
+    private Personaje personaje;
+    private Enemigo enemigo;
+    private Enemigo enemigo1;
+    private Enemigo enemigo2;
+    private Enemigo enemigo3;
 
     // Movimientos
     private Movimiento movimientoPersonaje = Movimiento.QUIETO;
@@ -284,16 +288,19 @@ class PantallaJuego extends PantallaAbstracta {
             Vector3 v = new Vector3(screenX,screenY,0);
             camara.unproject(v);
             if(v.y >= ALTO/2 && !(v.y>=ALTO*0.85f && v.x>=ANCHO*0.9f)) {
+                //audio.setEfecto("salto.mp3");
                 movimientoPersonaje = Movimiento.ARRIBA;
             }
                 //Detectar pausa
             if (v.y>=ALTO*0.85f && v.x>=ANCHO*0.9f){
                     estadoJuego = EstadoJuego.PAUSADO;
+                    //audio.setEfecto("pausa.mp3");
                     if(escenaPausa == null){
                         escenaPausa = new EscenaPausa(vista, batch);
                     }
                 }
             else  if(v.y < ALTO/2){
+                //audio.setEfecto("agacharse.mp3");
                 movimientoPersonaje = Movimiento.ABAJO;
             }
             return true;

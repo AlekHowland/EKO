@@ -7,13 +7,19 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import mx.itesm.eko.musica.ControladorAudio;
+
 public class PantallaPersonajes extends PantallaAbstracta {
 
     private final ControlJuego juego;
     private Texture texturaFondo;
     private String assets = "Oso";
-    //MENU
+
+    // Menu
     private Stage escenaMenu; //botones...
+
+    // Audio
+    private ControladorAudio audio = new ControladorAudio();
 
     public PantallaPersonajes(ControlJuego juego, String assets) {
         this.juego=juego;
@@ -22,15 +28,16 @@ public class PantallaPersonajes extends PantallaAbstracta {
 
     @Override
     public void show() {
-        texturaFondo=new Texture("select"+assets+".jpg");
-
+        texturaFondo = new Texture("select"+assets+".jpg");
         crearMenu();
-
-
     }
 
     private void crearMenu() {
-        escenaMenu=new Stage(vista);
+        escenaMenu = new Stage(vista);
+
+        //Música
+        audio.setMusica("musicaPersonajes", true, true);
+
         //Boton Scores
         Boton btnDer=new Boton("btnSelDer.png","btnSelDerP.png");
         btnDer.setPosition(ANCHO-btnDer.getWidth(),ALTO/2-btnDer.getHeight()/2);
@@ -38,6 +45,7 @@ public class PantallaPersonajes extends PantallaAbstracta {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                //audio.setEfecto("seleccionPersonaje");
                 if(assets=="Oso")
                     juego.setScreen(new PantallaPersonajes(juego,"Tortuga"));
                 else if(assets=="Tortuga")

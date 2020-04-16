@@ -23,7 +23,9 @@ public class PantallaMenu extends PantallaAbstracta
     private Stage escenaMenu; //botones...
 
     // Audio
-    private ControladorAudio audio = new ControladorAudio();
+    public final ControladorAudio audioMenu = new ControladorAudio();
+    private boolean creado = false;
+
 
     @Override
     public InputProcessor getInputProcessor() {
@@ -44,7 +46,9 @@ public class PantallaMenu extends PantallaAbstracta
         escenaMenu = new Stage(vista);
 
         //Música
-        audio.setMusica("musicaMenu.mp3", true, true);
+        audioMenu.disposeAudio();
+        audioMenu.setMusica("musicaMenu.mp3", true, true);
+        audioMenu.setVolumen(0.6f);
 
         //Transición
         final TransicionPantalla transicion = efectoTransicion.inicializacion(2.0f);
@@ -56,7 +60,9 @@ public class PantallaMenu extends PantallaAbstracta
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                audio.setEfecto("boton.mp3");
+                //audio.setEfecto("boton.mp3");
+                audioMenu.setEfecto("efectoPausa.mp3");
+                audioMenu.stopMusica();
                 juego.setScreen(new PantallaPersonajes(juego,"Oso"), transicion);
             }
         });
@@ -69,6 +75,9 @@ public class PantallaMenu extends PantallaAbstracta
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                audioMenu.setEfecto("efectoBoton.mp3");
+                audioMenu.stopMusica();
+
                 juego.setScreen(new PantallaInfo(juego));
             }
         });
@@ -81,6 +90,9 @@ public class PantallaMenu extends PantallaAbstracta
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                audioMenu.setEfecto("efectoBoton.mp3");
+                audioMenu.stopMusica();
+
                 juego.setScreen(new PantallaScores(juego));
             }
         });

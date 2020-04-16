@@ -15,7 +15,11 @@ public class ControladorAudio
     }
 
     public void setMusica(String nombreArchivo, boolean loop, boolean play) {
-        musica = manager.get(nombreArchivo);
+
+        manager.load(nombreArchivo, Music.class);
+        manager.finishLoading();
+
+        this.musica = manager.get(nombreArchivo);
         musica.setLooping(loop);
         if(play) musica.play();
     }
@@ -32,9 +36,28 @@ public class ControladorAudio
     }
 
     public void setEfecto(String nombreArchivo) {
+        manager.load(nombreArchivo, Sound.class);
+        manager.finishLoading();
         Sound efecto = manager.get(nombreArchivo);
         efecto.play();
     }
+
+    public void disposeAudio(){
+       manager.clear();
+    }
+
+    public void setVolumenMitad(){
+        musica.setVolume(0.5f);
+    }
+
+    public void setVolumen100(){
+        musica.setVolume(1);
+    }
+
+    public void setVolumen(float v){
+        musica.setVolume(v);
+    }
+
 
 
 

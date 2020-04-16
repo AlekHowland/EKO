@@ -63,6 +63,10 @@ class PantallaJuego extends PantallaAbstracta {
     // Muerto
     private EscenaMuerto escenaMuerto;
 
+    //Audio
+    ControladorAudio audioJuego = new ControladorAudio();
+
+
 
     public PantallaJuego(ControlJuego juego, String assets) {
         this.juego = juego;
@@ -76,10 +80,15 @@ class PantallaJuego extends PantallaAbstracta {
         createEnemigo();
         createMarcador();
         createParticulas();
+        cargarMusica();
 
         texturaFondo=new Texture("fondo"+assets+".jpg");
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
+    }
+
+    private void cargarMusica() {
+        audioJuego.setMusica("musicaJuego.mp3",true,true);
     }
 
     private void createParticulas() {
@@ -296,6 +305,8 @@ class PantallaJuego extends PantallaAbstracta {
                     estadoJuego = EstadoJuego.PAUSADO;
                     //audio.setEfecto("pausa.mp3");
                     if(escenaPausa == null){
+                        audioJuego.setVolumenMitad();
+                        audioJuego.setEfecto("efectoPausa2.mp3");
                         escenaPausa = new EscenaPausa(vista, batch);
                     }
                 }
@@ -339,19 +350,21 @@ class PantallaJuego extends PantallaAbstracta {
             Image imgPausa = new Image(texturaPausa);
             imgPausa.setPosition(0,0);
 
-            //Boton regresar a Menu
+            //Boton escena muerto
             Boton botonMenu = new Boton("btnReturn.png","btnReturnP.png");
             botonMenu.setPosition(ANCHO/3-botonMenu.getWidth()/2,ALTO*0.2f);
             botonMenu.getBtn().addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
+                    audioJuego.setEfecto("efectoBoton.mp3");
                     estadoJuego = estadoJuego.MUERTO;
                     if(escenaMuerto == null) {
+                        audioJuego.stopMusica();
                         escenaMuerto = new EscenaMuerto(vista, batch);
                     }
 
-                    //juego.setScreen(new PantallaMenu(juego));
+
                 }
             });
 
@@ -365,6 +378,9 @@ class PantallaJuego extends PantallaAbstracta {
                     //Cambia estado
                     estadoJuego = EstadoJuego.JUGANDO;
                     escenaPausa = null;
+                    audioJuego.setEfecto("efectoBoton.mp3");
+                    audioJuego.setVolumen100();
+                    Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
                 }
             });
@@ -382,7 +398,7 @@ class PantallaJuego extends PantallaAbstracta {
         public EscenaMuerto(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
 
-            Texture texturaMuerto = new Texture("calaverita.png");
+            Texture texturaMuerto = new Texture("fondoGameOver.png");
 
             Image imgMuerto = new Image(texturaMuerto);
             imgMuerto.setPosition(0,0);
@@ -395,6 +411,7 @@ class PantallaJuego extends PantallaAbstracta {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
+                    audioJuego.setEfecto("efectoBoton.mp3");
                     juego.setScreen(new PantallaMenu(juego));
                 }
             });

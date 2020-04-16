@@ -18,7 +18,7 @@ public class PantallaInfo extends PantallaAbstracta {
     private Stage escenaMenu;
 
     // Audio
-    private ControladorAudio audio = new ControladorAudio();
+    private ControladorAudio audioInfo = new ControladorAudio();
 
     @Override
     public InputProcessor getInputProcessor() {
@@ -39,8 +39,8 @@ public class PantallaInfo extends PantallaAbstracta {
     private void crearMenu() {
         escenaMenu = new Stage(vista);
 
-        //Música
-        //audio.setMusica("musicaInfo.mp3", true, true);
+
+
 
         Boton botonInfo = new Boton("btnReturn.png","btnReturnP.png");
         botonInfo.setPosition(ANCHO/2-botonInfo.getWidth()/2,ALTO*0.115f);
@@ -49,8 +49,7 @@ public class PantallaInfo extends PantallaAbstracta {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                //audio
-                //audio.setEfecto("efectoBoton.mp3");
+                audioInfo.setEfecto("efectoBoton.mp3");
                 juego.setScreen(new PantallaMenu(juego));
             }
         });

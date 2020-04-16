@@ -19,7 +19,7 @@ public class PantallaPersonajes extends PantallaAbstracta {
     private Stage escenaMenu; //botones...
 
     // Audio
-    private ControladorAudio audio = new ControladorAudio();
+    private ControladorAudio audioPersonajes = new ControladorAudio();
 
     public PantallaPersonajes(ControlJuego juego, String assets) {
         this.juego=juego;
@@ -35,17 +35,16 @@ public class PantallaPersonajes extends PantallaAbstracta {
     private void crearMenu() {
         escenaMenu = new Stage(vista);
 
-        //Música
-        audio.setMusica("musicaPersonajes", true, true);
 
-        //Boton Scores
+
+        //Boton cambio derecha
         Boton btnDer=new Boton("btnSelDer.png","btnSelDerP.png");
         btnDer.setPosition(ANCHO-btnDer.getWidth(),ALTO/2-btnDer.getHeight()/2);
         btnDer.getBtn().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                //audio.setEfecto("seleccionPersonaje");
+                audioPersonajes.setEfecto("cambioPagina.mp3");
                 if(assets=="Oso")
                     juego.setScreen(new PantallaPersonajes(juego,"Tortuga"));
                 else if(assets=="Tortuga")
@@ -56,13 +55,14 @@ public class PantallaPersonajes extends PantallaAbstracta {
         });
         escenaMenu.addActor(btnDer.getBtn());
 
-        //Boton Izquierda
+        //Boton cambio izquierda
         Boton btnIzq=new Boton("btnSelIzq.png","btnSelIzqP.png");
         btnIzq.setPosition(0,ALTO/2-btnIzq.getHeight()/2);
         btnIzq.getBtn().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                audioPersonajes.setEfecto("cambioPagina.mp3");
                 if(assets=="Tortuga")
                     juego.setScreen(new PantallaPersonajes(juego,"Oso"));
                 else if(assets=="Oso")
@@ -74,13 +74,15 @@ public class PantallaPersonajes extends PantallaAbstracta {
         escenaMenu.addActor(btnIzq.getBtn());
 
         //Boton Select
-        Boton btnSelect=new Boton("btnSelect.png","btnSelectP.png");
+        Boton btnSelect = new Boton("btnSelect.png","btnSelectP.png");
         btnSelect.setPosition(ANCHO/2-btnSelect.getWidth()/2,ALTO*0.115f);
         btnSelect.getBtn().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                audioPersonajes.setEfecto("efectoPausa.mp3");
                 juego.setScreen(new PantallaJuego(juego,assets));
+
             }
         });
         escenaMenu.addActor(btnSelect.getBtn());

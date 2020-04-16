@@ -56,12 +56,12 @@ class PantallaJuego extends PantallaAbstracta {
 
     // Marcador
     private Marcador marcador;
+    private float score;
+    private int vidas = 3;
+
 
     // Pausa
     private EscenaPausa escenaPausa;
-
-    // Muerto
-    private EscenaMuerto escenaMuerto;
 
     //Audio
     ControladorAudio audioJuego = new ControladorAudio();
@@ -150,8 +150,11 @@ class PantallaJuego extends PantallaAbstracta {
             escenaPausa.draw();
         }
         if(estadoJuego == EstadoJuego.MUERTO){
-            escenaMuerto.draw();
+            audioJuego.stopMusica();
+            score = marcador.getScore();
+            juego.setScreen(new PantallaMuerto(vista,batch,score,juego));
         }
+
     }
 
     private void actualizar(float delta) {
@@ -161,6 +164,10 @@ class PantallaJuego extends PantallaAbstracta {
 
         }
         sistemaParticulas.update(delta);
+
+        if (vidas==0){
+            estadoJuego=EstadoJuego.MUERTO;
+        }
     }
 
     private void moverPersonaje(float delta) {
@@ -305,7 +312,7 @@ class PantallaJuego extends PantallaAbstracta {
                     estadoJuego = EstadoJuego.PAUSADO;
                     //audio.setEfecto("pausa.mp3");
                     if(escenaPausa == null){
-                        audioJuego.setVolumenMitad();
+                        audioJuego.setVolumen(0.3f);
                         audioJuego.setEfecto("efectoPausa2.mp3");
                         escenaPausa = new EscenaPausa(vista, batch);
                     }
@@ -359,10 +366,8 @@ class PantallaJuego extends PantallaAbstracta {
                     super.clicked(event, x, y);
                     audioJuego.setEfecto("efectoBoton.mp3");
                     estadoJuego = estadoJuego.MUERTO;
-                    if(escenaMuerto == null) {
-                        audioJuego.stopMusica();
-                        escenaMuerto = new EscenaMuerto(vista, batch);
-                    }
+                    audioJuego.stopMusica();
+
 
 
                 }
@@ -392,37 +397,6 @@ class PantallaJuego extends PantallaAbstracta {
             Gdx.input.setInputProcessor(this);
         }
     }
-    //Clase Muerto (Ventana que se muestra cuando el usuario muere o sale)
-    class EscenaMuerto extends Stage
-    {
-        public EscenaMuerto(Viewport vista, SpriteBatch batch) {
-            super(vista, batch);
-
-            Texture texturaMuerto = new Texture("fondoGameOver.png");
-
-            Image imgMuerto = new Image(texturaMuerto);
-            imgMuerto.setPosition(0,0);
-
-
-            //Boton regresar a Menu
-            Boton botonMenu = new Boton("btnReturn.png","btnReturnP.png");
-            botonMenu.setPosition(ANCHO/2-botonMenu.getWidth()/2,ALTO*0.2f);
-            botonMenu.getBtn().addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    super.clicked(event, x, y);
-                    audioJuego.setEfecto("efectoBoton.mp3");
-                    juego.setScreen(new PantallaMenu(juego));
-                }
-            });
-
-
-            this.addActor(imgMuerto);
-            this.addActor(botonMenu.getBtn());
-
-            Gdx.input.setInputProcessor(this);
-        }
-    }
 
     // Estado del Juego
     private enum EstadoJuego {
@@ -446,6 +420,8 @@ class PantallaJuego extends PantallaAbstracta {
         Rectangle rectEnemigo = enemigo.sprite.getBoundingRectangle();
         if(rectPersonaje.overlaps(rectEnemigo)){
             cambiarEnemigo();
-            enemigo.sprite.setX(ANCHO);        }
+            enemigo.sprite.setX(ANCHO);
+            vidas -= 1;
+        }
     }
 }

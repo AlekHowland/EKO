@@ -47,7 +47,7 @@ public class PantallaMenu extends PantallaAbstracta
 
         //Música
         audioMenu.disposeAudio();
-        audioMenu.setMusica("musicaMenu.mp3", true, true);
+        audioMenu.setMusica("demoNatura2.mp3", true, true);
         audioMenu.setVolumen(0.6f);
 
         //Transición

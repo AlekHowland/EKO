@@ -123,4 +123,6 @@ public class ControlJuego implements ApplicationListener
     @Override
     public void create() { }
 
+    public static class FondoDinamico {
+    }
 }

@@ -42,6 +42,10 @@ class PantallaJuego extends PantallaAbstracta {
     private Enemigo enemigo2;
     private Enemigo enemigo3;
 
+    //Fondo
+    private FondoDinamico fondo1;
+    private FondoDinamico fondo2;
+
     // Movimientos
     private Movimiento movimientoPersonaje = Movimiento.QUIETO;
     private Movimiento movimientoEnemigo = Movimiento.IZQUIERDA;
@@ -80,6 +84,7 @@ class PantallaJuego extends PantallaAbstracta {
         cargarTexturas();
         createPersonaje();
         createEnemigo();
+        createFondo();
         createMarcador();
         createParticulas();
         createVidas();
@@ -88,6 +93,11 @@ class PantallaJuego extends PantallaAbstracta {
         texturaFondo=new Texture("fondo"+assets+".jpg");
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
+    }
+
+    private void createFondo() {
+        fondo1=new FondoDinamico(assets,0,0);
+        fondo2=new FondoDinamico(assets,fondo1.getWidth(),0);
     }
 
     private void createVidas() {vidas = new Vidas(ANCHO*0.12f,0.9f*ALTO,3,assets);
@@ -135,6 +145,7 @@ class PantallaJuego extends PantallaAbstracta {
         if(estadoJuego == EstadoJuego.JUGANDO) {
             actualizar(delta);
             moverEnemigo(delta);
+            moverFondo(delta);
             probarColisiones();
         }
 
@@ -144,6 +155,7 @@ class PantallaJuego extends PantallaAbstracta {
         batch.begin();
         moverPersonaje(delta);
         batch.draw(texturaFondo,0,0);
+        renderFondo(batch);
         personaje.render(batch);
         enemigo.render(batch);
         if(estadoJuego == EstadoJuego.JUGANDO){
@@ -162,6 +174,49 @@ class PantallaJuego extends PantallaAbstracta {
             juego.setScreen(new PantallaMuerto(vista,batch,score,juego));
         }
 
+    }
+
+    private void renderFondo(SpriteBatch batch) {
+        fondo1.renderCapa1(batch);
+        fondo2.renderCapa1(batch);
+        fondo1.renderCapa2(batch);
+        fondo2.renderCapa2(batch);
+        fondo1.renderCapa3(batch);
+        fondo2.renderCapa3(batch);
+        fondo1.renderCapa4(batch);
+        fondo2.renderCapa4(batch);
+    }
+
+    private void moverFondo(float delta) {
+        fondo1.moverCapas(-delta*1000);
+        fondo2.moverCapas(-delta*1000);
+        if (fondo1.getXCapa1()<-fondo1.getWidth()){
+            fondo1.setXCapa1(fondo2.getXCapa1()+fondo2.getWidth());
+        }
+        if (fondo2.getXCapa1()<-fondo2.getWidth()){
+            fondo2.setXCapa1(fondo1.getXCapa1()+fondo1.getWidth());
+        }
+
+        if (fondo1.getXCapa2()<-fondo1.getWidth()){
+            fondo1.setXCapa2(fondo2.getXCapa2()+fondo2.getWidth());
+        }
+        if (fondo2.getXCapa2()<-fondo2.getWidth()){
+            fondo2.setXCapa2(fondo1.getXCapa2()+fondo1.getWidth());
+        }
+
+        if (fondo1.getXCapa3()<-fondo1.getWidth()){
+            fondo1.setXCapa3(fondo2.getXCapa3()+fondo2.getWidth());
+        }
+        if (fondo2.getXCapa3()<-fondo2.getWidth()){
+            fondo2.setXCapa3(fondo1.getXCapa3()+fondo1.getWidth());
+        }
+
+        if (fondo1.getXCapa4()<-fondo1.getWidth()){
+            fondo1.setXCapa4(fondo2.getXCapa4()+fondo2.getWidth());
+        }
+        if (fondo2.getXCapa4()<-fondo2.getWidth()){
+            fondo2.setXCapa4(fondo1.getXCapa4()+fondo1.getWidth());
+        }
     }
 
     private void actualizar(float delta) {

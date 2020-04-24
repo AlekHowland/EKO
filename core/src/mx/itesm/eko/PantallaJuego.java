@@ -57,7 +57,9 @@ class PantallaJuego extends PantallaAbstracta {
     // Marcador
     private Marcador marcador;
     private float score;
-    private int vidas = 3;
+
+    // Vidas
+    private Vidas vidas;
 
 
     // Pausa
@@ -80,11 +82,15 @@ class PantallaJuego extends PantallaAbstracta {
         createEnemigo();
         createMarcador();
         createParticulas();
+        createVidas();
         cargarMusica();
 
         texturaFondo=new Texture("fondo"+assets+".jpg");
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
+    }
+
+    private void createVidas() {vidas = new Vidas(ANCHO*0.12f,0.9f*ALTO,3,assets);
     }
 
     private void cargarMusica() {
@@ -141,6 +147,7 @@ class PantallaJuego extends PantallaAbstracta {
         personaje.render(batch);
         enemigo.render(batch);
         if(estadoJuego == EstadoJuego.JUGANDO){
+            vidas.render(batch);
             marcador.render(batch);
         }else if (estadoJuego == EstadoJuego.MUERTO){ marcador.render(batch);}
 
@@ -165,7 +172,7 @@ class PantallaJuego extends PantallaAbstracta {
         }
         sistemaParticulas.update(delta);
 
-        if (vidas==0){
+        if (vidas.getVidas()==0){
             estadoJuego=EstadoJuego.MUERTO;
         }
     }
@@ -421,7 +428,7 @@ class PantallaJuego extends PantallaAbstracta {
         if(rectPersonaje.overlaps(rectEnemigo)){
             cambiarEnemigo();
             enemigo.sprite.setX(ANCHO);
-            vidas -= 1;
+            vidas.restar(1);
         }
     }
 }

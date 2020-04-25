@@ -90,7 +90,7 @@ class PantallaJuego extends PantallaAbstracta {
         createVidas();
         cargarMusica();
 
-        texturaFondo=new Texture("fondo"+assets+".jpg");
+        texturaFondo=new Texture("Fondos/fondo"+assets+".jpg");
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
@@ -132,11 +132,11 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void cargarTexturas() {
-        texturaPersonaje = new Texture("asset"+assets+".png");
-        texturaEnemigo1 = new Texture("enemigo"+assets+"1.png");
-        texturaEnemigo2 = new Texture("enemigo"+assets+"2.png");
-        texturaEnemigo3 = new Texture("enemigo"+assets+"3.png");
-        texturaPersonajeAbajo = new Texture("asset"+assets+"Abajo.png");
+        texturaPersonaje = new Texture("Personajes/asset"+assets+".png");
+        texturaEnemigo1 = new Texture("Enemigos/enemigo"+assets+"1.png");
+        texturaEnemigo2 = new Texture("Enemigos/enemigo"+assets+"2.png");
+        texturaEnemigo3 = new Texture("Enemigos/enemigo"+assets+"3.png");
+        texturaPersonajeAbajo = new Texture("Personajes/asset"+assets+"Abajo.png");
     }
 
     @Override
@@ -420,7 +420,7 @@ class PantallaJuego extends PantallaAbstracta {
             imgPausa.setPosition(0,0);
 
             //Boton escena muerto
-            Boton botonMenu = new Boton("btnReturn.png","btnReturnP.png");
+            Boton botonMenu = new Boton("Botones/btnReturn.png","Botones/btnReturnP.png");
             botonMenu.setPosition(ANCHO/3-botonMenu.getWidth()/2,ALTO*0.2f);
             botonMenu.getBtn().addListener(new ClickListener() {
                 @Override
@@ -436,7 +436,7 @@ class PantallaJuego extends PantallaAbstracta {
             });
 
             //Boton regresar a juego
-            Boton botonBack = new Boton("btnReturn.png","btnReturnP.png");
+            Boton botonBack = new Boton("Botones/btnReturn.png","Botones/btnReturnP.png");
             botonBack.setPosition(ANCHO/2+botonBack.getWidth()/2,ALTO*0.2f);
             botonBack.getBtn().addListener(new ClickListener() {
                 @Override

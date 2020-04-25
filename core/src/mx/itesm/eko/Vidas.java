@@ -23,7 +23,7 @@ public class Vidas {
         this.y=y;
         this.assets=assets;
         texto=new Texto("fuente.fnt"); //Fuente
-        texturaImagen=new Texture("vida"+assets+".png");
+        texturaImagen=new Texture("Personajes/vida"+assets+".png");
         imagenVida=new Objeto(texturaImagen,x+0.8f,y*0.95f);
     }
 

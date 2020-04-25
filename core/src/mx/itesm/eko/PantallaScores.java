@@ -31,7 +31,7 @@ public class PantallaScores extends PantallaAbstracta {
 
     @Override
     public void show() {
-        texturaFondo = new Texture("fondoScores.jpg");
+        texturaFondo = new Texture("Fondos/fondoScores.jpg");
         crearMenu();
     }
 
@@ -40,7 +40,7 @@ public class PantallaScores extends PantallaAbstracta {
 
 
         //Boton Scores
-        Boton botonScores=new Boton("btnReturn.png","btnReturnP.png");
+        Boton botonScores=new Boton("Botones/btnReturn.png","Botones/btnReturnP.png");
         botonScores.setPosition(ANCHO/2-botonScores.getWidth()/2,ALTO*0.115f);
         botonScores.getBtn().addListener(new ClickListener() {
             @Override

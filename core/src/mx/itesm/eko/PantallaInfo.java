@@ -42,7 +42,7 @@ public class PantallaInfo extends PantallaAbstracta {
 
 
 
-        Boton botonInfo = new Boton("btnReturn.png","btnReturnP.png");
+        Boton botonInfo = new Boton("Botones/btnReturn.png","Botones/btnReturnP.png");
         botonInfo.setPosition(ANCHO/2-botonInfo.getWidth()/2,ALTO*0.115f);
 
         botonInfo.getBtn().addListener(new ClickListener() {

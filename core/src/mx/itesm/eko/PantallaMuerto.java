@@ -43,7 +43,7 @@ class PantallaMuerto extends PantallaAbstracta{
 
     @Override
     public void show() {
-        texturaFondo = new Texture("fondoGameOver.png");
+        texturaFondo = new Texture("Fondos/fondoGameOver.png");
         crearMenu();
     }
 
@@ -53,7 +53,7 @@ class PantallaMuerto extends PantallaAbstracta{
 
 
 
-        Boton botonInfo = new Boton("btnReturn.png","btnReturnP.png");
+        Boton botonInfo = new Boton("Botones/btnReturn.png","Botones/btnReturnP.png");
         botonInfo.setPosition(ANCHO/2-botonInfo.getWidth()/2,ALTO*0.115f);
 
         botonInfo.getBtn().addListener(new ClickListener() {

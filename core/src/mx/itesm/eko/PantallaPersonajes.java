@@ -28,7 +28,7 @@ public class PantallaPersonajes extends PantallaAbstracta {
 
     @Override
     public void show() {
-        texturaFondo = new Texture("select"+assets+".jpg");
+        texturaFondo = new Texture("Personajes/select"+assets+".jpg");
         crearMenu();
     }
 
@@ -38,7 +38,7 @@ public class PantallaPersonajes extends PantallaAbstracta {
 
 
         //Boton cambio derecha
-        Boton btnDer=new Boton("btnSelDer.png","btnSelDerP.png");
+        Boton btnDer=new Boton("Botones/btnSelDer.png","Botones/btnSelDerP.png");
         btnDer.setPosition(ANCHO-btnDer.getWidth(),ALTO/2-btnDer.getHeight()/2);
         btnDer.getBtn().addListener(new ClickListener() {
             @Override
@@ -56,7 +56,7 @@ public class PantallaPersonajes extends PantallaAbstracta {
         escenaMenu.addActor(btnDer.getBtn());
 
         //Boton cambio izquierda
-        Boton btnIzq=new Boton("btnSelIzq.png","btnSelIzqP.png");
+        Boton btnIzq=new Boton("Botones/btnSelIzq.png","Botones/btnSelIzqP.png");
         btnIzq.setPosition(0,ALTO/2-btnIzq.getHeight()/2);
         btnIzq.getBtn().addListener(new ClickListener() {
             @Override
@@ -74,7 +74,7 @@ public class PantallaPersonajes extends PantallaAbstracta {
         escenaMenu.addActor(btnIzq.getBtn());
 
         //Boton Select
-        Boton btnSelect = new Boton("btnSelect.png","btnSelectP.png");
+        Boton btnSelect = new Boton("Botones/btnSelect.png","Botones/btnSelectP.png");
         btnSelect.setPosition(ANCHO/2-btnSelect.getWidth()/2,ALTO*0.115f);
         btnSelect.getBtn().addListener(new ClickListener() {
             @Override

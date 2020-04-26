@@ -7,12 +7,15 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import java.io.IOException;
+
 import mx.itesm.eko.musica.ControladorAudio;
 
 public class PantallaScores extends PantallaAbstracta {
 
     private final ControlJuego juego;
     private Texture texturaFondo;
+    private Scores scores;
 
     //MENU
     private Stage escenaMenu; //botones...
@@ -33,6 +36,11 @@ public class PantallaScores extends PantallaAbstracta {
     public void show() {
         texturaFondo = new Texture("Fondos/fondoScores.jpg");
         crearMenu();
+        crearScores();
+    }
+
+    private void crearScores() {
+        scores=new Scores(ANCHO*0.3f,ALTO*0.95f);
     }
 
     private void crearMenu() {
@@ -62,7 +70,13 @@ public class PantallaScores extends PantallaAbstracta {
         batch.setProjectionMatrix(camara.combined);
 
         batch.begin();
-        batch.draw(texturaFondo,0,0);
+        //batch.draw(texturaFondo,0,0);
+        try {
+            scores.render(batch);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         batch.end();
 
         escenaMenu.draw();

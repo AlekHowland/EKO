@@ -21,6 +21,7 @@ public class PantallaMenu extends PantallaAbstracta
 
     // Menu
     private Stage escenaMenu; //botones...
+    private Scores scores;
 
     // Audio
     public final ControladorAudio audioMenu = new ControladorAudio();
@@ -43,8 +44,13 @@ public class PantallaMenu extends PantallaAbstracta
     }
 
     private void crearMenu() {
-        escenaMenu = new Stage(vista);
 
+        escenaMenu = new Stage(vista);
+        //Scores
+        scores=new Scores(ANCHO/2,ALTO-10);
+        if (!scores.comprobarArchivo()){
+            scores.crearArchivo();
+        }
         //Música
         audioMenu.disposeAudio();
         audioMenu.setMusica("demoNatura2.mp3", true, true);

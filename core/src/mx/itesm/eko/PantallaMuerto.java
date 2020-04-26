@@ -9,6 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
 import mx.itesm.eko.musica.ControladorAudio;
 
 class PantallaMuerto extends PantallaAbstracta{
@@ -26,6 +32,10 @@ class PantallaMuerto extends PantallaAbstracta{
     //Score
     private float score;
     private Texto finalScore;
+    private Scores scores;
+    private Date date=new Date();
+    private String fecha;
+    private ArrayList arr;
 
     @Override
     public InputProcessor getInputProcessor() {
@@ -44,7 +54,19 @@ class PantallaMuerto extends PantallaAbstracta{
     @Override
     public void show() {
         texturaFondo = new Texture("Fondos/fondoGameOver.png");
+        try {
+            crearScores();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         crearMenu();
+    }
+
+    private void crearScores() throws IOException {
+        scores=new Scores(ANCHO/2,ALTO-10);
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        fecha = dateFormat.format(new Date());
+        arr=scores.leerArchivo();
     }
 
     private void crearMenu() {
@@ -61,6 +83,11 @@ class PantallaMuerto extends PantallaAbstracta{
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 audioInfo.setEfecto("efectoBoton.mp3");
+                try {
+                    scores.escribirArchivo(Integer.toString((int)score),fecha);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 juego.setScreen(new PantallaMenu(juego));
             }
         });
@@ -77,6 +104,16 @@ class PantallaMuerto extends PantallaAbstracta{
         batch.begin();
         batch.draw(texturaFondo,0,0);
         finalScore.render(batch,Integer.toString((int)score),ANCHO/2,ALTO/2);
+        if (arr.size()>=2) {
+            try {
+                finalScore.render(batch, scores.getHighScore(), ANCHO / 2, ALTO - 100);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            finalScore.render(batch, Integer.toString((int)score), ANCHO / 2, ALTO - 100);
+        }
 
         batch.end();
 

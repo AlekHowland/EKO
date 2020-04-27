@@ -120,19 +120,17 @@ public class Scores {
 
         for (int i=0;i<scoresFloat.length;i++){
             for (int j=0;j<scoresFloat.length;j++){
-                System.out.println(j);
                 if (Float.parseFloat(scoresString[j])==scoresFloat[i]){
                     nombresOrdenados[i]=nombresString[j];
                 }
             }
         }
 
-        System.out.println(Arrays.toString(nombresOrdenados));
 
 
         scores[0]="Score\n";
         for (int i=scoresFloat.length-1;i>=0;i--){
-            scores[0]+=scoresFloat[i]+"\n";
+            scores[0]+=(int)scoresFloat[i]+"\n";
         }
 
         scores[1]="Date\n";

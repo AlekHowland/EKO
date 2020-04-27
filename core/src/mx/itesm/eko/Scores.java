@@ -76,9 +76,9 @@ public class Scores {
 
     public String getHighScore() throws IOException {
         String[] arr=ordenarScores();
-        String[] scoresOrdenados;
-        scoresOrdenados=arr[0].split("\n");
-        String highScore=scoresOrdenados[1];
+        String[] scoresString;
+        scoresString=arr[0].split("\n");
+        String highScore=scoresString[1];
         return highScore;
     }
 
@@ -94,44 +94,41 @@ public class Scores {
     public String[] ordenarScores() throws IOException {
         String[] scores = new String[2];
         ArrayList arr=leerArchivo();
-        String records="Score\n";
-        String nombres="Date\n";
+        String records="";
+        String nombres="";
         for (int i=1;i<arr.size();i+=2){
             records+=(String) arr.get(i-1)+"\n";
             nombres+=(String) arr.get(i)+"\n";
         }
         scores[0]=records;
         scores[1]=nombres;
-        String[] scoresOrdenados;
-        String[] nombresOrdenados;
+        String[] scoresString;
+        String[] nombresString;
+        scoresString=scores[0].split("\n");
+        nombresString=scores[1].split("\n");
+        float[] scoresFloat= new float[scoresString.length];
 
-        scoresOrdenados=scores[0].split("\n");
+        String[] nombresOrdenados= new String[scoresString.length];
 
-        for(int i = 0; i<scoresOrdenados.length-1; i++) {
-            for (int j = i + 1; j < scoresOrdenados.length; j++) {
-                if (scoresOrdenados[i].compareTo(scoresOrdenados[j]) > 0) {
-                    String temp = scoresOrdenados[i];
-                    scoresOrdenados[i] = scoresOrdenados[j];
-                    scoresOrdenados[j] = temp;
-                }
-            }
+        for (int i = 0; i<scoresString.length; i++){
+            scoresFloat[i]=Float.parseFloat(scoresString[i]);
         }
-        for(int i=0; i<scoresOrdenados.length/2; i++){
-            String temp = scoresOrdenados[i];
-            scoresOrdenados[i] = scoresOrdenados[scoresOrdenados.length -i -1];
-            scoresOrdenados[scoresOrdenados.length -i -1] = temp;
+        Arrays.sort(scoresFloat);
+
+
+
+
+        scores[0]="Score\n";
+        for (int i=scoresFloat.length-1;i>=0;i--){
+            scores[0]+=scoresFloat[i]+"\n";
         }
 
-        for (int i=0;i<scoresOrdenados.length;i++){
+        scores[1]="Date\n";
+        for (int i=nombresOrdenados.length-1;i>=0;i--){
+            nombresOrdenados[0]+=nombresOrdenados[i]+"\n";
+        }
 
-        }
-        scores[0]="";
-        for (int i=0;i<scoresOrdenados.length;i++){
-            scores[0]+=scoresOrdenados[i]+"\n";
-        }
         System.out.println(scores[0]);
-        System.out.println(scoresOrdenados[1]);
-
         return scores;
     }
 

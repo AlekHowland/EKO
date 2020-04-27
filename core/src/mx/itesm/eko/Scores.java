@@ -104,8 +104,10 @@ public class Scores {
         scores[1]=nombres;
         String[] scoresString;
         String[] nombresString;
+
         scoresString=scores[0].split("\n");
         nombresString=scores[1].split("\n");
+
         float[] scoresFloat= new float[scoresString.length];
 
         String[] nombresOrdenados= new String[scoresString.length];
@@ -116,6 +118,16 @@ public class Scores {
         Arrays.sort(scoresFloat);
 
 
+        for (int i=0;i<scoresFloat.length;i++){
+            for (int j=0;j<scoresFloat.length;j++){
+                System.out.println(j);
+                if (Float.parseFloat(scoresString[j])==scoresFloat[i]){
+                    nombresOrdenados[i]=nombresString[j];
+                }
+            }
+        }
+
+        System.out.println(Arrays.toString(nombresOrdenados));
 
 
         scores[0]="Score\n";
@@ -125,10 +137,8 @@ public class Scores {
 
         scores[1]="Date\n";
         for (int i=nombresOrdenados.length-1;i>=0;i--){
-            nombresOrdenados[0]+=nombresOrdenados[i]+"\n";
+            scores[1]+=nombresOrdenados[i]+"\n";
         }
-
-        System.out.println(scores[0]);
         return scores;
     }
 

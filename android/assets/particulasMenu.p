@@ -5,26 +5,26 @@ active: false
 lowMin: 1000.0
 lowMax: 1000.0
 - Count - 
-min: 30
-max: 45
+min: 10
+max: 25
 - Emission - 
-lowMin: 0.0
-lowMax: 0.0
+lowMin: 6.0
+lowMax: 6.0
 highMin: 12.0
 highMax: 12.0
-relative: false
+relative: true
 scalingCount: 1
-scaling0: 1.0
+scaling0: 0.49019608
 timelineCount: 1
 timeline0: 0.0
 - Life - 
-lowMin: 1000.0
-lowMax: 1000.0
-highMin: 2500.0
-highMax: 2500.0
+lowMin: 2500.0
+lowMax: 2500.0
+highMin: 5000.0
+highMax: 5000.0
 relative: true
 scalingCount: 1
-scaling0: 1.0
+scaling0: 0.48876405
 timelineCount: 1
 timeline0: 0.0
 independent: true
@@ -123,5 +123,5 @@ behind: false
 premultipliedAlpha: false
 spriteMode: single
 - Image Paths -
-/C:/Users/turbi/OneDrive/Documentos/Videojuegos/EKOgit/android/assets/partMenu.png
+partMenu.png
 

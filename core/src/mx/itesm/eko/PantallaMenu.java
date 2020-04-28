@@ -5,9 +5,12 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 
 import mx.itesm.eko.musica.ControladorAudio;
 import mx.itesm.eko.transiciones.TransicionPantalla;
@@ -33,6 +36,10 @@ public class PantallaMenu extends PantallaAbstracta
     //Botones
     private BotonDinamico botonPlay;
 
+    //Sistema de partículas
+    private ParticleEffect sistemaParticulas;
+    private ParticleEmitter emisorParticulas;
+
     @Override
     public InputProcessor getInputProcessor() {
         return escenaMenu;
@@ -49,6 +56,16 @@ public class PantallaMenu extends PantallaAbstracta
         texturaBtnPlayP=new Texture("Botones/btnPlayP.png");
         botonPlay=new BotonDinamico(texturaBtnPlay,texturaBtnPlayP,332,331,ANCHO/2-texturaBtnPlay.getHeight()/2,ALTO*0.115f);
         crearMenu();
+        createParticulas();
+    }
+
+    private void createParticulas() {
+        sistemaParticulas=new ParticleEffect();
+        sistemaParticulas.load(Gdx.files.internal("particulasMenu.p"),Gdx.files.internal(""));
+        Array<ParticleEmitter> emisores=sistemaParticulas.getEmitters();
+        emisorParticulas=emisores.get(0);
+        emisores.get(0).setPosition(ANCHO,ALTO/2);
+        sistemaParticulas.start();
     }
 
     private void crearMenu() {
@@ -68,7 +85,7 @@ public class PantallaMenu extends PantallaAbstracta
         final TransicionPantalla transicion = efectoTransicion.inicializacion(2.0f);
 
         //Boton Jugar
-        Boton botonJugar=new Boton("Botones/btnPlayTrans.png","Botones/btnPlayTrans.png");
+        Boton botonJugar=new Boton("Botones/btnPlayTria.png","Botones/btnPlayTriaP.png");
         botonJugar.setPosition(ANCHO/2-botonJugar.getWidth()/2,ALTO*0.115f);
         botonJugar.getBtn().addListener(new ClickListener() {
             @Override
@@ -123,10 +140,12 @@ public class PantallaMenu extends PantallaAbstracta
     public void render(float delta) {
         borrarPantalla();
         batch.setProjectionMatrix(camara.combined);
-
+        sistemaParticulas.update(delta);
         batch.begin();
         batch.draw(texturaFondo,0,0);
         botonPlay.render(batch);
+        sistemaParticulas.draw(batch);
+
 
         batch.end();
 

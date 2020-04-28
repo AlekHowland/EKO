@@ -97,10 +97,10 @@ class PantallaJuego extends PantallaAbstracta {
 
     private void createFondo() {
         fondo1=new FondoDinamico(assets,0,0);
-        fondo2=new FondoDinamico(assets,fondo1.getWidth(),0);
+        fondo2=new FondoDinamico(assets,fondo1.getWidth(),fondo1.getHeightTiempo());
     }
 
-    private void createVidas() {vidas = new Vidas(ANCHO*0.12f,0.9f*ALTO,3,assets);
+    private void createVidas() {vidas = new Vidas(ANCHO*0.12f,0.9f*ALTO,999,assets);
     }
 
     private void cargarMusica() {
@@ -177,6 +177,11 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void renderFondo(SpriteBatch batch) {
+        fondo1.renderCapaTiempo(batch);
+        fondo2.renderCapaTiempo(batch);
+        fondo1.renderCapaSol(batch);
+        fondo2.renderCapaSol(batch);
+
         fondo1.renderCapa1(batch);
         fondo2.renderCapa1(batch);
         fondo1.renderCapa2(batch);
@@ -190,6 +195,26 @@ class PantallaJuego extends PantallaAbstracta {
     private void moverFondo(float delta) {
         fondo1.moverCapas(-delta*1000);
         fondo2.moverCapas(-delta*1000);
+        fondo1.moverCapasVertical(-delta*100);
+        fondo2.moverCapasVertical(-delta*100);
+
+        if (fondo1.getYCapaTiempo()<-fondo1.getHeightTiempo()){
+            fondo1.setYCapaTiempo(fondo2.getYCapaTiempo()+fondo2.getHeightTiempo());
+        }
+        if (fondo2.getYCapaTiempo()<-fondo2.getHeightTiempo()){
+            fondo2.setYCapaTiempo(fondo1.getYCapaTiempo()+fondo1.getHeightTiempo());
+        }
+
+        if (fondo1.getYCapaSol()<-fondo1.getHeightSol()){
+            fondo1.setYCapaSol(fondo2.getYCapaSol()+fondo2.getHeightSol());
+        }
+        if (fondo2.getYCapaSol()<-fondo2.getHeightSol()){
+            fondo2.setYCapaSol(fondo1.getYCapaSol()+fondo1.getHeightSol());
+        }
+
+
+
+
         if (fondo1.getXCapa1()<-fondo1.getWidth()){
             fondo1.setXCapa1(fondo2.getXCapa1()+fondo2.getWidth());
         }

@@ -18,6 +18,8 @@ public class PantallaMenu extends PantallaAbstracta
     // Juego & Texturas
     private final ControlJuego juego;
     private Texture texturaFondo;
+    private Texture texturaBtnPlay;
+    private Texture texturaBtnPlayP;
 
     // Menu
     private Stage escenaMenu; //botones...
@@ -27,6 +29,9 @@ public class PantallaMenu extends PantallaAbstracta
     public final ControladorAudio audioMenu = new ControladorAudio();
     private boolean creado = false;
 
+
+    //Botones
+    private BotonDinamico botonPlay;
 
     @Override
     public InputProcessor getInputProcessor() {
@@ -40,6 +45,9 @@ public class PantallaMenu extends PantallaAbstracta
     @Override
     public void show() {
         texturaFondo=new Texture("Fondos/fondoMenu.jpg");
+        texturaBtnPlay=new Texture("Botones/btnPlay.png");
+        texturaBtnPlayP=new Texture("Botones/btnPlayP.png");
+        botonPlay=new BotonDinamico(texturaBtnPlay,texturaBtnPlayP,332,331,ANCHO/2-texturaBtnPlay.getHeight()/2,ALTO*0.115f);
         crearMenu();
     }
 
@@ -60,7 +68,7 @@ public class PantallaMenu extends PantallaAbstracta
         final TransicionPantalla transicion = efectoTransicion.inicializacion(2.0f);
 
         //Boton Jugar
-        Boton botonJugar=new Boton("Botones/btnJugar.png","Botones/btnJugarP.png");
+        Boton botonJugar=new Boton("Botones/btnPlayTrans.png","Botones/btnPlayTrans.png");
         botonJugar.setPosition(ANCHO/2-botonJugar.getWidth()/2,ALTO*0.115f);
         botonJugar.getBtn().addListener(new ClickListener() {
             @Override
@@ -118,6 +126,8 @@ public class PantallaMenu extends PantallaAbstracta
 
         batch.begin();
         batch.draw(texturaFondo,0,0);
+        botonPlay.render(batch);
+
         batch.end();
 
         escenaMenu.draw();

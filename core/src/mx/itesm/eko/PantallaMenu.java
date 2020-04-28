@@ -143,8 +143,10 @@ public class PantallaMenu extends PantallaAbstracta
         sistemaParticulas.update(delta);
         batch.begin();
         batch.draw(texturaFondo,0,0);
-        botonPlay.render(batch);
         sistemaParticulas.draw(batch);
+
+        botonPlay.render(batch);
+
 
 
         batch.end();

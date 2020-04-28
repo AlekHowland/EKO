@@ -54,9 +54,14 @@ public class PantallaMenu extends PantallaAbstracta
         texturaFondo=new Texture("Fondos/fondoMenu.jpg");
         texturaBtnPlay=new Texture("Botones/btnPlay.png");
         texturaBtnPlayP=new Texture("Botones/btnPlayP.png");
-        botonPlay=new BotonDinamico(texturaBtnPlay,texturaBtnPlayP,332,331,ANCHO/2-texturaBtnPlay.getHeight()/2,ALTO*0.115f);
+        crearBotones();
         crearMenu();
         createParticulas();
+    }
+
+    private void crearBotones() {
+        botonPlay=new BotonDinamico(texturaBtnPlay,texturaBtnPlayP,332,331,ANCHO/2-texturaBtnPlay.getHeight()/2,ALTO*0.115f);
+        botonPlay.cargarTexturasBtnPlay();
     }
 
     private void createParticulas() {

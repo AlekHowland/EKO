@@ -14,25 +14,29 @@ public class BotonDinamico {
     private float timerAnimacion;//frames en tiempos definidos
     private float x, y;
     private EstadoMovimiento estado=EstadoMovimiento.SUELTO;//QUIETO,CAMINANDO
+    private TextureRegion[][] texturaPartida;
+    private TextureRegion[][] texturaPartidaP;
 
     public BotonDinamico(Texture textura, Texture texturaP,int alto, int ancho,float x, float y) {
         this.x=x;
         this.y=y;
         TextureRegion region=new TextureRegion(textura);
         TextureRegion regionP=new TextureRegion(texturaP);
+        texturaPartida=region.split(ancho,alto);
+        texturaPartidaP=region.split(ancho,alto);
 
-        TextureRegion[][] texturaPartida=region.split(ancho,alto);
-        TextureRegion[][] texturaPartidaP=region.split(ancho,alto);
-
-        animacion=new Animation(0.15f,texturaPartida[0][0],texturaPartida[0][1],texturaPartida[0][2],texturaPartida[0][3],texturaPartida[0][4],texturaPartida[0][5]);
-        animacion=new Animation(0.15f,texturaPartidaP[0][0],texturaPartidaP[0][1],texturaPartidaP[0][2],texturaPartidaP[0][3],texturaPartidaP[0][4],texturaPartidaP[0][5]);
-
-        animacion.setPlayMode(Animation.PlayMode.LOOP);
-        timerAnimacion=0;
     }
 
     public void setEstado(EstadoMovimiento estado){
         this.estado=estado;
+    }
+
+    public void cargarTexturasBtnPlay(){
+
+        animacion=new Animation(0.15f,texturaPartidaP[0][0],texturaPartidaP[0][1],texturaPartidaP[0][2],texturaPartidaP[0][3],texturaPartidaP[0][4],texturaPartidaP[0][5]);
+
+        animacion.setPlayMode(Animation.PlayMode.LOOP);
+        timerAnimacion=0;
     }
 
     public void render(SpriteBatch batch) {

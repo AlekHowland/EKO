@@ -92,7 +92,7 @@ public class Scores {
         }
     }
     public String[] ordenarScores() throws IOException {
-        String[] scores = new String[2];
+        String[] scores = new String[3];
         ArrayList arr=leerArchivo();
         String records="";
         String nombres="";
@@ -129,8 +129,13 @@ public class Scores {
 
 
         scores[0]="Score\n";
+
         for (int i=scoresFloat.length-1;i>=0;i--){
             scores[0]+=(int)scoresFloat[i]+"\n";
+        }
+        scores[2]="\n";
+        for (int i=1;i<=scoresFloat.length;i++){
+            scores[2]+=i+"\n";
         }
 
         scores[1]="Date\n";
@@ -144,10 +149,9 @@ public class Scores {
     public void render(SpriteBatch batch) throws IOException {
         if (leerArchivo().size()>1) {
             String[] arr = ordenarScores();
-            String scores = arr[0];
-            String nombres = arr[1];
-            texto.render(batch, scores, x, y);
-            texto.render(batch, nombres, x * 2, y);
+            texto.render(batch, arr[0], x, y);
+            texto.render(batch, arr[2], x*0.5f, y);
+            texto.render(batch, arr[1], x * 2, y);
         }
     }
 

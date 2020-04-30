@@ -14,5 +14,8 @@ public class Personaje extends Objeto {
         sprite.setY(sprite.getY()+dy);
     }
 
+    public Sprite getSprite() {
+        return sprite;
+    }
 
 }

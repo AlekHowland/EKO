@@ -7,7 +7,15 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -26,6 +34,13 @@ class PantallaJuego extends PantallaAbstracta {
 
     // Audio
     private ControladorAudio audio = new ControladorAudio();
+    ControladorAudio audioJuego = new ControladorAudio();
+
+    // Física
+    private World mundoFisica;
+    private Body bodyPersonaje;                 //Objeto que recibe la colisión, internamente x, y
+    private Box2DDebugRenderer debugRenderer;   //Debugger para observar, se quita
+    private static final float ANCHO_PERSONAJE = 2;
 
     // Texturas
     private Texture texturaPersonaje;
@@ -69,11 +84,7 @@ class PantallaJuego extends PantallaAbstracta {
     // Pausa
     private EscenaPausa escenaPausa;
 
-    //Audio
-    ControladorAudio audioJuego = new ControladorAudio();
-
-
-
+    // Constructor
     public PantallaJuego(ControlJuego juego, String assets) {
         this.juego = juego;
         this.assets = assets;
@@ -81,6 +92,14 @@ class PantallaJuego extends PantallaAbstracta {
 
     @Override
     public void show() {
+
+        //MUNDO FISICA//
+
+        createMundoFisica();
+        fisicaObjetos();
+
+        //MUNDO FISICA//
+
         cargarTexturas();
         createPersonaje();
         createEnemigo();
@@ -120,6 +139,30 @@ class PantallaJuego extends PantallaAbstracta {
         marcador = new Marcador(ANCHO/2,0.95f*ALTO);
     }
 
+    private void fisicaObjetos() {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(0, ALTO*0.05f);                //Mismas referencias x,y que personaje
+        bodyPersonaje = mundoFisica.createBody(bodyDef);
+
+        PolygonShape cajaFisica = new PolygonShape();
+        cajaFisica.setAsBox(ANCHO_PERSONAJE, ANCHO_PERSONAJE * 2);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = cajaFisica;
+        fixtureDef.restitution = 0f;
+        bodyPersonaje.createFixture(fixtureDef);
+        cajaFisica.dispose();
+        bodyPersonaje.setFixedRotation(true);
+    }
+
+    private void createMundoFisica() {
+        Box2D.init();
+        Vector2 gravedad = new Vector2(0, -100);
+        mundoFisica = new World(gravedad, true);
+        debugRenderer = new Box2DDebugRenderer();
+    }
+
     private void createPersonaje() {
         personaje = new Personaje(texturaPersonaje,0,ALTO*0.05f);
     }
@@ -147,7 +190,12 @@ class PantallaJuego extends PantallaAbstracta {
             moverEnemigo(delta);
             moverFondo(delta);
             probarColisiones();
+            audio.setMusica("musicaJuego.mp3", true, true);
         }
+
+        float x = bodyPersonaje.getPosition().x - personaje.sprite.getX();
+        float y = bodyPersonaje.getPosition().y - 2*personaje.sprite.getX();
+        personaje.getSprite().setPosition(x, y);
 
         borrarPantalla(0,0,0);
         batch.setProjectionMatrix(camara.combined);
@@ -173,6 +221,9 @@ class PantallaJuego extends PantallaAbstracta {
             score = marcador.getScore();
             juego.setScreen(new PantallaMuerto(vista,batch,score,juego));
         }
+
+        // el mundo se actualiza
+        mundoFisica.step(1/60f, 6, 2);
 
     }
 
@@ -388,11 +439,16 @@ class PantallaJuego extends PantallaAbstracta {
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
+            float x = bodyPersonaje.getPosition().x;
+            float y = bodyPersonaje.getPosition().y;
+
+
             Vector3 v = new Vector3(screenX,screenY,0);
             camara.unproject(v);
             if(v.y >= ALTO/2 && !(v.y>=ALTO*0.85f && v.x>=ANCHO*0.9f)) {
                 //audio.setEfecto("salto.mp3");
-                movimientoPersonaje = Movimiento.ARRIBA;
+                //movimientoPersonaje = Movimiento.ARRIBA;
+                bodyPersonaje.applyLinearImpulse(0, 180000, x, y, true);
             }
                 //Detectar pausa
             if (v.y>=ALTO*0.85f && v.x>=ANCHO*0.9f){

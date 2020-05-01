@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -40,7 +43,8 @@ class PantallaJuego extends PantallaAbstracta {
     private World mundoFisica;
     private Body bodyPersonaje;                 //Objeto que recibe la colisión, internamente x, y
     private Box2DDebugRenderer debugRenderer;   //Debugger para observar, se quita
-    private static final float ANCHO_PERSONAJE = 2;
+    private static final float ANCHO_PERSONAJE = 20;
+    //private static final float ALTO_PERSONAJE =128;
 
     // Texturas
     private Texture texturaPersonaje;
@@ -97,6 +101,7 @@ class PantallaJuego extends PantallaAbstracta {
 
         createMundoFisica();
         fisicaObjetos();
+        crearParedes();
 
         //MUNDO FISICA//
 
@@ -113,6 +118,26 @@ class PantallaJuego extends PantallaAbstracta {
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
+
+    private void crearParedes() {
+
+        //Cuerpo estático
+        BodyDef bd = new BodyDef();
+        bd.type = BodyDef.BodyType.StaticBody;
+        bd.position.set(0, ALTO*0.05f);         //Mismas referencias que el personaje
+        Body cuerpoEstatico = mundoFisica.createBody(bd);
+
+        //Forma y fixture
+        PolygonShape poligono = new PolygonShape();
+        FixtureDef fd = new FixtureDef();
+        fd.shape = poligono;
+
+        //Definicion de paredes
+        poligono.setAsBox(20, 1, new Vector2(0,ALTO*0.30f), 0);    //Borde Superior
+        cuerpoEstatico.createFixture(fd);
+
+    }
+
 
     private void createFondo() {
         fondo1=new FondoDinamico(assets,0,0);
@@ -150,7 +175,22 @@ class PantallaJuego extends PantallaAbstracta {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = cajaFisica;
-        fixtureDef.restitution = 0f;
+
+        //Se hacen físicas diferentes para cada asset
+
+        if (assets.equals("assetOso.png")){
+            fixtureDef.density = 0.5f;
+            fixtureDef.restitution = 0.1f;
+        }
+        else if (assets.equals("assetElefante.png")){
+            fixtureDef.density = 0.7f;
+            fixtureDef.restitution = 0.0f;
+        }
+        else if (assets.equals("assetTortuga.png")){
+            fixtureDef.density = 0.3f;
+            fixtureDef.restitution = 0.2f;
+        }
+
         bodyPersonaje.createFixture(fixtureDef);
         cajaFisica.dispose();
         bodyPersonaje.setFixedRotation(true);
@@ -193,12 +233,15 @@ class PantallaJuego extends PantallaAbstracta {
             audio.setMusica("musicaJuego.mp3", true, true);
         }
 
-        float x = bodyPersonaje.getPosition().x - personaje.sprite.getX();
-        float y = bodyPersonaje.getPosition().y - 2*personaje.sprite.getX();
+        float x = bodyPersonaje.getPosition().x - ANCHO_PERSONAJE;
+        float y = bodyPersonaje.getPosition().y - ANCHO_PERSONAJE * 2;
+
         personaje.getSprite().setPosition(x, y);
 
         borrarPantalla(0,0,0);
         batch.setProjectionMatrix(camara.combined);
+
+        debugRenderer.render(mundoFisica, camara.combined);
 
         batch.begin();
         moverPersonaje(delta);
@@ -222,7 +265,7 @@ class PantallaJuego extends PantallaAbstracta {
             juego.setScreen(new PantallaMuerto(vista,batch,score,juego));
         }
 
-        // el mundo se actualiza
+        //La simulación física se actualiza
         mundoFisica.step(1/60f, 6, 2);
 
     }

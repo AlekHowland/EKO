@@ -22,7 +22,7 @@ public class PantallaMenu extends PantallaAbstracta
     private final ControlJuego juego;
     private Texture texturaFondo;
     private Texture texturaBtnPlay;
-    private Texture texturaBtnPlayP;
+    private Texture texturaBtnInfo;
 
     // Menu
     private Stage escenaMenu; //botones...
@@ -35,6 +35,7 @@ public class PantallaMenu extends PantallaAbstracta
 
     //Botones
     private BotonDinamico botonPlay;
+    private BotonDinamico botonInfo;
 
     //Sistema de partículas
     private ParticleEffect sistemaParticulas;
@@ -53,15 +54,18 @@ public class PantallaMenu extends PantallaAbstracta
     public void show() {
         texturaFondo=new Texture("Fondos/fondoMenu2.png");
         texturaBtnPlay=new Texture("Botones/btnPlay.png");
-        texturaBtnPlayP=new Texture("Botones/btnPlayP.png");
+        texturaBtnInfo=new Texture("Botones/btnInfoDina.png");
+
         crearBotones();
         crearMenu();
         createParticulas();
     }
 
     private void crearBotones() {
-        botonPlay = new BotonDinamico(texturaBtnPlay,texturaBtnPlayP,332,331,ANCHO/2-(texturaBtnPlay.getHeight()/2)+10,ALTO*0.21f);
+        botonPlay = new BotonDinamico(texturaBtnPlay,texturaBtnPlay,332,331,ANCHO/2-(texturaBtnPlay.getHeight()/2)+10,ALTO*0.21f);
         botonPlay.cargarTexturasBtnPlay();
+        botonInfo = new BotonDinamico(texturaBtnInfo,texturaBtnInfo,201,200,ANCHO*0.7f,ALTO*0.55f);
+        botonInfo.cargarTexturasBtnInfo();
     }
 
     private void createParticulas() {
@@ -105,7 +109,7 @@ public class PantallaMenu extends PantallaAbstracta
 
         //Boton Informacion
         Boton botonInfo=new Boton("Botones/btnInfo.png","Botones/btnInfoP.png");
-        botonInfo.setPosition(ANCHO*0.75f-botonInfo.getWidth()/2,ALTO*0.5f);
+        botonInfo.setPosition(ANCHO*0.7f,ALTO*0.55f);
         botonInfo.getBtn().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -119,7 +123,7 @@ public class PantallaMenu extends PantallaAbstracta
         escenaMenu.addActor(botonInfo.getBtn());
 
         //Boton Scores
-        Boton botonScores=new Boton("Botones/trofeo.png","Botones/trofeoP.png");
+        Boton botonScores=new Boton("Botones/trofeo.png","Botones/trofeo.png");
         botonScores.setPosition(ANCHO*0.18f-botonScores.getWidth()/2,ALTO*0.21f);
         botonScores.getBtn().addListener(new ClickListener() {
             @Override
@@ -150,7 +154,7 @@ public class PantallaMenu extends PantallaAbstracta
         sistemaParticulas.draw(batch);
 
         botonPlay.render(batch);
-
+        botonInfo.render(batch);
 
 
         batch.end();

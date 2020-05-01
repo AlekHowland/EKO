@@ -39,6 +39,14 @@ public class BotonDinamico {
         timerAnimacion=0;
     }
 
+    public void cargarTexturasBtnInfo(){
+
+        animacion=new Animation(0.20f,texturaPartidaP[0][0],texturaPartidaP[0][1],texturaPartidaP[0][2],texturaPartidaP[0][3],texturaPartidaP[0][4],texturaPartidaP[0][5],texturaPartidaP[0][6]);
+
+        animacion.setPlayMode(Animation.PlayMode.LOOP);
+        timerAnimacion=0;
+    }
+
     public void render(SpriteBatch batch) {
         if (estado==EstadoMovimiento.OPRIMIDO){
             timerAnimacion+= Gdx.graphics.getDeltaTime();

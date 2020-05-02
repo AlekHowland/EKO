@@ -41,10 +41,8 @@ class PantallaJuego extends PantallaAbstracta {
 
     // Física
     private World mundoFisica;
-    private Body bodyPersonaje;                 //Objeto que recibe la colisión, internamente x, y
-    private Box2DDebugRenderer debugRenderer;   //Debugger para observar, se quita
+    private Body bodyPersonaje;
     private static final float ANCHO_PERSONAJE = 20;
-    //private static final float ALTO_PERSONAJE =128;
 
     // Texturas
     private Texture texturaPersonaje;
@@ -96,15 +94,9 @@ class PantallaJuego extends PantallaAbstracta {
 
     @Override
     public void show() {
-
-        //MUNDO FISICA//
-
         createMundoFisica();
         fisicaObjetos();
         crearParedes();
-
-        //MUNDO FISICA//
-
         cargarTexturas();
         createPersonaje();
         createEnemigo();
@@ -120,24 +112,8 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void crearParedes() {
-
-        //Cuerpo estático
-        BodyDef bd = new BodyDef();
-        bd.type = BodyDef.BodyType.StaticBody;
-        bd.position.set(0, ALTO*0.05f);         //Mismas referencias que el personaje
-        Body cuerpoEstatico = mundoFisica.createBody(bd);
-
-        //Forma y fixture
-        PolygonShape poligono = new PolygonShape();
-        FixtureDef fd = new FixtureDef();
-        fd.shape = poligono;
-
-        //Definicion de paredes
-        poligono.setAsBox(20, 1, new Vector2(0,ALTO*0.30f), 0);    //Borde Superior
-        cuerpoEstatico.createFixture(fd);
-
+        Bordes.crearBordes(mundoFisica);
     }
-
 
     private void createFondo() {
         fondo1=new FondoDinamico(assets,0,0);
@@ -167,7 +143,7 @@ class PantallaJuego extends PantallaAbstracta {
     private void fisicaObjetos() {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(0, ALTO*0.05f);                //Mismas referencias x,y que personaje
+        bodyDef.position.set(0, ALTO * 0.05f);
         bodyPersonaje = mundoFisica.createBody(bodyDef);
 
         PolygonShape cajaFisica = new PolygonShape();
@@ -177,7 +153,6 @@ class PantallaJuego extends PantallaAbstracta {
         fixtureDef.shape = cajaFisica;
 
         //Se hacen físicas diferentes para cada asset
-
         if (assets.equals("assetOso.png")){
             fixtureDef.density = 0.5f;
             fixtureDef.restitution = 0.1f;
@@ -200,7 +175,6 @@ class PantallaJuego extends PantallaAbstracta {
         Box2D.init();
         Vector2 gravedad = new Vector2(0, -100);
         mundoFisica = new World(gravedad, true);
-        debugRenderer = new Box2DDebugRenderer();
     }
 
     private void createPersonaje() {
@@ -240,8 +214,6 @@ class PantallaJuego extends PantallaAbstracta {
 
         borrarPantalla(0,0,0);
         batch.setProjectionMatrix(camara.combined);
-
-        debugRenderer.render(mundoFisica, camara.combined);
 
         batch.begin();
         moverPersonaje(delta);

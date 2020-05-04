@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import mx.itesm.eko.musica.ControladorAudio;
+
 /**
  * Representa el comportamiento genérico de cualquier pantalla que forma
  * parte del juego
@@ -42,6 +44,8 @@ public abstract class PantallaAbstracta implements Screen
         // El objeto que administra los trazos gráficos
         batch = new SpriteBatch();
     }
+
+
 
     // Borra la pantalla con fondo negro
     protected void borrarPantalla() {

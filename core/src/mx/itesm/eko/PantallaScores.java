@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import java.io.IOException;
 
 import mx.itesm.eko.musica.ControladorAudio;
+import mx.itesm.eko.transiciones.TransicionPantalla;
+import mx.itesm.eko.transiciones.efectoTransicion;
 
 public class PantallaScores extends PantallaAbstracta {
 
@@ -21,7 +23,7 @@ public class PantallaScores extends PantallaAbstracta {
     private Stage escenaMenu; //botones...
 
     //AUDIO
-    private ControladorAudio audioScores = new ControladorAudio();
+    //private ControladorAudio audioScores = new ControladorAudio();
 
     @Override
     public InputProcessor getInputProcessor() {
@@ -40,12 +42,14 @@ public class PantallaScores extends PantallaAbstracta {
     }
 
     private void crearScores() {
-        scores=new Scores(ANCHO*0.3f,ALTO*0.95f);
+        scores=new Scores(ANCHO*0.3f,ALTO*0.76f);
     }
 
     private void crearMenu() {
         escenaMenu = new Stage(vista);
 
+        //Transición
+        final TransicionPantalla transicion = efectoTransicion.inicializacion(2.0f);
 
         //Boton Scores
         Boton botonScores=new Boton("Botones/btnReturn.png","Botones/btnReturnP.png");
@@ -54,7 +58,7 @@ public class PantallaScores extends PantallaAbstracta {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                audioScores.setEfecto("efectoBoton.mp3");
+                juego.setEfecto("efectoBoton.mp3");
                 juego.setScreen(new PantallaMenu(juego));
             }
         });
@@ -70,7 +74,7 @@ public class PantallaScores extends PantallaAbstracta {
         batch.setProjectionMatrix(camara.combined);
 
         batch.begin();
-        //batch.draw(texturaFondo,0,0);
+        batch.draw(texturaFondo,0,0);
         try {
             scores.render(batch);
         } catch (IOException e) {

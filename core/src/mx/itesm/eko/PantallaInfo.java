@@ -32,7 +32,7 @@ public class PantallaInfo extends PantallaAbstracta {
 
     @Override
     public void show() {
-        texturaFondo = new Texture("fondoIntro.jpg");
+        texturaFondo = new Texture("Fondos/fondoIntro.jpg");
         crearMenu();
     }
 
@@ -49,7 +49,7 @@ public class PantallaInfo extends PantallaAbstracta {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                audioInfo.setEfecto("efectoBoton.mp3");
+                audioInfo.setEfecto("Audios/efectoBoton.mp3");
                 juego.setScreen(new PantallaMenu(juego));
             }
         });

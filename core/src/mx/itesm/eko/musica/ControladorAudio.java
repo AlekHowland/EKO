@@ -8,8 +8,8 @@ import com.badlogic.gdx.audio.Sound;
 public class ControladorAudio
 {
 
-    private Music musica;
-    private AssetManager manager = new AssetManager();
+    public Music musica;
+    public AssetManager manager = new AssetManager();
 
     public ControladorAudio() {
     }

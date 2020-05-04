@@ -23,7 +23,7 @@ public class Scores {
     public Scores(float x, float y){
         this.x=x;
         this.y=y;
-        texto=new Texto("fuente.fnt");
+        texto=new Texto("Fonts/fuente.fnt");
     }
     public void crearArchivo() {
         FileWriter flwriter = null;
@@ -153,6 +153,7 @@ public class Scores {
             texto.render(batch, arr[2], x*0.5f, y);
             texto.render(batch, arr[1], x * 2, y);
         }
+
     }
 
 

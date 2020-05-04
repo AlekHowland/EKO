@@ -2,9 +2,13 @@ package mx.itesm.eko;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+
+import mx.itesm.eko.musica.ControladorAudio;
 import mx.itesm.eko.transiciones.TransicionPantalla;
 
 public class ControlJuego implements ApplicationListener
@@ -17,6 +21,7 @@ public class ControlJuego implements ApplicationListener
     private SpriteBatch batch;
     private float duracion;
     private TransicionPantalla transicionPantalla;
+    private ControladorAudio mixer;
 
     public void setScreen(PantallaAbstracta pantalla){
         setScreen(pantalla, null);
@@ -25,6 +30,7 @@ public class ControlJuego implements ApplicationListener
     public void setScreen(PantallaAbstracta pantalla, TransicionPantalla transicion){
         int ancho = Gdx.graphics.getWidth();
         int alto = Gdx.graphics.getHeight();
+
 
         if (!inicio) {
             actualFrameBuffer = new FrameBuffer(Format.RGBA8888, ancho, alto, false);
@@ -45,6 +51,8 @@ public class ControlJuego implements ApplicationListener
         this.transicionPantalla = transicion;
         duracion = 0;
     }
+
+
 
     @Override
     public void render() {
@@ -122,6 +130,60 @@ public class ControlJuego implements ApplicationListener
 
     @Override
     public void create() { }
+
+    //Creacion y metodos de la mixer
+
+    public void setMixer(ControladorAudio mixer){
+        this.mixer = mixer;
+    }
+
+    public void setMusica(String nombreArchivo, boolean loop, boolean play) {
+
+        mixer.manager.load(nombreArchivo, Music.class);
+        mixer.manager.finishLoading();
+
+        this.mixer.musica = mixer.manager.get(nombreArchivo);
+        mixer.musica.setLooping(loop);
+        if(play) mixer.musica.play();
+    }
+
+    public void stopMusica() {
+        mixer.musica.stop();
+    }
+
+    public void setEfecto(String nombreArchivo) {
+        mixer.manager.load(nombreArchivo, Sound.class);
+        mixer.manager.finishLoading();
+        Sound efecto = mixer.manager.get(nombreArchivo);
+        efecto.play();
+    }
+
+    public void disposeAudio(){
+        mixer.manager.clear();
+    }
+
+    public void setVolumenMitad(){
+        mixer.musica.setVolume(0.5f);
+    }
+
+    public void setVolumen100(){
+        mixer.musica.setVolume(1);
+    }
+
+    public void setVolumen(float v){
+        mixer.musica.setVolume(v);
+    }
+
+
+    public ControladorAudio getMixerReference(){
+        return this.mixer;
+    }
+
+    //Termina metodos mixer
+
+
+
+
 
     public static class FondoDinamico {
     }

@@ -47,7 +47,7 @@ class PantallaMuerto extends PantallaAbstracta{
         this.batch=batch;
         this.score=score;
         this.juego=juego;
-        finalScore= new Texto("fuente.fnt");
+        finalScore= new Texto("Fonts/fuente.fnt");
     }
 
 
@@ -82,7 +82,7 @@ class PantallaMuerto extends PantallaAbstracta{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                audioInfo.setEfecto("efectoBoton.mp3");
+                audioInfo.setEfecto("Audios/efectoBoton.mp3");
                 try {
                     scores.escribirArchivo(Integer.toString((int)score),fecha);
                 } catch (IOException e) {

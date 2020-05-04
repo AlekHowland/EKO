@@ -11,7 +11,7 @@ class Texto {
     private float altoTexto;
 
     public Texto(String archivo){
-        font= new BitmapFont(Gdx.files.internal(archivo)); //Archivo es .fnt
+        font = new BitmapFont(Gdx.files.internal(archivo)); //Archivo es .fnt
     }
 
     public void render(SpriteBatch batch, String mensaje, float x, float y) {

@@ -35,10 +35,6 @@ class PantallaJuego extends PantallaAbstracta {
     private final String assets;
     private EstadoJuego estadoJuego = EstadoJuego.JUGANDO;
 
-    // Audio
-    private ControladorAudio audio = new ControladorAudio();
-    ControladorAudio audioJuego = new ControladorAudio();
-
     // Física
     private World mundoFisica;
     private Body bodyPersonaje;
@@ -85,6 +81,8 @@ class PantallaJuego extends PantallaAbstracta {
 
     // Pausa
     private EscenaPausa escenaPausa;
+    private Objeto botonPausa;
+    private Texture texturaBotonPausa;
 
     // Constructor
     public PantallaJuego(ControlJuego juego, String assets) {
@@ -104,7 +102,6 @@ class PantallaJuego extends PantallaAbstracta {
         createMarcador();
         createParticulas();
         createVidas();
-        cargarMusica();
 
         texturaFondo=new Texture("Fondos/fondo"+assets+".jpg");
 
@@ -118,18 +115,17 @@ class PantallaJuego extends PantallaAbstracta {
     private void createFondo() {
         fondo1=new FondoDinamico(assets,0,0);
         fondo2=new FondoDinamico(assets,fondo1.getWidth(),fondo1.getHeightTiempo());
+        texturaBotonPausa = new Texture("Botones/btnPausa.png");
+        botonPausa = new Objeto(texturaBotonPausa, ANCHO*0.90f, ALTO*0.85f);
     }
 
     private void createVidas() {vidas = new Vidas(ANCHO*0.12f,0.9f*ALTO,999,assets);
     }
 
-    private void cargarMusica() {
-        audioJuego.setMusica("musicaJuego.mp3",true,true);
-    }
 
     private void createParticulas() {
         sistemaParticulas=new ParticleEffect();
-        sistemaParticulas.load(Gdx.files.internal("particulas"+assets+".p"),Gdx.files.internal(""));
+        sistemaParticulas.load(Gdx.files.internal("Particulas/particulas"+assets+".p"),Gdx.files.internal("Particulas"));
         Array<ParticleEmitter> emisores=sistemaParticulas.getEmitters();
         emisorParticulas=emisores.get(0);
         emisores.get(0).setPosition(ANCHO,ALTO/2);
@@ -204,7 +200,6 @@ class PantallaJuego extends PantallaAbstracta {
             moverEnemigo(delta);
             moverFondo(delta);
             probarColisiones();
-            audio.setMusica("musicaJuego.mp3", true, true);
         }
 
         float x = bodyPersonaje.getPosition().x - ANCHO_PERSONAJE;
@@ -224,6 +219,7 @@ class PantallaJuego extends PantallaAbstracta {
         if(estadoJuego == EstadoJuego.JUGANDO){
             vidas.render(batch);
             marcador.render(batch);
+            botonPausa.render(batch);
         }else if (estadoJuego == EstadoJuego.MUERTO){ marcador.render(batch);}
 
         sistemaParticulas.draw(batch);
@@ -232,7 +228,7 @@ class PantallaJuego extends PantallaAbstracta {
             escenaPausa.draw();
         }
         if(estadoJuego == EstadoJuego.MUERTO){
-            audioJuego.stopMusica();
+            juego.stopMusica();
             score = marcador.getScore();
             juego.setScreen(new PantallaMuerto(vista,batch,score,juego));
         }
@@ -470,8 +466,8 @@ class PantallaJuego extends PantallaAbstracta {
                     estadoJuego = EstadoJuego.PAUSADO;
                     //audio.setEfecto("pausa.mp3");
                     if(escenaPausa == null){
-                        audioJuego.setVolumen(0.3f);
-                        audioJuego.setEfecto("efectoPausa2.mp3");
+                        juego.setVolumen(0.3f);
+                        juego.setEfecto("Audios/efectoPausa.mp3");
                         escenaPausa = new EscenaPausa(vista, batch);
                     }
                 }
@@ -510,21 +506,22 @@ class PantallaJuego extends PantallaAbstracta {
         public EscenaPausa(final Viewport vista, final SpriteBatch batch) {
             super(vista, batch);
 
-            Texture texturaPausa = new Texture("pantallaPausa.png");
+            Texture texturaPausa = new Texture("Fondos/pantallaPausa.png");
 
             Image imgPausa = new Image(texturaPausa);
             imgPausa.setPosition(0,0);
 
-            //Boton escena muerto
+            //Boton pantalla muerto
             Boton botonMenu = new Boton("Botones/btnReturn.png","Botones/btnReturnP.png");
             botonMenu.setPosition(ANCHO/3-botonMenu.getWidth()/2,ALTO*0.2f);
             botonMenu.getBtn().addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    audioJuego.setEfecto("efectoBoton.mp3");
+                    juego.stopMusica();
+                    juego.setEfecto("Audios/efectoBoton.mp3");
                     estadoJuego = estadoJuego.MUERTO;
-                    audioJuego.stopMusica();
+
 
 
 
@@ -541,8 +538,8 @@ class PantallaJuego extends PantallaAbstracta {
                     //Cambia estado
                     estadoJuego = EstadoJuego.JUGANDO;
                     escenaPausa = null;
-                    audioJuego.setEfecto("efectoBoton.mp3");
-                    audioJuego.setVolumen100();
+                    juego.setEfecto("Audios/efectoBoton.mp3");
+                    juego.setVolumen100();
                     Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
                 }

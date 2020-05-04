@@ -30,7 +30,7 @@ public class PantallaMenu extends PantallaAbstracta
 
     // Audio
     public final ControladorAudio audioMenu = new ControladorAudio();
-    private boolean creado = false;
+
 
 
     //Botones
@@ -52,7 +52,7 @@ public class PantallaMenu extends PantallaAbstracta
 
     @Override
     public void show() {
-        texturaFondo=new Texture("Fondos/fondoMenu2.png");
+        texturaFondo=new Texture("Fondos/fondoMenu.png");
         texturaBtnPlay=new Texture("Botones/btnPlay.png");
         texturaBtnInfo=new Texture("Botones/btnInfoDina.png");
 
@@ -64,13 +64,13 @@ public class PantallaMenu extends PantallaAbstracta
     private void crearBotones() {
         botonPlay = new BotonDinamico(texturaBtnPlay,texturaBtnPlay,332,331,ANCHO/2-(texturaBtnPlay.getHeight()/2)+10,ALTO*0.21f);
         botonPlay.cargarTexturasBtnPlay();
-        botonInfo = new BotonDinamico(texturaBtnInfo,texturaBtnInfo,201,200,ANCHO*0.7f,ALTO*0.55f);
-        botonInfo.cargarTexturasBtnInfo();
+        //botonInfo = new BotonDinamico(texturaBtnInfo,texturaBtnInfo,201,200,ANCHO*0.7f,ALTO*0.55f);
+        //botonInfo.cargarTexturasBtnInfo();
     }
 
     private void createParticulas() {
         sistemaParticulas=new ParticleEffect();
-        sistemaParticulas.load(Gdx.files.internal("particulasMenu.p"),Gdx.files.internal(""));
+        sistemaParticulas.load(Gdx.files.internal("Particulas/particulasMenu.p"),Gdx.files.internal("Particulas"));
         Array<ParticleEmitter> emisores = sistemaParticulas.getEmitters();
         emisorParticulas=emisores.get(0);
         emisores.get(0).setPosition(ANCHO,ALTO/2);
@@ -85,28 +85,30 @@ public class PantallaMenu extends PantallaAbstracta
         if (!scores.comprobarArchivo()){
             scores.crearArchivo();
         }
+
         //Música
-        audioMenu.disposeAudio();
-        audioMenu.setMusica("demoNatura2.mp3", true, true);
-        audioMenu.setVolumen(0.6f);
+        juego.setMusica("Audios/demoNatura.mp3", true, true);
+        juego.setVolumen(0.8f);
 
         //Transición
         final TransicionPantalla transicion = efectoTransicion.inicializacion(2.0f);
 
         //Boton Jugar
-        Boton botonJugar=new Boton("Botones/btnPlayTria.png","Botones/btnPlayTriaP.png");
+        Boton botonJugar=new Boton("Botones/btnPlayTria.png","Botones/btnPlayTria.png");
         botonJugar.setPosition(ANCHO/2-(botonJugar.getWidth()/2)+10,ALTO*0.21f);
         botonJugar.getBtn().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                audioMenu.setEfecto("efectoPausa.mp3");
-                audioMenu.stopMusica();
+                juego.setEfecto("Audios/efectoPlay.mp3");
+                juego.stopMusica();
+                juego.setMusica("Audios/expectationOfAJourney.mp3", true, true);
                 juego.setScreen(new PantallaPersonajes(juego,"Oso"), transicion);
             }
         });
         escenaMenu.addActor(botonJugar.getBtn());
 
+        /*
         //Boton Informacion
         Boton botonInfo=new Boton("Botones/btnInfo.png","Botones/btnInfoP.png");
         botonInfo.setPosition(ANCHO*0.7f,ALTO*0.55f);
@@ -114,13 +116,14 @@ public class PantallaMenu extends PantallaAbstracta
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                audioMenu.setEfecto("efectoBoton.mp3");
+                audioMenu.setEfecto("Audios/efectoBoton.mp3");
                 audioMenu.stopMusica();
 
                 juego.setScreen(new PantallaInfo(juego));
             }
         });
         escenaMenu.addActor(botonInfo.getBtn());
+         */
 
         //Boton Scores
         Boton botonScores=new Boton("Botones/trofeo.png","Botones/trofeo.png");
@@ -129,10 +132,8 @@ public class PantallaMenu extends PantallaAbstracta
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                audioMenu.setEfecto("efectoBoton.mp3");
-                audioMenu.stopMusica();
-
-                juego.setScreen(new PantallaScores(juego));
+                juego.setEfecto("Audios/efectoBoton.mp3");
+                juego.setScreen(new PantallaScores(juego), transicion);
             }
         });
         escenaMenu.addActor(botonScores.getBtn());
@@ -154,7 +155,7 @@ public class PantallaMenu extends PantallaAbstracta
         sistemaParticulas.draw(batch);
 
         botonPlay.render(batch);
-        botonInfo.render(batch);
+        //botonInfo.render(batch);
 
 
         batch.end();

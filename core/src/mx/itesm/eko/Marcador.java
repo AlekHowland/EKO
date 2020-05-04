@@ -14,7 +14,7 @@ public class Marcador {
         this.x=x;
         this.y=y;
         score=0;
-        texto=new Texto("fuente.fnt"); //Fuente
+        texto=new Texto("Fonts/fuente.fnt"); //Fuente
     }
 
     public void reset(){

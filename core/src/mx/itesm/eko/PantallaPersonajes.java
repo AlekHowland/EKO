@@ -19,7 +19,7 @@ public class PantallaPersonajes extends PantallaAbstracta {
     private Stage escenaMenu; //botones...
 
     // Audio
-    private ControladorAudio audioPersonajes = new ControladorAudio();
+    //private ControladorAudio audioPersonajes = new ControladorAudio();
 
     public PantallaPersonajes(ControlJuego juego, String assets) {
         this.juego=juego;
@@ -44,7 +44,7 @@ public class PantallaPersonajes extends PantallaAbstracta {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                audioPersonajes.setEfecto("cambioPagina.mp3");
+                juego.setEfecto("Audios/cambioPagina.mp3");
                 if(assets=="Oso")
                     juego.setScreen(new PantallaPersonajes(juego,"Tortuga"));
                 else if(assets=="Tortuga")
@@ -62,7 +62,7 @@ public class PantallaPersonajes extends PantallaAbstracta {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                audioPersonajes.setEfecto("cambioPagina.mp3");
+                juego.setEfecto("Audios/cambioPagina.mp3");
                 if(assets=="Tortuga")
                     juego.setScreen(new PantallaPersonajes(juego,"Oso"));
                 else if(assets=="Oso")
@@ -80,7 +80,8 @@ public class PantallaPersonajes extends PantallaAbstracta {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                audioPersonajes.setEfecto("efectoPausa.mp3");
+                juego.setEfecto("Audios/efectoPlay.mp3");
+                juego.setVolumen100();
                 juego.setScreen(new PantallaJuego(juego,assets));
 
             }

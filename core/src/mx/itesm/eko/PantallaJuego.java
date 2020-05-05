@@ -129,7 +129,7 @@ class PantallaJuego extends PantallaAbstracta {
         botonPausa = new Objeto(texturaBotonPausa, ANCHO*0.90f, ALTO*0.85f);
     }
 
-    private void createVidas() {vidas = new Vidas(0,0.9f*ALTO,120,assets);
+    private void createVidas() {vidas = new Vidas(0,0.9f*ALTO,3,assets);
     }
 
 
@@ -203,7 +203,7 @@ class PantallaJuego extends PantallaAbstracta {
         texturaEnemigo3 = new Texture("Enemigos/enemigo"+assets+"3.png");
         texturaPersonajeAbajo = new Texture("Personajes/asset"+assets+"Abajo.png");
         texturaEnMov = new Texture("Enemigos/enemigo"+assets+"Animado1.png");
-        texturaHuevo = new Texture("Personajes/huevo2.png");
+        texturaHuevo = new Texture("Personajes/huevo.png");
     }
 
     @Override
@@ -231,7 +231,12 @@ class PantallaJuego extends PantallaAbstracta {
         batch.draw(texturaFondo,0,0);
         renderFondo(batch);
         personaje.render(batch);
-        enemigoMov.render(batch, enemigo.sprite.getX(), enemigo.sprite.getY());
+        if(enemigo == enemigo1){
+            enemigoMov.render(batch, enemigo.sprite.getX(), enemigo.sprite.getY());
+        }else{
+            enemigo.render(batch);
+        }
+
         if(hayItem() > 500){
             huevo.render(batch);
         }
@@ -405,7 +410,7 @@ class PantallaJuego extends PantallaAbstracta {
                 }
                 break;
             case 2:
-                enemigo.sprite.setY(-0.05f*ALTO);
+                enemigo.sprite.setY(-0.03f*ALTO);
                 enemigo.moverHorizontal(-velocidadEnemigo);
                 if(enemigo.sprite.getX()<-300) {
                     cambiarEnemigo();
@@ -413,7 +418,7 @@ class PantallaJuego extends PantallaAbstracta {
                 }
                 break;
             case 3:
-                enemigo.sprite.setY(0.3f*ALTO);
+                enemigo.sprite.setY(0.2f*ALTO);
                 enemigo.moverHorizontal(-velocidadEnemigo);
                 if(enemigo.sprite.getX()<-300) {
                     cambiarEnemigo();

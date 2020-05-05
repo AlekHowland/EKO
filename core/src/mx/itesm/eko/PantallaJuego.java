@@ -81,7 +81,6 @@ class PantallaJuego extends PantallaAbstracta {
     // Vidas
     private Vidas vidas;
 
-
     // Pausa
     private EscenaPausa escenaPausa;
     private Objeto botonPausa;

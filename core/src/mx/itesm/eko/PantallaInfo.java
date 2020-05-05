@@ -40,8 +40,7 @@ public class PantallaInfo extends PantallaAbstracta {
         escenaMenu = new Stage(vista);
 
 
-
-
+        //Boton de refreso al menú
         Boton botonInfo = new Boton("Botones/btnReturn.png","Botones/btnReturnP.png");
         botonInfo.setPosition(ANCHO/2-botonInfo.getWidth()/2,ALTO*0.115f);
 

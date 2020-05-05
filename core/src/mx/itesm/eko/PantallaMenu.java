@@ -88,6 +88,7 @@ public class PantallaMenu extends PantallaAbstracta
             }
 
 
+
         //Transición
         final TransicionPantalla transicion = efectoTransicion.inicializacion(2.0f);
 

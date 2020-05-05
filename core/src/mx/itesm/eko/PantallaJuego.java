@@ -48,6 +48,7 @@ class PantallaJuego extends PantallaAbstracta {
     private Texture texturaEnemigo3;
     private Texture texturaPersonajeAbajo;
     private Texture texturaEnMov;
+    private Texture texturaHuevo;
 
 
     // Personaje
@@ -57,6 +58,7 @@ class PantallaJuego extends PantallaAbstracta {
     private Enemigo enemigo2;
     private Enemigo enemigo3;
     private BotonDinamico enemigoMov;
+    private Item huevo;
 
     //Fondo
     private FondoDinamico fondo1;
@@ -105,10 +107,15 @@ class PantallaJuego extends PantallaAbstracta {
         createMarcador();
         createParticulas();
         createVidas();
+        createItem();
 
         texturaFondo=new Texture("Fondos/fondo"+assets+".jpg");
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
+    }
+
+    private void createItem() {
+        huevo = new Item(texturaHuevo,ANCHO,ALTO*0.05f);
     }
 
     private void crearParedes() {
@@ -196,6 +203,7 @@ class PantallaJuego extends PantallaAbstracta {
         texturaEnemigo3 = new Texture("Enemigos/enemigo"+assets+"3.png");
         texturaPersonajeAbajo = new Texture("Personajes/asset"+assets+"Abajo.png");
         texturaEnMov = new Texture("Enemigos/enemigo"+assets+"Animado1.png");
+        texturaHuevo = new Texture("Personajes/huevo2.png");
     }
 
     @Override
@@ -206,6 +214,8 @@ class PantallaJuego extends PantallaAbstracta {
             moverEnemigo(delta);
             moverFondo(delta);
             probarColisiones();
+            moverItem(delta);
+            hayItem();
         }
 
         float x = bodyPersonaje.getPosition().x - ANCHO_PERSONAJE;
@@ -222,6 +232,9 @@ class PantallaJuego extends PantallaAbstracta {
         renderFondo(batch);
         personaje.render(batch);
         enemigoMov.render(batch, enemigo.sprite.getX(), enemigo.sprite.getY());
+        if(hayItem() > 500){
+            huevo.render(batch);
+        }
         if(estadoJuego == EstadoJuego.JUGANDO){
             vidas.render(batch);
             marcador.render(batch);
@@ -242,6 +255,20 @@ class PantallaJuego extends PantallaAbstracta {
         //La simulación física se actualiza
         mundoFisica.step(1/60f, 6, 2);
 
+    }
+
+    private int hayItem() {
+        int x = marcador.getScore();
+        return x;
+    }
+
+    private void moverItem(float delta) {
+        if(huevo.sprite.getY() == ALTO/5){
+            huevo.moverVertical(-1);
+        }else{
+            huevo.moverVertical(1);
+        }
+        huevo.moverHorizontal(-5);
     }
 
     private void renderFondo(SpriteBatch batch) {
@@ -579,10 +606,15 @@ class PantallaJuego extends PantallaAbstracta {
     private void probarColisiones() {
         Rectangle rectPersonaje = personaje.sprite.getBoundingRectangle();
         Rectangle rectEnemigo = enemigo.sprite.getBoundingRectangle();
+        Rectangle rectItem = huevo.sprite.getBoundingRectangle();
         if(rectPersonaje.overlaps(rectEnemigo)){
             cambiarEnemigo();
             enemigo.sprite.setX(ANCHO);
             vidas.restar(1);
+        }
+        if(rectPersonaje.overlaps(rectItem)){
+            huevo.sprite.setX(ANCHO);
+            vidas.sumar(200);
         }
     }
 }

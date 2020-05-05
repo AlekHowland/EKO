@@ -58,6 +58,14 @@ public class ControladorAudio
         musica.setVolume(v);
     }
 
+    public void playMusica(){
+        musica.play();
+    }
+
+    public boolean isPlaying(){
+        return musica.isPlaying();
+    }
+
 
 
 

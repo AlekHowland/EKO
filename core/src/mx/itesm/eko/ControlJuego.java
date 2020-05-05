@@ -22,6 +22,7 @@ public class ControlJuego implements ApplicationListener
     private float duracion;
     private TransicionPantalla transicionPantalla;
     private ControladorAudio mixer;
+    private boolean musicaUsuario = true;
 
     public void setScreen(PantallaAbstracta pantalla){
         setScreen(pantalla, null);
@@ -177,6 +178,22 @@ public class ControlJuego implements ApplicationListener
 
     public ControladorAudio getMixerReference(){
         return this.mixer;
+    }
+
+    public void playMixer(){
+        mixer.musica.play();
+    }
+
+    public boolean mixerPlaying(){
+        return mixer.musica.isPlaying();
+    }
+
+    public void changeMusicaUsuario(boolean f){
+        this.musicaUsuario = f;
+    }
+
+    public boolean getMusicaUsaurio(){
+        return this.musicaUsuario;
     }
 
     //Termina metodos mixer

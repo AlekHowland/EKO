@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Scores {
-    public String txt="Scores.txt";
+    public String txt="Scores.gdx";
 
     public float x,y;
     public Texto texto;
@@ -130,16 +130,16 @@ public class Scores {
 
         scores[0]="Score\n";
 
-        for (int i=scoresFloat.length-1;i>=0;i--){
+        for (int i=scoresFloat.length-1;i>=scoresFloat.length-5;i--){
             scores[0]+=(int)scoresFloat[i]+"\n";
         }
         scores[2]="\n";
-        for (int i=1;i<=scoresFloat.length;i++){
+        for (int i=1;i<=5;i++){
             scores[2]+=i+"\n";
         }
 
         scores[1]="Date\n";
-        for (int i=nombresOrdenados.length-1;i>=0;i--){
+        for (int i=nombresOrdenados.length-1;i>=nombresOrdenados.length-5;i--){
             scores[1]+=nombresOrdenados[i]+"\n";
         }
         return scores;

@@ -58,7 +58,7 @@ public class PantallaScores extends PantallaAbstracta {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setEfecto("efectoBoton.mp3");
+                juego.setEfecto("Audios/efectoBoton.mp3");
                 juego.setScreen(new PantallaMenu(juego));
             }
         });

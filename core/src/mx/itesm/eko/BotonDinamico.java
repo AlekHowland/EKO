@@ -27,6 +27,7 @@ public class BotonDinamico {
 
     }
 
+
     public void setEstado(EstadoMovimiento estado){
         this.estado=estado;
     }
@@ -47,6 +48,12 @@ public class BotonDinamico {
         timerAnimacion=0;
     }
 
+    public void cargarEnemigo1(){
+        animacion = new Animation(0.1f,texturaPartidaP[0][0],texturaPartidaP[0][1],texturaPartidaP[0][2]);
+        animacion.setPlayMode(Animation.PlayMode.LOOP);
+        timerAnimacion = 0;
+    }
+
     public void render(SpriteBatch batch) {
         if (estado==EstadoMovimiento.OPRIMIDO){
             timerAnimacion+= Gdx.graphics.getDeltaTime();
@@ -60,6 +67,21 @@ public class BotonDinamico {
         }
 
     }
+
+    public void render(SpriteBatch batch, float x, float y) {
+        if (estado==EstadoMovimiento.OPRIMIDO){
+            timerAnimacion+= Gdx.graphics.getDeltaTime();
+            TextureRegion regionP=(TextureRegion) animacion.getKeyFrame(timerAnimacion);
+            batch.draw(regionP,x,y);
+        }
+        else {
+            timerAnimacion+= Gdx.graphics.getDeltaTime();
+            TextureRegion region=(TextureRegion) animacion.getKeyFrame(timerAnimacion);
+            batch.draw(region,x,y);
+        }
+
+    }
+
 
     public enum EstadoMovimiento{
         SUELTO,

@@ -63,7 +63,7 @@ class PantallaMuerto extends PantallaAbstracta{
     }
 
     private void crearScores() throws IOException {
-        scores=new Scores(ANCHO/2,ALTO-10);
+        scores = new Scores(ANCHO/2,ALTO-300);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
         fecha = dateFormat.format(new Date());
         arr=scores.leerArchivo();
@@ -103,10 +103,10 @@ class PantallaMuerto extends PantallaAbstracta{
 
         batch.begin();
         batch.draw(texturaFondo,0,0);
-        finalScore.render(batch,Integer.toString((int)score),ANCHO/2,ALTO/2);
+        finalScore.render(batch,Integer.toString((int)score),ANCHO/2,ALTO*0.4F);
         if (arr.size()>=2) {
             try {
-                finalScore.render(batch, scores.getHighScore(), ANCHO / 2, ALTO - 100);
+                finalScore.render(batch, scores.getHighScore(), ANCHO / 2, ALTO*0.80f);
             } catch (IOException e) {
                 e.printStackTrace();
             }

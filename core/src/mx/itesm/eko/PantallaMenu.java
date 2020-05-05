@@ -28,14 +28,11 @@ public class PantallaMenu extends PantallaAbstracta
     private Stage escenaMenu; //botones...
     private Scores scores;
 
-    // Audio
-    public final ControladorAudio audioMenu = new ControladorAudio();
-
-
 
     //Botones
     private BotonDinamico botonPlay;
     private BotonDinamico botonInfo;
+
 
     //Sistema de partículas
     private ParticleEffect sistemaParticulas;
@@ -64,8 +61,6 @@ public class PantallaMenu extends PantallaAbstracta
     private void crearBotones() {
         botonPlay = new BotonDinamico(texturaBtnPlay,texturaBtnPlay,332,331,ANCHO/2-(texturaBtnPlay.getHeight()/2)+10,ALTO*0.21f);
         botonPlay.cargarTexturasBtnPlay();
-        //botonInfo = new BotonDinamico(texturaBtnInfo,texturaBtnInfo,201,200,ANCHO*0.7f,ALTO*0.55f);
-        //botonInfo.cargarTexturasBtnInfo();
     }
 
     private void createParticulas() {
@@ -87,14 +82,17 @@ public class PantallaMenu extends PantallaAbstracta
         }
 
         //Música
-        juego.setMusica("Audios/demoNatura.mp3", true, true);
-        juego.setVolumen(0.8f);
+            if(juego.getMusicaUsaurio() == true){
+                juego.setMusica("Audios/demoNatura.mp3", true, true);
+                juego.setVolumen(0.8f);
+            }
+
 
         //Transición
         final TransicionPantalla transicion = efectoTransicion.inicializacion(2.0f);
 
         //Boton Jugar
-        Boton botonJugar=new Boton("Botones/btnPlayTria.png","Botones/btnPlayTria.png");
+        Boton botonJugar = new Boton("Botones/btnPlayTria.png","Botones/btnPlayTria.png");
         botonJugar.setPosition(ANCHO/2-(botonJugar.getWidth()/2)+10,ALTO*0.21f);
         botonJugar.getBtn().addListener(new ClickListener() {
             @Override
@@ -102,31 +100,17 @@ public class PantallaMenu extends PantallaAbstracta
                 super.clicked(event, x, y);
                 juego.setEfecto("Audios/efectoPlay.mp3");
                 juego.stopMusica();
-                juego.setMusica("Audios/expectationOfAJourney.mp3", true, true);
+                if(juego.getMusicaUsaurio() == true){
+                    juego.setMusica("Audios/expectationOfAJourney.mp3", true, true);
+                }
                 juego.setScreen(new PantallaPersonajes(juego,"Oso"), transicion);
             }
         });
         escenaMenu.addActor(botonJugar.getBtn());
 
-        /*
-        //Boton Informacion
-        Boton botonInfo=new Boton("Botones/btnInfo.png","Botones/btnInfoP.png");
-        botonInfo.setPosition(ANCHO*0.7f,ALTO*0.55f);
-        botonInfo.getBtn().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                audioMenu.setEfecto("Audios/efectoBoton.mp3");
-                audioMenu.stopMusica();
-
-                juego.setScreen(new PantallaInfo(juego));
-            }
-        });
-        escenaMenu.addActor(botonInfo.getBtn());
-         */
 
         //Boton Scores
-        Boton botonScores=new Boton("Botones/trofeo.png","Botones/trofeo.png");
+        Boton botonScores = new Boton("Botones/trofeo.png","Botones/trofeo.png");
         botonScores.setPosition(ANCHO*0.18f-botonScores.getWidth()/2,ALTO*0.21f);
         botonScores.getBtn().addListener(new ClickListener() {
             @Override
@@ -138,6 +122,44 @@ public class PantallaMenu extends PantallaAbstracta
         });
         escenaMenu.addActor(botonScores.getBtn());
 
+        //Boton How To Play
+        Boton botonHowToPlay = new Boton("Botones/botonHowToPlay.png","Botones/botonHowToPlay.png");
+        botonHowToPlay.setPosition(ANCHO*0.71f,ALTO*0.599f);
+        botonHowToPlay.getBtn().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                juego.setEfecto("Audios/efectoBoton.mp3");
+                juego.setScreen(new PantallaHowToPlay(juego,1));
+            }
+        });
+        escenaMenu.addActor(botonHowToPlay.getBtn());
+
+        //Boton Settings
+        Boton botonSettings = new Boton("Botones/botonSettings.png","Botones/botonSettings.png");
+        botonSettings.setPosition(ANCHO*0.74f,ALTO*0.41f);
+        botonSettings.getBtn().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                juego.setEfecto("Audios/efectoBoton.mp3");
+                juego.setScreen(new PantallaSettings(juego));
+            }
+        });
+        escenaMenu.addActor(botonSettings.getBtn());
+
+        //Boton Credits
+        Boton botonCredits = new Boton("Botones/botonCredits.png","Botones/botonCredits.png");
+        botonCredits.setPosition(ANCHO*0.72f,ALTO*0.21f);
+        botonCredits.getBtn().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                juego.setEfecto("Audios/efectoBoton.mp3");
+                juego.setScreen(new PantallaInfo(juego));
+            }
+        });
+        escenaMenu.addActor(botonCredits.getBtn());
 
 
         Gdx.input.setInputProcessor(escenaMenu);
@@ -155,7 +177,7 @@ public class PantallaMenu extends PantallaAbstracta
         sistemaParticulas.draw(batch);
 
         botonPlay.render(batch);
-        //botonInfo.render(batch);
+
 
 
         batch.end();

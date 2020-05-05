@@ -47,6 +47,8 @@ class PantallaJuego extends PantallaAbstracta {
     private Texture texturaEnemigo2;
     private Texture texturaEnemigo3;
     private Texture texturaPersonajeAbajo;
+    private Texture texturaEnMov;
+
 
     // Personaje
     private Personaje personaje;
@@ -54,6 +56,7 @@ class PantallaJuego extends PantallaAbstracta {
     private Enemigo enemigo1;
     private Enemigo enemigo2;
     private Enemigo enemigo3;
+    private BotonDinamico enemigoMov;
 
     //Fondo
     private FondoDinamico fondo1;
@@ -119,7 +122,7 @@ class PantallaJuego extends PantallaAbstracta {
         botonPausa = new Objeto(texturaBotonPausa, ANCHO*0.90f, ALTO*0.85f);
     }
 
-    private void createVidas() {vidas = new Vidas(ANCHO*0.12f,0.9f*ALTO,999,assets);
+    private void createVidas() {vidas = new Vidas(0,0.9f*ALTO,120,assets);
     }
 
 
@@ -139,7 +142,7 @@ class PantallaJuego extends PantallaAbstracta {
     private void fisicaObjetos() {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(0, ALTO * 0.05f);
+        bodyDef.position.set(0, ALTO * 0.15f);
         bodyPersonaje = mundoFisica.createBody(bodyDef);
 
         PolygonShape cajaFisica = new PolygonShape();
@@ -169,7 +172,7 @@ class PantallaJuego extends PantallaAbstracta {
 
     private void createMundoFisica() {
         Box2D.init();
-        Vector2 gravedad = new Vector2(0, -100);
+        Vector2 gravedad = new Vector2(0, -3.5f);
         mundoFisica = new World(gravedad, true);
     }
 
@@ -178,9 +181,11 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void createEnemigo(){
-        enemigo1=new Enemigo(texturaEnemigo1,ANCHO,ALTO*0.05f,1);
-        enemigo2=new Enemigo(texturaEnemigo2,ANCHO,ALTO*0.05f,2);
-        enemigo3=new Enemigo(texturaEnemigo3,ANCHO,ALTO*0.05f,3);
+        enemigo1 = new Enemigo(texturaEnemigo1,ANCHO,ALTO*0.05f,1);
+        enemigo2 = new Enemigo(texturaEnemigo2,ANCHO,ALTO*0.05f,2);
+        enemigo3 = new Enemigo(texturaEnemigo3,ANCHO,ALTO*0.05f,3);
+        enemigoMov = new BotonDinamico(texturaEnMov, texturaEnMov,119, 200,ANCHO, ALTO);
+        enemigoMov.cargarEnemigo1();
         cambiarEnemigo();
     }
 
@@ -190,6 +195,7 @@ class PantallaJuego extends PantallaAbstracta {
         texturaEnemigo2 = new Texture("Enemigos/enemigo"+assets+"2.png");
         texturaEnemigo3 = new Texture("Enemigos/enemigo"+assets+"3.png");
         texturaPersonajeAbajo = new Texture("Personajes/asset"+assets+"Abajo.png");
+        texturaEnMov = new Texture("Enemigos/enemigo"+assets+"Animado1.png");
     }
 
     @Override
@@ -215,7 +221,7 @@ class PantallaJuego extends PantallaAbstracta {
         batch.draw(texturaFondo,0,0);
         renderFondo(batch);
         personaje.render(batch);
-        enemigo.render(batch);
+        enemigoMov.render(batch, enemigo.sprite.getX(), enemigo.sprite.getY());
         if(estadoJuego == EstadoJuego.JUGANDO){
             vidas.render(batch);
             marcador.render(batch);
@@ -529,8 +535,8 @@ class PantallaJuego extends PantallaAbstracta {
             });
 
             //Boton regresar a juego
-            Boton botonBack = new Boton("Botones/btnReturn.png","Botones/btnReturnP.png");
-            botonBack.setPosition(ANCHO/2+botonBack.getWidth()/2,ALTO*0.2f);
+            Boton botonBack = new Boton("Botones/botonContinue.png","Botones/botonContinue.png");
+            botonBack.setPosition(ANCHO/2+(botonBack.getWidth()/2)-70,ALTO*0.2f);
             botonBack.getBtn().addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {

@@ -166,7 +166,7 @@ class PantallaJuego extends PantallaAbstracta {
         //Se hacen físicas diferentes para cada asset
         if (assets.equals("assetOso.png")) {
             fixtureDef.density = 999999999;
-            fixtureDef.restitution = 0.1f;
+            fixtureDef.restitution = 0.999999999999f;
         } else if (assets.equals("assetElefante.png")) {
             fixtureDef.density = 0.7f;
             fixtureDef.restitution = 0.0f;
@@ -195,7 +195,7 @@ class PantallaJuego extends PantallaAbstracta {
         enemigo1 = new Enemigo(texturaEnemigo1, ANCHO, ALTO * 0.05f, 1);
         enemigo2 = new Enemigo(texturaEnemigo2, ANCHO, ALTO * 0.05f, 2);
         enemigo3 = new Enemigo(texturaEnemigo3, ANCHO, ALTO * 0.05f, 3);
-        enemigoMov = new BotonDinamico(texturaEnMov, texturaEnMov, 119, 200, ANCHO, ALTO);
+        enemigoMov = new BotonDinamico(texturaEnMov, texturaEnMov, 65, 110, ANCHO, ALTO);
         enemigoMov.cargarEnemigo1();
         cambiarEnemigo();
     }
@@ -227,7 +227,6 @@ class PantallaJuego extends PantallaAbstracta {
 
         batch.draw(texturaFondo, 0, 0);
         renderFondo(batch);
-        personaje.render(batch);
         if (estadoJuego == EstadoJuego.JUGANDO) {
             actualizar(delta);
             moverEnemigo(delta);
@@ -242,7 +241,7 @@ class PantallaJuego extends PantallaAbstracta {
             enemigo.render(batch);
         }
 
-        if (hayItem() > 500) {
+        if (hayItem() > 1000) {
             huevo.render(batch);
             moverItem(delta);
             probarColisionesHuevo();
@@ -288,7 +287,7 @@ class PantallaJuego extends PantallaAbstracta {
             timerItem = 0;
             pasoItem = 30;
         }
-        if (huevo.sprite.getY() >= 0.35f * ALTO) {
+        if (huevo.sprite.getY() >= 0.25f * ALTO) {
             timerItem = 0;
             pasoItem = -30;
         }
@@ -645,7 +644,8 @@ class PantallaJuego extends PantallaAbstracta {
         Rectangle rectPersonaje = personaje.sprite.getBoundingRectangle();
         if (rectPersonaje.overlaps(rectItem)) {
             //huevo.sprite.setY(-100);
-            vidas.sumar(200);
+            juego.setEfecto("Audios/efectoItem.mp3");
+            vidas.sumar(1);
             marcador.resetContador();
             huevo.sprite.setX(ANCHO);
         }
@@ -655,6 +655,7 @@ class PantallaJuego extends PantallaAbstracta {
         Rectangle rectPersonaje = personaje.sprite.getBoundingRectangle();
         Rectangle rectEnemigo = enemigo.sprite.getBoundingRectangle();
         if (rectPersonaje.overlaps(rectEnemigo)) {
+            juego.setEfecto("Audios/efectoGolpe.mp3");
             cambiarEnemigo();
             enemigo.sprite.setX(ANCHO);
             vidas.restar(1);

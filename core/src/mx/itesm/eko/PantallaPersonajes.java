@@ -50,7 +50,7 @@ public class PantallaPersonajes extends PantallaAbstracta {
                 super.clicked(event, x, y);
                 juego.setEfecto("Audios/cambioPagina.mp3");
                 if(assets=="Oso")
-                    juego.setScreen(new PantallaPersonajes(juego,"Tortuga"));
+                    juego.setScreen(new PantallaPersonajes(juego,"Oso"));
                 else if(assets=="Tortuga")
                     juego.setScreen(new PantallaPersonajes(juego,"Elefante"));
                 else if(assets=="Elefante")
@@ -70,7 +70,7 @@ public class PantallaPersonajes extends PantallaAbstracta {
                 if(assets=="Tortuga")
                     juego.setScreen(new PantallaPersonajes(juego,"Oso"));
                 else if(assets=="Oso")
-                    juego.setScreen(new PantallaPersonajes(juego,"Elefante"));
+                    juego.setScreen(new PantallaPersonajes(juego,"Oso"));
                 else if(assets=="Elefante")
                     juego.setScreen(new PantallaPersonajes(juego,"Tortuga"));
             }

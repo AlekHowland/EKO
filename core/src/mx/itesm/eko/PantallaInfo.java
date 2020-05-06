@@ -2,6 +2,7 @@ package mx.itesm.eko;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -26,8 +27,10 @@ public class PantallaInfo extends PantallaAbstracta {
     //Elementos del texto
     private Stage escenaCreditos;
     private logicaCreditos creditos;
-    private String texto;
+    //private String texto;
     private String path = "Creditos.gdx";
+    private FileHandle handle = Gdx.files.internal(path);
+    private String texto = handle.readString();
 
     // Audio
     private ControladorAudio audioInfo = new ControladorAudio();
@@ -37,6 +40,7 @@ public class PantallaInfo extends PantallaAbstracta {
         this.juego=juego;
     }
 
+    /*
     public static String archivoAString(String path) throws IOException {
         StringBuilder datosArchivo = new StringBuilder(1000);//Constructs a string buffer with no characters in it and the specified initial capacity
         BufferedReader reader = new BufferedReader(new FileReader(path));
@@ -51,6 +55,8 @@ public class PantallaInfo extends PantallaAbstracta {
         String stringArchivo = datosArchivo.toString();
         return stringArchivo;
     }
+    */
+
 
     @Override
     public InputProcessor getInputProcessor() {
@@ -65,11 +71,13 @@ public class PantallaInfo extends PantallaAbstracta {
     private void crearMenu() {
         escenaMenu = new Stage(vista);
 
+        /*
         try {
             texto = archivoAString(path);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
 
         escenaCreditos = new Stage();
 

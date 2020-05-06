@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.Array;
 public class Bordes {
 
     public static void crearBordes(World mundo) {
-        Rectangle bordeSuperior = new Rectangle(0, PantallaAbstracta.ALTO * 0.2f,
+        Rectangle bordeSuperior = new Rectangle(0, PantallaAbstracta.ALTO * 0.5f,
                 500, PantallaAbstracta.ALTO * 0.05f);
         Rectangle bordeInferior = new Rectangle(0, 0,
                 500, PantallaAbstracta.ALTO * 0.05f);

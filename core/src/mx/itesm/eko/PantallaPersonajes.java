@@ -14,7 +14,8 @@ public class PantallaPersonajes extends PantallaAbstracta {
     private final ControlJuego juego;
     private Texture texturaFondo;
     private String assets = "Oso";
-
+    private BotonDinamico personaje;
+    private Texture texturaPersonaje;
     // Menu
     private Stage escenaMenu; //botones...
 
@@ -29,6 +30,9 @@ public class PantallaPersonajes extends PantallaAbstracta {
     @Override
     public void show() {
         texturaFondo = new Texture("Personajes/select"+assets+".jpg");
+        texturaPersonaje=new Texture("Personajes/asset"+assets+"Dormido.png");
+        personaje=new BotonDinamico(texturaPersonaje,texturaPersonaje,170,462,ANCHO*0.35f,ALTO/3);
+        personaje.cargarTexturasOso();
         crearMenu();
     }
 
@@ -101,6 +105,7 @@ public class PantallaPersonajes extends PantallaAbstracta {
 
         batch.begin();
         batch.draw(texturaFondo,0,0);
+        personaje.render(batch);
         batch.end();
 
         escenaMenu.draw();

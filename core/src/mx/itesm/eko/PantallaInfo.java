@@ -28,7 +28,7 @@ public class PantallaInfo extends PantallaAbstracta {
     private Stage escenaCreditos;
     private logicaCreditos creditos;
     //private String texto;
-    private String path = "Creditos.gdx";
+    private String path = "Creditos.txt";
     private FileHandle handle = Gdx.files.internal(path);
     private String texto = handle.readString();
 

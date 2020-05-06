@@ -71,9 +71,9 @@ class PantallaJuego extends PantallaAbstracta {
     private Movimiento movimientoEnemigo = Movimiento.IZQUIERDA;
     private float timerPersonaje = 0;
     private float timerEnemigo = 0;
-    private float timerItem=0;
+    private float timerItem = 0;
     private int pasoEnemigo = 10;
-    private int pasoItem=15;
+    private int pasoItem = 15;
     private float velocidadEnemigo;
 
     //Sistema de partículas
@@ -113,13 +113,13 @@ class PantallaJuego extends PantallaAbstracta {
         createVidas();
         createItem();
 
-        texturaFondo=new Texture("Fondos/fondo"+assets+".jpg");
+        texturaFondo = new Texture("Fondos/fondo" + assets + ".jpg");
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
 
     private void createItem() {
-        huevo = new Item(texturaHuevo,ANCHO,ALTO*0.05f);
+        huevo = new Item(texturaHuevo, ANCHO, ALTO * 0.05f);
     }
 
     private void crearParedes() {
@@ -127,27 +127,28 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void createFondo() {
-        fondo1=new FondoDinamico(assets,0,0);
-        fondo2=new FondoDinamico(assets,fondo1.getWidth(),fondo1.getHeightTiempo());
+        fondo1 = new FondoDinamico(assets, 0, 0);
+        fondo2 = new FondoDinamico(assets, fondo1.getWidth(), fondo1.getHeightTiempo());
         texturaBotonPausa = new Texture("Botones/btnPausa.png");
-        botonPausa = new Objeto(texturaBotonPausa, ANCHO*0.90f, ALTO*0.85f);
+        botonPausa = new Objeto(texturaBotonPausa, ANCHO * 0.90f, ALTO * 0.85f);
     }
 
-    private void createVidas() {vidas = new Vidas(0,0.9f*ALTO,3,assets);
+    private void createVidas() {
+        vidas = new Vidas(0, 0.9f * ALTO, 3, assets);
     }
 
 
     private void createParticulas() {
-        sistemaParticulas=new ParticleEffect();
-        sistemaParticulas.load(Gdx.files.internal("Particulas/particulas"+assets+".p"),Gdx.files.internal("Particulas"));
-        Array<ParticleEmitter> emisores=sistemaParticulas.getEmitters();
-        emisorParticulas=emisores.get(0);
-        emisores.get(0).setPosition(ANCHO,ALTO/2);
+        sistemaParticulas = new ParticleEffect();
+        sistemaParticulas.load(Gdx.files.internal("Particulas/particulas" + assets + ".p"), Gdx.files.internal("Particulas"));
+        Array<ParticleEmitter> emisores = sistemaParticulas.getEmitters();
+        emisorParticulas = emisores.get(0);
+        emisores.get(0).setPosition(ANCHO, ALTO / 2);
         sistemaParticulas.start();
     }
 
     private void createMarcador() {
-        marcador = new Marcador(ANCHO/2,0.95f*ALTO);
+        marcador = new Marcador(ANCHO / 2, 0.95f * ALTO);
     }
 
     private void fisicaObjetos() {
@@ -163,15 +164,13 @@ class PantallaJuego extends PantallaAbstracta {
         fixtureDef.shape = cajaFisica;
 
         //Se hacen físicas diferentes para cada asset
-        if (assets.equals("assetOso.png")){
+        if (assets.equals("assetOso.png")) {
             fixtureDef.density = 999999999;
             fixtureDef.restitution = 0.1f;
-        }
-        else if (assets.equals("assetElefante.png")){
+        } else if (assets.equals("assetElefante.png")) {
             fixtureDef.density = 0.7f;
             fixtureDef.restitution = 0.0f;
-        }
-        else if (assets.equals("assetTortuga.png")){
+        } else if (assets.equals("assetTortuga.png")) {
             fixtureDef.density = 0.3f;
             fixtureDef.restitution = 0.2f;
         }
@@ -188,26 +187,26 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void createPersonaje() {
-        personaje = new Personaje(texturaPersonaje,0,ALTO*0.05f,assets);
+        personaje = new Personaje(texturaPersonaje, 0, ALTO * 0.05f, assets);
         personaje.cargarTexturas();
     }
 
-    private void createEnemigo(){
-        enemigo1 = new Enemigo(texturaEnemigo1,ANCHO,ALTO*0.05f,1);
-        enemigo2 = new Enemigo(texturaEnemigo2,ANCHO,ALTO*0.05f,2);
-        enemigo3 = new Enemigo(texturaEnemigo3,ANCHO,ALTO*0.05f,3);
-        enemigoMov = new BotonDinamico(texturaEnMov, texturaEnMov,119, 200,ANCHO, ALTO);
+    private void createEnemigo() {
+        enemigo1 = new Enemigo(texturaEnemigo1, ANCHO, ALTO * 0.05f, 1);
+        enemigo2 = new Enemigo(texturaEnemigo2, ANCHO, ALTO * 0.05f, 2);
+        enemigo3 = new Enemigo(texturaEnemigo3, ANCHO, ALTO * 0.05f, 3);
+        enemigoMov = new BotonDinamico(texturaEnMov, texturaEnMov, 119, 200, ANCHO, ALTO);
         enemigoMov.cargarEnemigo1();
         cambiarEnemigo();
     }
 
     private void cargarTexturas() {
-        texturaPersonaje = new Texture("Personajes/asset"+assets+".png");
-        texturaEnemigo1 = new Texture("Enemigos/enemigo"+assets+"1.png");
-        texturaEnemigo2 = new Texture("Enemigos/enemigo"+assets+"2.png");
-        texturaEnemigo3 = new Texture("Enemigos/enemigo"+assets+"3.png");
-        texturaPersonajeAbajo = new Texture("Personajes/asset"+assets+"Abajo.png");
-        texturaEnMov = new Texture("Enemigos/enemigo"+assets+"Animado1.png");
+        texturaPersonaje = new Texture("Personajes/asset" + assets + ".png");
+        texturaEnemigo1 = new Texture("Enemigos/enemigo" + assets + "1.png");
+        texturaEnemigo2 = new Texture("Enemigos/enemigo" + assets + "2.png");
+        texturaEnemigo3 = new Texture("Enemigos/enemigo" + assets + "3.png");
+        texturaPersonajeAbajo = new Texture("Personajes/asset" + assets + "Abajo.png");
+        texturaEnMov = new Texture("Enemigos/enemigo" + assets + "Animado1.png");
         texturaHuevo = new Texture("Personajes/huevo.png");
     }
 
@@ -221,81 +220,84 @@ class PantallaJuego extends PantallaAbstracta {
 
         personaje.getSprite().setPosition(x, y);
 
-        borrarPantalla(0,0,0);
+        borrarPantalla(0, 0, 0);
         batch.setProjectionMatrix(camara.combined);
 
         batch.begin();
 
-        batch.draw(texturaFondo,0,0);
+        batch.draw(texturaFondo, 0, 0);
         renderFondo(batch);
         personaje.render(batch);
-        if(estadoJuego == EstadoJuego.JUGANDO) {
+        if (estadoJuego == EstadoJuego.JUGANDO) {
             actualizar(delta);
             moverEnemigo(delta);
             moverFondo(delta);
             probarColisiones();
-            moverItem(delta);
             hayItem();
             moverPersonaje(delta);
         }
-        if(enemigo == enemigo1){
+        if (enemigo == enemigo1) {
             enemigoMov.render(batch, enemigo.sprite.getX(), enemigo.sprite.getY());
-        }else{
+        } else {
             enemigo.render(batch);
         }
 
-        if(hayItem() > 500){
+        if (hayItem() > 500) {
             huevo.render(batch);
+            moverItem(delta);
+            probarColisionesHuevo();
         }
-        if(estadoJuego == EstadoJuego.JUGANDO){
+        if (estadoJuego == EstadoJuego.JUGANDO) {
             vidas.render(batch);
             marcador.render(batch);
             botonPausa.render(batch);
-        }else if (estadoJuego == EstadoJuego.MUERTO){ marcador.render(batch);}
+        } else if (estadoJuego == EstadoJuego.MUERTO) {
+            marcador.render(batch);
+        }
 
         sistemaParticulas.draw(batch);
         batch.end();
-        if(estadoJuego == EstadoJuego.PAUSADO){
+        if (estadoJuego == EstadoJuego.PAUSADO) {
             escenaPausa.draw();
         }
-        if(estadoJuego == EstadoJuego.MUERTO){
+        if (estadoJuego == EstadoJuego.MUERTO) {
             juego.stopMusica();
             score = marcador.getScore();
-            juego.setScreen(new PantallaMuerto(vista,batch,score,juego));
+            juego.setScreen(new PantallaMuerto(vista, batch, score, juego));
         }
 
         //La simulación física se actualiza
-        mundoFisica.step(1/60f, 6, 2);
+        mundoFisica.step(1 / 60f, 6, 2);
 
     }
 
     private int hayItem() {
-        int x = marcador.getScore();
+        int x = marcador.getContador();
         return x;
     }
 
     private void moverItem(float delta) {
 
-        huevo.moverHorizontal(-velocidadEnemigo*0.5f);
+        huevo.moverHorizontal(-velocidadEnemigo * 0.5f);
         timerItem += delta;
-        if (timerItem > 0.5){
+        if (timerItem > 0.5) {
             timerItem = 0;
-            timerItem =- pasoItem;
+            timerItem = -pasoItem;
         }
-        if (huevo.sprite.getY()<=0){
+        if (huevo.sprite.getY() <= 0) {
             timerItem = 0;
-            pasoItem =30;
+            pasoItem = 30;
         }
-        if (huevo.sprite.getY()>=0.35f*ALTO){
+        if (huevo.sprite.getY() >= 0.35f * ALTO) {
             timerItem = 0;
-            pasoItem =-30;
+            pasoItem = -30;
         }
-        if (huevo.sprite.getX()>=ANCHO*0.45f) {
+        if (huevo.sprite.getX() >= ANCHO * 0.45f) {
             huevo.moverVertical(pasoItem);
         }
 
-        if(huevo.sprite.getX()<-300) {
-            huevo.sprite.setPosition(ANCHO, rnd.nextFloat()*ALTO/4);
+        if (huevo.sprite.getX() < -300) {
+            huevo.sprite.setPosition(ANCHO, rnd.nextFloat() * ALTO / 4);
         }
     }
 
@@ -316,90 +318,88 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void moverFondo(float delta) {
-        fondo1.moverCapas(-delta*1000);
-        fondo2.moverCapas(-delta*1000);
-        fondo1.moverCapasVertical(-delta*100);
-        fondo2.moverCapasVertical(-delta*100);
+        fondo1.moverCapas(-delta * 1000);
+        fondo2.moverCapas(-delta * 1000);
+        fondo1.moverCapasVertical(-delta * 100);
+        fondo2.moverCapasVertical(-delta * 100);
 
-        if (fondo1.getYCapaTiempo()<-fondo1.getHeightTiempo()){
-            fondo1.setYCapaTiempo(fondo2.getYCapaTiempo()+fondo2.getHeightTiempo());
+        if (fondo1.getYCapaTiempo() < -fondo1.getHeightTiempo()) {
+            fondo1.setYCapaTiempo(fondo2.getYCapaTiempo() + fondo2.getHeightTiempo());
         }
-        if (fondo2.getYCapaTiempo()<-fondo2.getHeightTiempo()){
-            fondo2.setYCapaTiempo(fondo1.getYCapaTiempo()+fondo1.getHeightTiempo());
-        }
-
-        if (fondo1.getYCapaSol()<-fondo1.getHeightSol()){
-            fondo1.setYCapaSol(fondo2.getYCapaSol()+fondo2.getHeightSol());
-        }
-        if (fondo2.getYCapaSol()<-fondo2.getHeightSol()){
-            fondo2.setYCapaSol(fondo1.getYCapaSol()+fondo1.getHeightSol());
+        if (fondo2.getYCapaTiempo() < -fondo2.getHeightTiempo()) {
+            fondo2.setYCapaTiempo(fondo1.getYCapaTiempo() + fondo1.getHeightTiempo());
         }
 
-
-
-
-        if (fondo1.getXCapa1()<-fondo1.getWidth()){
-            fondo1.setXCapa1(fondo2.getXCapa1()+fondo2.getWidth());
+        if (fondo1.getYCapaSol() < -fondo1.getHeightSol()) {
+            fondo1.setYCapaSol(fondo2.getYCapaSol() + fondo2.getHeightSol());
         }
-        if (fondo2.getXCapa1()<-fondo2.getWidth()){
-            fondo2.setXCapa1(fondo1.getXCapa1()+fondo1.getWidth());
+        if (fondo2.getYCapaSol() < -fondo2.getHeightSol()) {
+            fondo2.setYCapaSol(fondo1.getYCapaSol() + fondo1.getHeightSol());
         }
 
-        if (fondo1.getXCapa2()<-fondo1.getWidth()){
-            fondo1.setXCapa2(fondo2.getXCapa2()+fondo2.getWidth());
+
+        if (fondo1.getXCapa1() < -fondo1.getWidth()) {
+            fondo1.setXCapa1(fondo2.getXCapa1() + fondo2.getWidth());
         }
-        if (fondo2.getXCapa2()<-fondo2.getWidth()){
-            fondo2.setXCapa2(fondo1.getXCapa2()+fondo1.getWidth());
+        if (fondo2.getXCapa1() < -fondo2.getWidth()) {
+            fondo2.setXCapa1(fondo1.getXCapa1() + fondo1.getWidth());
         }
 
-        if (fondo1.getXCapa3()<-fondo1.getWidth()){
-            fondo1.setXCapa3(fondo2.getXCapa3()+fondo2.getWidth());
+        if (fondo1.getXCapa2() < -fondo1.getWidth()) {
+            fondo1.setXCapa2(fondo2.getXCapa2() + fondo2.getWidth());
         }
-        if (fondo2.getXCapa3()<-fondo2.getWidth()){
-            fondo2.setXCapa3(fondo1.getXCapa3()+fondo1.getWidth());
+        if (fondo2.getXCapa2() < -fondo2.getWidth()) {
+            fondo2.setXCapa2(fondo1.getXCapa2() + fondo1.getWidth());
         }
 
-        if (fondo1.getXCapa4()<-fondo1.getWidth()){
-            fondo1.setXCapa4(fondo2.getXCapa4()+fondo2.getWidth());
+        if (fondo1.getXCapa3() < -fondo1.getWidth()) {
+            fondo1.setXCapa3(fondo2.getXCapa3() + fondo2.getWidth());
         }
-        if (fondo2.getXCapa4()<-fondo2.getWidth()){
-            fondo2.setXCapa4(fondo1.getXCapa4()+fondo1.getWidth());
+        if (fondo2.getXCapa3() < -fondo2.getWidth()) {
+            fondo2.setXCapa3(fondo1.getXCapa3() + fondo1.getWidth());
+        }
+
+        if (fondo1.getXCapa4() < -fondo1.getWidth()) {
+            fondo1.setXCapa4(fondo2.getXCapa4() + fondo2.getWidth());
+        }
+        if (fondo2.getXCapa4() < -fondo2.getWidth()) {
+            fondo2.setXCapa4(fondo1.getXCapa4() + fondo1.getWidth());
         }
     }
 
     private void actualizar(float delta) {
         marcador.marcar(1);
-        if (velocidadEnemigo<=25) {
+        marcador.contar(1);
+        if (velocidadEnemigo <= 25) {
             velocidadEnemigo = 15 + marcador.getScore() * 0.0005f;
 
         }
         sistemaParticulas.update(delta);
 
-        if (vidas.getVidas()==0){
-            estadoJuego=EstadoJuego.MUERTO;
+        if (vidas.getVidas() == 0) {
+            estadoJuego = EstadoJuego.MUERTO;
         }
     }
 
     private void moverPersonaje(float delta) {
-        if (personaje.sprite.getY()>=ALTO * 0.25f){
+        if (personaje.sprite.getY() >= ALTO * 0.25f) {
             mundoFisica.setGravity(gravedadAb);
         }
         timerPersonaje = delta;
-        switch (movimientoPersonaje){
+        switch (movimientoPersonaje) {
             case ABAJO:
                 personaje.renderAgachar(batch);
                 personaje.setTexture(texturaPersonajeAbajo);
 
                 break;
             case QUIETO:
-                if (personaje.sprite.getY()>=ALTO * 0.11f){
+                if (personaje.sprite.getY() >= ALTO * 0.11f) {
                     personaje.setTexture(texturaPersonajeAbajo);
-                    if (personaje.timerAnimacion>=1.75f){
-                        personaje.timerAnimacion=0;
+                    if (personaje.timerAnimacion >= 1.75f) {
+                        personaje.timerAnimacion = 0;
                     }
                     personaje.renderSaltar(batch);
-                }
-                else {
+                } else {
                     personaje.setTexture(texturaPersonaje);
 
                     personaje.renderCorrer(batch);
@@ -412,45 +412,45 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void moverEnemigo(float delta) {
-        switch (enemigo.getTipo()){
+        switch (enemigo.getTipo()) {
             case 1:
                 enemigo.moverHorizontal(-velocidadEnemigo);
                 timerEnemigo += delta;
-                if (timerEnemigo > 0.5){
+                if (timerEnemigo > 0.5) {
                     timerEnemigo = 0;
-                    pasoEnemigo =- pasoEnemigo;
+                    pasoEnemigo = -pasoEnemigo;
                 }
-                if (enemigo.sprite.getY()<=0){
+                if (enemigo.sprite.getY() <= 0) {
                     timerEnemigo = 0;
-                    pasoEnemigo =10;
+                    pasoEnemigo = 10;
                 }
-                if (enemigo.sprite.getY()>=0.35f*ALTO){
+                if (enemigo.sprite.getY() >= 0.35f * ALTO) {
                     timerEnemigo = 0;
-                    pasoEnemigo =-10;
+                    pasoEnemigo = -10;
                 }
-                if (enemigo.sprite.getX()>=ANCHO*0.6f) {
+                if (enemigo.sprite.getX() >= ANCHO * 0.6f) {
                     enemigo.moverVertical(pasoEnemigo);
                 }
 
-                if(enemigo.sprite.getX()<-300) {
+                if (enemigo.sprite.getX() < -300) {
                     cambiarEnemigo();
-                    enemigo.sprite.setPosition(ANCHO, rnd.nextFloat()*ALTO/4);
+                    enemigo.sprite.setPosition(ANCHO, rnd.nextFloat() * ALTO / 4);
                 }
                 break;
             case 2:
-                enemigo.sprite.setY(-0.03f*ALTO);
+                enemigo.sprite.setY(-0.03f * ALTO);
                 enemigo.moverHorizontal(-velocidadEnemigo);
-                if(enemigo.sprite.getX()<-300) {
+                if (enemigo.sprite.getX() < -300) {
                     cambiarEnemigo();
-                    enemigo.sprite.setPosition(ANCHO, rnd.nextFloat()*ALTO/4);
+                    enemigo.sprite.setPosition(ANCHO, rnd.nextFloat() * ALTO / 4);
                 }
                 break;
             case 3:
-                enemigo.sprite.setY(0.2f*ALTO);
+                enemigo.sprite.setY(0.2f * ALTO);
                 enemigo.moverHorizontal(-velocidadEnemigo);
-                if(enemigo.sprite.getX()<-300) {
+                if (enemigo.sprite.getX() < -300) {
                     cambiarEnemigo();
-                    enemigo.sprite.setPosition(ANCHO, rnd.nextFloat()*ALTO/4);
+                    enemigo.sprite.setPosition(ANCHO, rnd.nextFloat() * ALTO / 4);
                 }
                 break;
             default:
@@ -460,15 +460,15 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void cambiarEnemigo() {
-        switch ((int)(Math.floor(Math.random()*3+1))) {
+        switch ((int) (Math.floor(Math.random() * 3 + 1))) {
             case 1:
-                enemigo=enemigo1;
+                enemigo = enemigo1;
                 break;
             case 2:
-                enemigo=enemigo2;
+                enemigo = enemigo2;
                 break;
             case 3:
-                enemigo=enemigo3;
+                enemigo = enemigo3;
                 break;
             default:
                 break;
@@ -520,28 +520,27 @@ class PantallaJuego extends PantallaAbstracta {
             float y = bodyPersonaje.getPosition().y;
 
 
-            Vector3 v = new Vector3(screenX,screenY,0);
+            Vector3 v = new Vector3(screenX, screenY, 0);
             camara.unproject(v);
-            if(v.y >= ALTO/2 && !(v.y>=ALTO*0.85f && v.x>=ANCHO*0.9f )) {
+            if (v.y >= ALTO / 2 && !(v.y >= ALTO * 0.85f && v.x >= ANCHO * 0.9f)) {
                 //audio.setEfecto("salto.mp3");
                 //movimientoPersonaje = Movimiento.ARRIBA;
-                if (personaje.sprite.getY()<=ALTO * 0.11f){
+                if (personaje.sprite.getY() <= ALTO * 0.11f) {
                     mundoFisica.setGravity(gravedadArr);
                     bodyPersonaje.applyLinearImpulse(0, 999999999, x, y, true);
                 }
 
             }
-                //Detectar pausa
-            if (v.y>=ALTO*0.85f && v.x>=ANCHO*0.9f){
-                    estadoJuego = EstadoJuego.PAUSADO;
-                    //audio.setEfecto("pausa.mp3");
-                    if(escenaPausa == null){
-                        juego.setVolumen(0.3f);
-                        juego.setEfecto("Audios/efectoPausa.mp3");
-                        escenaPausa = new EscenaPausa(vista, batch);
-                    }
+            //Detectar pausa
+            if (v.y >= ALTO * 0.85f && v.x >= ANCHO * 0.9f) {
+                estadoJuego = EstadoJuego.PAUSADO;
+                //audio.setEfecto("pausa.mp3");
+                if (escenaPausa == null) {
+                    juego.setVolumen(0.3f);
+                    juego.setEfecto("Audios/efectoPausa.mp3");
+                    escenaPausa = new EscenaPausa(vista, batch);
                 }
-            else  if(v.y < ALTO/2){
+            } else if (v.y < ALTO / 2) {
                 //audio.setEfecto("agacharse.mp3");
                 movimientoPersonaje = Movimiento.ABAJO;
             }
@@ -571,19 +570,18 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     //Clase Pausa (Ventana que se muestra cuando el usuario pausa la app)
-    class EscenaPausa extends Stage
-    {
+    class EscenaPausa extends Stage {
         public EscenaPausa(final Viewport vista, final SpriteBatch batch) {
             super(vista, batch);
 
             Texture texturaPausa = new Texture("Fondos/pantallaPausa.png");
 
             Image imgPausa = new Image(texturaPausa);
-            imgPausa.setPosition(0,0);
+            imgPausa.setPosition(0, 0);
 
             //Boton pantalla muerto
-            Boton botonMenu = new Boton("Botones/btnReturn.png","Botones/btnReturnP.png");
-            botonMenu.setPosition(ANCHO/3-botonMenu.getWidth()/2,ALTO*0.2f);
+            Boton botonMenu = new Boton("Botones/btnReturn.png", "Botones/btnReturnP.png");
+            botonMenu.setPosition(ANCHO / 3 - botonMenu.getWidth() / 2, ALTO * 0.2f);
             botonMenu.getBtn().addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -593,14 +591,12 @@ class PantallaJuego extends PantallaAbstracta {
                     estadoJuego = estadoJuego.MUERTO;
 
 
-
-
                 }
             });
 
             //Boton regresar a juego
-            Boton botonBack = new Boton("Botones/botonContinue.png","Botones/botonContinue.png");
-            botonBack.setPosition(ANCHO/2+(botonBack.getWidth()/2)-70,ALTO*0.2f);
+            Boton botonBack = new Boton("Botones/botonContinue.png", "Botones/botonContinue.png");
+            botonBack.setPosition(ANCHO / 2 + (botonBack.getWidth() / 2) - 70, ALTO * 0.2f);
             botonBack.getBtn().addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -631,7 +627,7 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     // Movimiento
-    private enum Movimiento{
+    private enum Movimiento {
         ARRIBA,
         ABAJO,
         IZQUIERDA,
@@ -639,19 +635,30 @@ class PantallaJuego extends PantallaAbstracta {
         QUIETO
     }
 
+    private void regresarHuevo() {
+        huevo.sprite.setY(ALTO);
+        huevo.sprite.setX(ANCHO);
+    }
+
+    private void probarColisionesHuevo(){
+        Rectangle rectItem = huevo.sprite.getBoundingRectangle();
+        Rectangle rectPersonaje = personaje.sprite.getBoundingRectangle();
+        if (rectPersonaje.overlaps(rectItem)) {
+            //huevo.sprite.setY(-100);
+            vidas.sumar(200);
+            marcador.resetContador();
+            huevo.sprite.setX(ANCHO);
+        }
+    }
     // Colisiones de enemigos
     private void probarColisiones() {
         Rectangle rectPersonaje = personaje.sprite.getBoundingRectangle();
         Rectangle rectEnemigo = enemigo.sprite.getBoundingRectangle();
-        Rectangle rectItem = huevo.sprite.getBoundingRectangle();
-        if(rectPersonaje.overlaps(rectEnemigo)){
+        if (rectPersonaje.overlaps(rectEnemigo)) {
             cambiarEnemigo();
             enemigo.sprite.setX(ANCHO);
             vidas.restar(1);
         }
-        if(rectPersonaje.overlaps(rectItem)){
-            huevo.sprite.setX(ANCHO);
-            vidas.sumar(200);
-        }
+
     }
 }

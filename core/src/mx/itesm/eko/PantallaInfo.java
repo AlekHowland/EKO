@@ -40,24 +40,6 @@ public class PantallaInfo extends PantallaAbstracta {
         this.juego=juego;
     }
 
-    /*
-    public static String archivoAString(String path) throws IOException {
-        StringBuilder datosArchivo = new StringBuilder(1000);//Constructs a string buffer with no characters in it and the specified initial capacity
-        BufferedReader reader = new BufferedReader(new FileReader(path));
-        char[] buf = new char[1024];
-        int numRead = 0;
-        while ((numRead = reader.read(buf)) != -1) {
-            String readData = String.valueOf(buf, 0, numRead);
-            datosArchivo.append(readData);
-            buf = new char[1024];
-        }
-        reader.close();
-        String stringArchivo = datosArchivo.toString();
-        return stringArchivo;
-    }
-    */
-
-
     @Override
     public InputProcessor getInputProcessor() {
         return escenaMenu;
@@ -71,19 +53,11 @@ public class PantallaInfo extends PantallaAbstracta {
     private void crearMenu() {
         escenaMenu = new Stage(vista);
 
-        /*
-        try {
-            texto = archivoAString(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-
         escenaCreditos = new Stage();
 
         creditos = new logicaCreditos(texto, TimeUnit.SECONDS.toMillis(50));
 
-        creditos.setPosition(200, 0);
+        creditos.setPosition(ANCHO/2, 0);
         creditos.setDy(30);
 
         escenaCreditos.addActor(creditos);

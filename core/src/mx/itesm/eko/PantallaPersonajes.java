@@ -31,7 +31,7 @@ public class PantallaPersonajes extends PantallaAbstracta {
     public void show() {
         texturaFondo = new Texture("Personajes/select"+assets+".jpg");
         texturaPersonaje=new Texture("Personajes/asset"+assets+"Dormido.png");
-        personaje=new BotonDinamico(texturaPersonaje,texturaPersonaje,170,462,ANCHO*0.35f,ALTO/3);
+        personaje=new BotonDinamico(texturaPersonaje,texturaPersonaje,170,462,ANCHO*0.3f,ALTO*0.3f);
         personaje.cargarTexturasOso();
         crearMenu();
     }

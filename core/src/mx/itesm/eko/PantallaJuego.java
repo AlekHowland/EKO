@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -41,6 +42,7 @@ class PantallaJuego extends PantallaAbstracta {
     private static final float ANCHO_PERSONAJE = 20;
     private Vector2 gravedadArr = new Vector2(0, 999999999);
     private Vector2 gravedadAb = new Vector2(0, -999999999);
+
 
     // Texturas
     private Texture texturaPersonaje;
@@ -156,6 +158,9 @@ class PantallaJuego extends PantallaAbstracta {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(0, ALTO * 0.15f);
         bodyPersonaje = mundoFisica.createBody(bodyDef);
+        MassData masa=new MassData();
+        masa.mass=99999999;
+        bodyPersonaje.setMassData(masa);
 
         PolygonShape cajaFisica = new PolygonShape();
         cajaFisica.setAsBox(ANCHO_PERSONAJE, ANCHO_PERSONAJE * 2);
@@ -165,8 +170,9 @@ class PantallaJuego extends PantallaAbstracta {
 
         //Se hacen físicas diferentes para cada asset
         if (assets.equals("assetOso.png")) {
-            fixtureDef.density = 999999999;
-            fixtureDef.restitution = 0.999999999999f;
+            fixtureDef.density = 0;
+            fixtureDef.friction=0;
+            fixtureDef.restitution = 0;
         } else if (assets.equals("assetElefante.png")) {
             fixtureDef.density = 0.7f;
             fixtureDef.restitution = 0.0f;
@@ -177,12 +183,13 @@ class PantallaJuego extends PantallaAbstracta {
 
         bodyPersonaje.createFixture(fixtureDef);
         cajaFisica.dispose();
+
         bodyPersonaje.setFixedRotation(true);
     }
 
     private void createMundoFisica() {
         Box2D.init();
-        Vector2 gravedad = new Vector2(0, -2500f);
+        Vector2 gravedad = new Vector2(0, -999999999);
         mundoFisica = new World(gravedad, true);
     }
 
@@ -285,11 +292,11 @@ class PantallaJuego extends PantallaAbstracta {
         }
         if (huevo.sprite.getY() <= 0) {
             timerItem = 0;
-            pasoItem = 30;
+            pasoItem = 15;
         }
         if (huevo.sprite.getY() >= 0.25f * ALTO) {
             timerItem = 0;
-            pasoItem = -30;
+            pasoItem = -15;
         }
         if (huevo.sprite.getX() >= ANCHO * 0.45f) {
             huevo.moverVertical(pasoItem);
@@ -317,8 +324,8 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void moverFondo(float delta) {
-        fondo1.moverCapas(-delta * 1000);
-        fondo2.moverCapas(-delta * 1000);
+        fondo1.moverCapas(-velocidadEnemigo);
+        fondo2.moverCapas(-velocidadEnemigo);
         fondo1.moverCapasVertical(-delta * 100);
         fondo2.moverCapasVertical(-delta * 100);
 

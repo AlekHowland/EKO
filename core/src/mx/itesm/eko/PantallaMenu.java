@@ -84,7 +84,6 @@ public class PantallaMenu extends PantallaAbstracta
         //Música
             if(juego.getMusicaUsaurio() == true){
                 juego.setMusica("Audios/demoNatura.mp3", true, true);
-                juego.setVolumen(0.8f);
             }
 
 
@@ -102,7 +101,7 @@ public class PantallaMenu extends PantallaAbstracta
                 juego.setEfecto("Audios/efectoPlay.mp3");
                 juego.stopMusica();
                 if(juego.getMusicaUsaurio() == true){
-                    juego.setMusica("Audios/expectationOfAJourney.mp3", true, true);
+                    juego.setMusica("Audios/Expectation of a Journey.mp3", true, true);
                 }
                 juego.setScreen(new PantallaPersonajes(juego,"Oso"), transicion);
             }

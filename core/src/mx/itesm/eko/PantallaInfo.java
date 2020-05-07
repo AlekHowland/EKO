@@ -27,8 +27,7 @@ public class PantallaInfo extends PantallaAbstracta {
     private Stage escenaCreditos;
     private logicaCreditos creditos;
     private String texto;
-    private String path = "C:\\Users\\Franky\\Documents\\IV Semester\\Game Development\\" +
-            "EKO\\android\\assets\\Creditos.gdx";
+    private String path = "Creditos.gdx";
 
     // Audio
     private ControladorAudio audioInfo = new ControladorAudio();

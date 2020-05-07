@@ -17,6 +17,7 @@ import java.util.Scanner;
 public class Scores {
     public String txt="Scores.gdx";
 
+
     public float x,y;
     public Texto texto;
 

@@ -68,7 +68,7 @@ public class PantallaInfo extends PantallaAbstracta {
 
         //Boton de refreso al menú
         Boton botonInfo = new Boton("Botones/btnReturn.png","Botones/btnReturnP.png");
-        botonInfo.setPosition(ANCHO/2-botonInfo.getWidth()/2,ALTO*0.115f);
+        botonInfo.setPosition(ANCHO*0.75f,ALTO*0.05f);
 
         botonInfo.getBtn().addListener(new ClickListener() {
             @Override
@@ -79,7 +79,7 @@ public class PantallaInfo extends PantallaAbstracta {
             }
         });
         escenaMenu.addActor(botonInfo.getBtn());
-        escenaMenu.addActor(logo.getBtn());
+        //escenaMenu.addActor(logo.getBtn());
 
         Gdx.input.setInputProcessor(escenaMenu);
     }

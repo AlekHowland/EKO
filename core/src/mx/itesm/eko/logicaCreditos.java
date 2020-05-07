@@ -1,5 +1,6 @@
 package mx.itesm.eko;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -15,7 +16,7 @@ public class logicaCreditos extends Actor {
     private long inicioAnimacion;
     private float dx;
     private float dy;
-    private BitmapFont font = new BitmapFont();
+    private BitmapFont font = new BitmapFont(Gdx.files.internal("Fonts/fuente.fnt"));
 
     //Constructor
     public logicaCreditos(String texto, long duracionAnimacion) {
@@ -51,7 +52,7 @@ public class logicaCreditos extends Actor {
 
             float tiempoTranscurrido = System.currentTimeMillis() - inicioAnimacion;
 
-            font.draw(batch, texto, getX() + dx * tiempoTranscurrido / 1000f,
+            font.draw(batch, texto, PantallaAbstracta.ANCHO*0.25f,
                     getY() + dy * tiempoTranscurrido / 1000f);
         }
     }

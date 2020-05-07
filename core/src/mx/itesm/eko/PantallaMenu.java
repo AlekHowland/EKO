@@ -23,6 +23,7 @@ public class PantallaMenu extends PantallaAbstracta
     private Texture texturaFondo;
     private Texture texturaBtnPlay;
     private Texture texturaBtnInfo;
+    private Texture texturaStart;
 
     // Menu
     private Stage escenaMenu; //botones...
@@ -32,6 +33,7 @@ public class PantallaMenu extends PantallaAbstracta
     //Botones
     private BotonDinamico botonPlay;
     private BotonDinamico botonInfo;
+    private BotonDinamico start;
 
 
     //Sistema de partículas
@@ -52,6 +54,7 @@ public class PantallaMenu extends PantallaAbstracta
         texturaFondo=new Texture("Fondos/fondoMenu.png");
         texturaBtnPlay=new Texture("Botones/btnPlay.png");
         texturaBtnInfo=new Texture("Botones/btnInfoDina.png");
+        texturaStart=new Texture("Botones/pressToStart.png");
 
         crearBotones();
         crearMenu();
@@ -61,6 +64,8 @@ public class PantallaMenu extends PantallaAbstracta
     private void crearBotones() {
         botonPlay = new BotonDinamico(texturaBtnPlay,texturaBtnPlay,332,331,ANCHO/2-(texturaBtnPlay.getHeight()/2)+10,ALTO*0.21f);
         botonPlay.cargarTexturasBtnPlay();
+        start = new BotonDinamico(texturaStart,texturaStart,23,287,ANCHO/2-(texturaBtnPlay.getHeight()/2)+40,ALTO*0.135f);
+        start.cargarStart();
     }
 
     private void createParticulas() {
@@ -92,7 +97,7 @@ public class PantallaMenu extends PantallaAbstracta
         final TransicionPantalla transicion = efectoTransicion.inicializacion(2.0f);
 
         //Boton Jugar
-        Boton botonJugar = new Boton("Botones/btnPlayTria.png","Botones/btnPlayTria.png");
+        Boton botonJugar = new Boton("Botones/btnPlayTria.png","Botones/btnPlayTriaP.png");
         botonJugar.setPosition(ANCHO/2-(botonJugar.getWidth()/2)+10,ALTO*0.21f);
         botonJugar.getBtn().addListener(new ClickListener() {
             @Override
@@ -177,6 +182,7 @@ public class PantallaMenu extends PantallaAbstracta
         sistemaParticulas.draw(batch);
 
         botonPlay.render(batch);
+        start.render(batch);
 
 
 

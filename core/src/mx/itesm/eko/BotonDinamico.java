@@ -54,6 +54,12 @@ public class BotonDinamico {
         timerAnimacion = 0;
     }
 
+    public void cargarStart(){
+        animacion = new Animation(0.5f,texturaPartidaP[0][0],texturaPartidaP[0][1]);
+        animacion.setPlayMode(Animation.PlayMode.LOOP);
+        timerAnimacion = 0;
+    }
+
     public void cargarTexturasOso(){
         animacion=new Animation(0.30f,texturaPartidaP[0][0],texturaPartidaP[0][1],texturaPartidaP[0][2],texturaPartidaP[0][3]);
 

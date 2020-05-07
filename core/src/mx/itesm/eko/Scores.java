@@ -1,5 +1,7 @@
 package mx.itesm.eko;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -15,8 +17,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Scores {
-    public String txt="Scores.gdx";
-
+    private FileHandle fileEscr = Gdx.files.local("Scores.txt");
+    private FileHandle fileLect = Gdx.files.internal("Scores.txt");
 
     public float x,y;
     public Texto texto;
@@ -27,51 +29,29 @@ public class Scores {
         texto=new Texto("Fonts/fuente.fnt");
     }
     public void crearArchivo() {
-        FileWriter flwriter = null;
-        try {
-            flwriter = new FileWriter(txt);
-            BufferedWriter bfwriter = new BufferedWriter(flwriter);
-            bfwriter.write("");
-            bfwriter.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (flwriter != null) {
-                try {
-                    flwriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        fileEscr.writeString("0\n-\n0\n-\n0\n-\n0\n-\n0\n-\n0\n-",false);
     }
 
+
     public ArrayList leerArchivo() throws FileNotFoundException, IOException {
-        String cadena;
+        String[] division=fileLect.readString().split("\n");
         ArrayList lista=new ArrayList();
-        FileReader f = new FileReader(txt);
-        BufferedReader b = new BufferedReader(f);
-        while((cadena = b.readLine())!=null) {
-            lista.add(cadena);
+        int i=0;
+        while(lista.size()!=division.length){
+            lista.add(division[i]);
+            i++;
         }
-        b.close();
         return lista;
     }
 
     public void escribirArchivo(String score,String nombre) throws IOException {
         ArrayList arr=leerArchivo();
-        File file = new File(txt);
-        FileWriter fr = new FileWriter(file, true);
-        BufferedWriter br = new BufferedWriter(fr);
         if (arr.size()<2){
-            br.write(score+"\n"+nombre);
+            fileEscr.writeString(score+"\n"+nombre,true);
         }
         else {
-            br.write("\n" + score + "\n" + nombre);
+            fileEscr.writeString("\n" + score + "\n" + nombre,true);
         }
-        br.close();
-        fr.close();
 
     }
 
@@ -84,11 +64,10 @@ public class Scores {
     }
 
     public boolean comprobarArchivo(){
-        File archivo = new File(txt);
-        BufferedWriter bw;
-        if(archivo.exists()) {
+        if (Gdx.files.local("Scores.txt").exists()){
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }

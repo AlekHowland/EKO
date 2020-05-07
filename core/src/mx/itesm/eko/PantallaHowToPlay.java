@@ -42,7 +42,7 @@ public class PantallaHowToPlay extends PantallaAbstracta {
 
 
 
-        Boton botonNext = new Boton("Botones/botonNext.png","Botones/botonNext.png");
+        Boton botonNext = new Boton("Botones/botonNext.png","Botones/botonNextP.png");
         botonNext.setPosition(ANCHO*0.65f,ALTO*0.69f);
 
         botonNext.getBtn().addListener(new ClickListener() {
@@ -62,7 +62,7 @@ public class PantallaHowToPlay extends PantallaAbstracta {
         escenaMenu.addActor(botonNext.getBtn());
 
         //Boton Exit
-        Boton botonExit = new Boton("Botones/botonExit.png","Botones/botonExit.png");
+        Boton botonExit = new Boton("Botones/botonExit.png","Botones/botonExitP.png");
         botonExit.setPosition(ANCHO*0.65f,ALTO*0.57f);
         botonExit.getBtn().addListener(new ClickListener() {
             @Override

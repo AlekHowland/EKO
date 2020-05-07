@@ -110,7 +110,7 @@ public class PantallaMenu extends PantallaAbstracta
 
 
         //Boton Scores
-        Boton botonScores = new Boton("Botones/trofeo.png","Botones/trofeo.png");
+        Boton botonScores = new Boton("Botones/trofeo.png","Botones/trofeoP.png");
         botonScores.setPosition(ANCHO*0.18f-botonScores.getWidth()/2,ALTO*0.21f);
         botonScores.getBtn().addListener(new ClickListener() {
             @Override
@@ -123,7 +123,7 @@ public class PantallaMenu extends PantallaAbstracta
         escenaMenu.addActor(botonScores.getBtn());
 
         //Boton How To Play
-        Boton botonHowToPlay = new Boton("Botones/botonHowToPlay.png","Botones/botonHowToPlay.png");
+        Boton botonHowToPlay = new Boton("Botones/botonHowToPlay.png","Botones/botonHowToPlayP.png");
         botonHowToPlay.setPosition(ANCHO*0.71f,ALTO*0.599f);
         botonHowToPlay.getBtn().addListener(new ClickListener() {
             @Override
@@ -136,7 +136,7 @@ public class PantallaMenu extends PantallaAbstracta
         escenaMenu.addActor(botonHowToPlay.getBtn());
 
         //Boton Settings
-        Boton botonSettings = new Boton("Botones/botonSettings.png","Botones/botonSettings.png");
+        Boton botonSettings = new Boton("Botones/botonSettings.png","Botones/botonSettingsP.png");
         botonSettings.setPosition(ANCHO*0.74f,ALTO*0.41f);
         botonSettings.getBtn().addListener(new ClickListener() {
             @Override
@@ -149,7 +149,7 @@ public class PantallaMenu extends PantallaAbstracta
         escenaMenu.addActor(botonSettings.getBtn());
 
         //Boton Credits
-        Boton botonCredits = new Boton("Botones/botonCredits.png","Botones/botonCredits.png");
+        Boton botonCredits = new Boton("Botones/botonCredits.png","Botones/botonCreditsP.png");
         botonCredits.setPosition(ANCHO*0.72f,ALTO*0.21f);
         botonCredits.getBtn().addListener(new ClickListener() {
             @Override

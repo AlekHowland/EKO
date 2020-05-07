@@ -54,7 +54,7 @@ public class PantallaSettings extends PantallaAbstracta {
         escenaMenu.addActor(botonInfo.getBtn());
 
         //Boton on
-        Boton botonON= new Boton("Botones/botonON.png","Botones/botonON.png");
+        Boton botonON= new Boton("Botones/botonON.png","Botones/botonONP.png");
         botonON.setPosition(ANCHO*0.55f,ALTO*0.45f);
 
         botonON.getBtn().addListener(new ClickListener() {
@@ -71,7 +71,7 @@ public class PantallaSettings extends PantallaAbstracta {
         escenaMenu.addActor(botonON.getBtn());
 
         //Boton off
-        Boton botonOFF = new Boton("Botones/botonOff.png","Botones/botonOff.png");
+        Boton botonOFF = new Boton("Botones/botonOff.png","Botones/botonOffP.png");
         botonOFF.setPosition(ANCHO*0.55f,ALTO*0.3f);
 
         botonOFF.getBtn().addListener(new ClickListener() {

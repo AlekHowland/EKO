@@ -594,7 +594,7 @@ class PantallaJuego extends PantallaAbstracta {
             });
 
             //Boton regresar a juego
-            Boton botonBack = new Boton("Botones/botonContinue.png", "Botones/botonContinue.png");
+            Boton botonBack = new Boton("Botones/botonContinue.png", "Botones/botonContinueP.png");
             botonBack.setPosition(ANCHO / 2 + (botonBack.getWidth() / 2) - 70, ALTO * 0.2f);
             botonBack.getBtn().addListener(new ClickListener() {
                 @Override

@@ -219,6 +219,61 @@ class PantallaJuego extends PantallaAbstracta {
 
     @Override
     public void render(float delta) {
+        //ACTUALIZACIONES (MOVER OBJETOS,COLISIONES.ETC)
+
+
+        float x = bodyPersonaje.getPosition().x - ANCHO_PERSONAJE;
+        float y = bodyPersonaje.getPosition().y - ANCHO_PERSONAJE * 2;
+
+        personaje.getSprite().setPosition(x, y);
+
+        borrarPantalla(0, 0, 0);
+        batch.setProjectionMatrix(camara.combined);
+
+        batch.begin();
+
+        batch.draw(texturaFondo, 0, 0);
+        renderFondo(batch);
+        if (estadoJuego == EstadoJuego.JUGANDO) {
+            actualizar(delta);
+            moverEnemigo(delta);
+            moverFondo(delta);
+            probarColisiones();
+            hayItem();
+            moverPersonaje(delta);
+        }
+        if (enemigo == enemigo1) {
+            enemigoMov.render(batch, enemigo.sprite.getX(), enemigo.sprite.getY());
+        } else {
+            enemigo.render(batch);
+        }
+
+        if (hayItem() > 1000) {
+            huevo.render(batch);
+            moverItem(delta);
+            probarColisionesHuevo();
+        }
+        if (estadoJuego == EstadoJuego.JUGANDO) {
+            vidas.render(batch);
+            marcador.render(batch);
+            botonPausa.render(batch);
+        } else if (estadoJuego == EstadoJuego.MUERTO) {
+            marcador.render(batch);
+        }
+
+        sistemaParticulas.draw(batch);
+        batch.end();
+        if (estadoJuego == EstadoJuego.PAUSADO) {
+            escenaPausa.draw();
+        }
+        if (estadoJuego == EstadoJuego.MUERTO) {
+            juego.stopMusica();
+            score = marcador.getScore();
+            juego.setScreen(new PantallaMuerto(vista, batch, score, juego));
+        }
+
+        //La simulación física se actualiza
+        mundoFisica.step(1 / 60f, 6, 2);
 
     }
 

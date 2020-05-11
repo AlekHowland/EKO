@@ -238,7 +238,7 @@ class PantallaJuego extends PantallaAbstracta {
             actualizar(delta);
             moverEnemigo(delta);
             moverFondo(delta);
-            probarColisiones();
+            //probarColisiones();
             hayItem();
             moverPersonaje(delta);
         }
@@ -657,16 +657,5 @@ class PantallaJuego extends PantallaAbstracta {
             huevo.sprite.setX(ANCHO);
         }
     }
-    // Colisiones de enemigos
-    private void probarColisiones() {
-        Rectangle rectPersonaje = personaje.sprite.getBoundingRectangle();
-        Rectangle rectEnemigo = enemigo.sprite.getBoundingRectangle();
-        if (rectPersonaje.overlaps(rectEnemigo)) {
-            juego.setEfecto("Audios/efectoGolpe.mp3");
-            cambiarEnemigo();
-            enemigo.sprite.setX(ANCHO);
-            vidas.restar(1);
-        }
-
-    }
+ 
 }

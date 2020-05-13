@@ -279,11 +279,9 @@ class PantallaJuego extends PantallaAbstracta {
 
     private int hayItem() {
         int z = 0;
-        int x = marcador.getContador();
-        if(x > 500) {
-            z = (int) Math.random() * 1500;
-        }
+        
         return z;
+
     }
 
     private void moverItem(float delta) {

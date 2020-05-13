@@ -280,8 +280,10 @@ class PantallaJuego extends PantallaAbstracta {
     private int hayItem() {
         int z = 0;
         int x = marcador.getContador();
-        if(x > 500) {
+        if(x > 250) {
             z = (int) Math.random() * 1500;
+        }else{
+            z = 20;
         }
         return z;
 

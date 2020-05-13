@@ -265,6 +265,7 @@ class PantallaJuego extends PantallaAbstracta {
         batch.end();
         if (estadoJuego == EstadoJuego.PAUSADO) {
             escenaPausa.draw();
+            moverEnemigoPausa(delta);
         }
         if (estadoJuego == EstadoJuego.MUERTO) {
             juego.stopMusica();
@@ -275,6 +276,12 @@ class PantallaJuego extends PantallaAbstracta {
         //La simulación física se actualiza
         mundoFisica.step(1 / 60f, 6, 2);
 
+    }
+
+    private void moverEnemigoPausa(float delta) {
+        float a = enemigo.sprite.getX();
+        float b = enemigo.sprite.getY();
+        enemigo.setPosition(a,b);
     }
 
     private int hayItem() {

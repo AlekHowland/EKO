@@ -248,7 +248,7 @@ class PantallaJuego extends PantallaAbstracta {
             enemigo.render(batch);
         }
 
-        if (hayItem() > 1000) {
+        if (hayItem() > 1490) {
             huevo.render(batch);
             moverItem(delta);
             probarColisionesHuevo();
@@ -278,8 +278,12 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private int hayItem() {
+        int z = 0;
         int x = marcador.getContador();
-        return x;
+        if(x > 500) {
+            z = (int) Math.random() * 1500;
+        }
+        return z;
     }
 
     private void moverItem(float delta) {

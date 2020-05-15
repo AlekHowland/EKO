@@ -234,6 +234,7 @@ class PantallaJuego extends PantallaAbstracta {
 
         batch.draw(texturaFondo, 0, 0);
         renderFondo(batch);
+        personaje.render(batch);
         if (estadoJuego == EstadoJuego.JUGANDO) {
             actualizar(delta);
             moverEnemigo(delta);

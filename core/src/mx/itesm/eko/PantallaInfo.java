@@ -45,10 +45,6 @@ public class PantallaInfo extends PantallaAbstracta {
         this.juego=juego;
     }
 
-    @Override
-    public InputProcessor getInputProcessor() {
-        return escenaMenu;
-    }
 
     @Override
     public void show() {
@@ -74,20 +70,7 @@ public class PantallaInfo extends PantallaAbstracta {
         Boton logo = new Boton("Fondos/fondoIntroBoton.png","Fondos/fondoIntroBoton.png");
         logo.setPosition(ANCHO/2-logo.getWidth()/2,ALTO*0.5f);
 
-        //Boton de refreso al menú
-        Boton botonInfo = new Boton("Botones/btnReturn.png","Botones/btnReturnP.png");
-        botonInfo.setPosition(ANCHO*0.75f,ALTO*0.05f);
 
-        botonInfo.getBtn().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                audioInfo.setEfecto("Audios/efectoBoton.mp3");
-                juego.setScreen(new PantallaMenu(juego));
-            }
-        });
-        escenaMenu.addActor(botonInfo.getBtn());
-        //escenaMenu.addActor(logo.getBtn());
 
         Gdx.input.setInputProcessor(escenaMenu);
     }
@@ -140,6 +123,56 @@ public class PantallaInfo extends PantallaAbstracta {
     @Override
     public void dispose() {
         escenaCreditos.dispose();
+    }
+
+    @Override
+    public InputProcessor getInputProcessor() {
+        return new ProcesadorEntrada();
+    }
+
+    private class ProcesadorEntrada implements InputProcessor {
+
+        @Override
+        public boolean keyDown(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyUp(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyTyped(char character) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            audioInfo.setEfecto("Audios/efectoBoton.mp3");
+            juego.setScreen(new PantallaMenu(juego));
+            return false;
+        }
+
+        @Override
+        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
+            return false;
+        }
+
+        @Override
+        public boolean mouseMoved(int screenX, int screenY) {
+            return false;
+        }
+
+        @Override
+        public boolean scrolled(int amount) {
+            return false;
+        }
     }
 
 }

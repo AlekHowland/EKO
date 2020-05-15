@@ -49,6 +49,10 @@ public class Personaje extends Objeto {
         sprite.setY(sprite.getY() + dy);
     }
 
+    public void moverX(float dx) {
+        sprite.setX(sprite.getX() + dx);
+    }
+
     public void cargarTexturas() {
         switch (assets){
             case "Oso":
@@ -103,5 +107,13 @@ public class Personaje extends Objeto {
         timerAnimacion += Gdx.graphics.getDeltaTime();
         TextureRegion region = (TextureRegion) animacionSaltando.getKeyFrame(timerAnimacion);
         batch.draw(region,sprite.getX(), sprite.getY()-sprite.getY()/3);
+    }
+
+    public void setAssets(String assetsS){
+        assets=assetsS;
+    }
+
+    public String getAssets(){
+        return assets;
     }
 }

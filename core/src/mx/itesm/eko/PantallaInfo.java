@@ -32,6 +32,11 @@ public class PantallaInfo extends PantallaAbstracta {
     private FileHandle handle = Gdx.files.internal(path);
     private String texto = handle.readString();
 
+    //Personaje
+    private Texture texturaPersonaje=new Texture("Personajes/assetOso.png");
+    private Personaje personaje;
+    private Personaje elefante= new Personaje(texturaPersonaje, -ANCHO*0.3f, 0, "Elefante");
+    private Personaje oso= new Personaje(texturaPersonaje, -ANCHO*0.3f, 0, "Oso");
     // Audio
     private ControladorAudio audioInfo = new ControladorAudio();
 
@@ -48,6 +53,9 @@ public class PantallaInfo extends PantallaAbstracta {
     @Override
     public void show() {
         crearMenu();
+        oso.cargarTexturas();
+        elefante.cargarTexturas();
+        personaje=oso;
     }
 
     private void crearMenu() {
@@ -94,11 +102,29 @@ public class PantallaInfo extends PantallaAbstracta {
         if (!creditos.isAnimado()) {
             creditos.activarAnimacion();
         }
+        moverPersonaje();
+        batch.begin();
+        personaje.renderCorrer(batch);
 
+        batch.end();
         escenaCreditos.act();
         escenaCreditos.draw();
 
         escenaMenu.draw();
+    }
+
+    private void moverPersonaje() {
+        personaje.moverX(5);
+        if (personaje.sprite.getX()>=ANCHO*1.3){
+            personaje.sprite.setX(-ANCHO*0.3f);
+            switch (personaje.getAssets()){
+                case "Oso":
+                    personaje=elefante;
+                    break;
+                case "Elefante":
+                    personaje=oso;
+            }
+        }
     }
 
     @Override

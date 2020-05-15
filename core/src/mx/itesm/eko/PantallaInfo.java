@@ -59,10 +59,10 @@ public class PantallaInfo extends PantallaAbstracta {
 
         escenaCreditos = new Stage();
 
-        creditos = new logicaCreditos(texto, TimeUnit.SECONDS.toMillis(50));
+        creditos = new logicaCreditos(texto, TimeUnit.SECONDS.toMillis(500));
 
         creditos.setPosition(ANCHO/2, 0);
-        creditos.setDy(30);
+        creditos.setDy(60);
 
         escenaCreditos.addActor(creditos);
 

@@ -40,9 +40,6 @@ class PantallaJuego extends PantallaAbstracta {
     private World mundoFisica;
     private Body bodyPersonaje;
     private static final float ANCHO_PERSONAJE = 20;
-    private Vector2 gravedadArr = new Vector2(0, 999999999);
-    private Vector2 gravedadAb = new Vector2(0, -999999999);
-
 
     // Texturas
     private Texture texturaPersonaje;
@@ -136,7 +133,7 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void createVidas() {
-        vidas = new Vidas(0, 0.9f * ALTO, 3, assets);
+        vidas = new Vidas(0, 0.9f * ALTO, 100, assets);
     }
 
 
@@ -158,9 +155,6 @@ class PantallaJuego extends PantallaAbstracta {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(0, ALTO * 0.15f);
         bodyPersonaje = mundoFisica.createBody(bodyDef);
-        MassData masa=new MassData();
-        masa.mass=99999999;
-        bodyPersonaje.setMassData(masa);
 
         PolygonShape cajaFisica = new PolygonShape();
         cajaFisica.setAsBox(ANCHO_PERSONAJE, ANCHO_PERSONAJE * 2);
@@ -170,14 +164,13 @@ class PantallaJuego extends PantallaAbstracta {
 
         //Se hacen físicas diferentes para cada asset
         if (assets.equals("assetOso.png")) {
-            fixtureDef.density = 0;
-            fixtureDef.friction=0;
+            fixtureDef.density = 0.3f;
             fixtureDef.restitution = 0;
         } else if (assets.equals("assetElefante.png")) {
-            fixtureDef.density = 0.7f;
+            fixtureDef.density = 0.5f;
             fixtureDef.restitution = 0.0f;
         } else if (assets.equals("assetTortuga.png")) {
-            fixtureDef.density = 0.3f;
+            fixtureDef.density = 0.1f;
             fixtureDef.restitution = 0.2f;
         }
 
@@ -189,7 +182,7 @@ class PantallaJuego extends PantallaAbstracta {
 
     private void createMundoFisica() {
         Box2D.init();
-        Vector2 gravedad = new Vector2(0, -999999999);
+        Vector2 gravedad = new Vector2(0, -7.5f);
         mundoFisica = new World(gravedad, true);
     }
 
@@ -234,6 +227,7 @@ class PantallaJuego extends PantallaAbstracta {
 
         batch.draw(texturaFondo, 0, 0);
         renderFondo(batch);
+        personaje.render(batch);
         if (estadoJuego == EstadoJuego.JUGANDO) {
             actualizar(delta);
             moverEnemigo(delta);
@@ -248,7 +242,7 @@ class PantallaJuego extends PantallaAbstracta {
             enemigo.render(batch);
         }
 
-        if (hayItem() > 1000) {
+        if (hayItem() > 995) {
             huevo.render(batch);
             moverItem(delta);
             probarColisionesHuevo();
@@ -265,6 +259,7 @@ class PantallaJuego extends PantallaAbstracta {
         batch.end();
         if (estadoJuego == EstadoJuego.PAUSADO) {
             escenaPausa.draw();
+            moverEnemigoPausa(delta);
         }
         if (estadoJuego == EstadoJuego.MUERTO) {
             juego.stopMusica();
@@ -273,13 +268,25 @@ class PantallaJuego extends PantallaAbstracta {
         }
 
         //La simulación física se actualiza
-        mundoFisica.step(1 / 60f, 6, 2);
+        mundoFisica.step(1 / 11f, 6, 2);
 
     }
 
+    private void moverEnemigoPausa(float delta) {
+        float a = enemigo.sprite.getX();
+        float b = enemigo.sprite.getY();
+        enemigo.setPosition(a,b);
+    }
+
     private int hayItem() {
+        int z = 0;
         int x = marcador.getContador();
-        return x;
+        if(x > 250) z = (int) (Math.random() * 1000);
+        else{
+            z = 20;
+        }
+        return z;
+
     }
 
     private void moverItem(float delta) {
@@ -388,9 +395,6 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void moverPersonaje(float delta) {
-        if (personaje.sprite.getY() >= ALTO * 0.25f) {
-            mundoFisica.setGravity(gravedadAb);
-        }
         timerPersonaje = delta;
         switch (movimientoPersonaje) {
             case ABAJO:
@@ -532,8 +536,7 @@ class PantallaJuego extends PantallaAbstracta {
                 //audio.setEfecto("salto.mp3");
                 //movimientoPersonaje = Movimiento.ARRIBA;
                 if (personaje.sprite.getY() <= ALTO * 0.11f) {
-                    mundoFisica.setGravity(gravedadArr);
-                    bodyPersonaje.applyLinearImpulse(0, 999999999, x, y, true);
+                    bodyPersonaje.applyLinearImpulse(0, 10000000, x, y, true);
                 }
 
             }

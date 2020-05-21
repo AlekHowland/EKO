@@ -30,10 +30,17 @@ public class Personaje extends Objeto {
         TextureRegion regionCorriendo = new TextureRegion(texturaCorriendo);
         TextureRegion regionAgachado = new TextureRegion(texturaAgachado);
         TextureRegion regionSaltando = new TextureRegion(texturaSaltando);
-        if (assets == "Oso") {
-            texturaPCorriendo = regionCorriendo.split(300, 150);
-            texturaPAgachado = regionAgachado.split(300, 94);
-            texturaPSaltando= regionSaltando.split(300, 194);
+        switch (assets){
+            case "Oso":
+                texturaPCorriendo = regionCorriendo.split(300, 150);
+                texturaPAgachado = regionAgachado.split(300, 94);
+                texturaPSaltando= regionSaltando.split(300, 194);
+                break;
+            case "Elefante":
+                texturaPCorriendo = regionCorriendo.split(250, 170);
+                texturaPAgachado = regionAgachado.split(260, 90);
+                texturaPSaltando= regionCorriendo.split(392, 266);
+                break;
         }
 
     }
@@ -42,10 +49,20 @@ public class Personaje extends Objeto {
         sprite.setY(sprite.getY() + dy);
     }
 
+    public void moverX(float dx) {
+        sprite.setX(sprite.getX() + dx);
+    }
+
     public void cargarTexturas() {
-        if (assets == "Oso") {
-            animacionCorriendo = new Animation(0.1f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4], texturaPCorriendo[0][5], texturaPCorriendo[0][6], texturaPCorriendo[0][7]);
-            animacionAgachado = new Animation(0.1f, texturaPAgachado[0][0], texturaPAgachado[0][1], texturaPAgachado[0][2]);
+        switch (assets){
+            case "Oso":
+                animacionCorriendo = new Animation(0.1f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4], texturaPCorriendo[0][5], texturaPCorriendo[0][6], texturaPCorriendo[0][7]);
+                animacionAgachado = new Animation(0.1f, texturaPAgachado[0][0], texturaPAgachado[0][1], texturaPAgachado[0][2]);
+                break;
+            case "Elefante":
+                animacionCorriendo = new Animation(0.075f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4], texturaPCorriendo[0][5], texturaPCorriendo[0][6]);
+                animacionAgachado = new Animation(0.1f, texturaPAgachado[0][0], texturaPAgachado[0][1], texturaPAgachado[0][2],texturaPAgachado[0][3]);
+                break;
 
         }
         animacionCorriendo.setPlayMode(Animation.PlayMode.LOOP);
@@ -72,15 +89,31 @@ public class Personaje extends Objeto {
 
     public void renderSaltar(SpriteBatch batch){
 
-        if (assets=="Oso") {
-            if (timerAnimacion>=1.75f){
-                timerAnimacion=0;
-            }
-            animacionSaltando = new Animation(0.35f, texturaPSaltando[0][0], texturaPSaltando[0][1], texturaPSaltando[0][2], texturaPSaltando[0][3], texturaPSaltando[0][4]);
+        switch (assets){
+            case "Oso":
+                if (timerAnimacion>=1.75f){
+                    timerAnimacion=0;
+                }
+                animacionSaltando = new Animation(0.35f, texturaPSaltando[0][0], texturaPSaltando[0][1], texturaPSaltando[0][2], texturaPSaltando[0][3], texturaPSaltando[0][4]);
+                break;
+            case "Elefante":
+                if (timerAnimacion>=1.75f){
+                    timerAnimacion=0;
+                }
+                animacionSaltando = new Animation(0.1f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4], texturaPCorriendo[0][5], texturaPCorriendo[0][6]);
+                break;
         }
         animacionSaltando.setPlayMode(Animation.PlayMode.NORMAL);
         timerAnimacion += Gdx.graphics.getDeltaTime();
         TextureRegion region = (TextureRegion) animacionSaltando.getKeyFrame(timerAnimacion);
         batch.draw(region,sprite.getX(), sprite.getY()-sprite.getY()/3);
+    }
+
+    public void setAssets(String assetsS){
+        assets=assetsS;
+    }
+
+    public String getAssets(){
+        return assets;
     }
 }

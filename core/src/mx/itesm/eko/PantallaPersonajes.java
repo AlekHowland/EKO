@@ -31,8 +31,15 @@ public class PantallaPersonajes extends PantallaAbstracta {
     public void show() {
         texturaFondo = new Texture("Personajes/select"+assets+".jpg");
         texturaPersonaje=new Texture("Personajes/asset"+assets+"Dormido.png");
-        personaje=new BotonDinamico(texturaPersonaje,texturaPersonaje,170,462,ANCHO*0.3f,ALTO*0.3f);
-        personaje.cargarTexturasOso();
+        switch (assets){
+            case "Oso":
+                personaje = new BotonDinamico(texturaPersonaje, texturaPersonaje, 170, 462, ANCHO * 0.3f, ALTO * 0.3f);
+                personaje.cargarTexturasOso();
+                break;
+            case "Elefante":
+                personaje = new BotonDinamico(texturaPersonaje, texturaPersonaje, 189, 406, ANCHO * 0.3f, ALTO * 0.3f);
+                personaje.cargarTexturasElefante();
+        }
         crearMenu();
     }
 
@@ -50,7 +57,7 @@ public class PantallaPersonajes extends PantallaAbstracta {
                 super.clicked(event, x, y);
                 juego.setEfecto("Audios/cambioPagina.mp3");
                 if(assets=="Oso")
-                    juego.setScreen(new PantallaPersonajes(juego,"Oso"));
+                    juego.setScreen(new PantallaPersonajes(juego,"Elefante"));
                 else if(assets=="Tortuga")
                     juego.setScreen(new PantallaPersonajes(juego,"Elefante"));
                 else if(assets=="Elefante")
@@ -70,9 +77,9 @@ public class PantallaPersonajes extends PantallaAbstracta {
                 if(assets=="Tortuga")
                     juego.setScreen(new PantallaPersonajes(juego,"Oso"));
                 else if(assets=="Oso")
-                    juego.setScreen(new PantallaPersonajes(juego,"Oso"));
+                    juego.setScreen(new PantallaPersonajes(juego,"Elefante"));
                 else if(assets=="Elefante")
-                    juego.setScreen(new PantallaPersonajes(juego,"Tortuga"));
+                    juego.setScreen(new PantallaPersonajes(juego,"Oso"));
             }
         });
         escenaMenu.addActor(btnIzq.getBtn());

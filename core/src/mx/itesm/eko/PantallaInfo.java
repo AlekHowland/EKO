@@ -8,10 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import mx.itesm.eko.musica.ControladorAudio;
@@ -32,6 +28,11 @@ public class PantallaInfo extends PantallaAbstracta {
     private FileHandle handle = Gdx.files.internal(path);
     private String texto = handle.readString();
 
+    //Personaje
+    private Texture texturaPersonaje=new Texture("Personajes/assetOso.png");
+    private Personaje personaje;
+    private Personaje elefante= new Personaje(texturaPersonaje, -ANCHO*0.3f, 0, "Elefante");
+    private Personaje oso= new Personaje(texturaPersonaje, -ANCHO*0.3f, 0, "Oso");
     // Audio
     private ControladorAudio audioInfo = new ControladorAudio();
 
@@ -40,14 +41,13 @@ public class PantallaInfo extends PantallaAbstracta {
         this.juego=juego;
     }
 
-    @Override
-    public InputProcessor getInputProcessor() {
-        return escenaMenu;
-    }
 
     @Override
     public void show() {
         crearMenu();
+        oso.cargarTexturas();
+        elefante.cargarTexturas();
+        personaje=oso;
     }
 
     private void crearMenu() {
@@ -55,10 +55,10 @@ public class PantallaInfo extends PantallaAbstracta {
 
         escenaCreditos = new Stage();
 
-        creditos = new logicaCreditos(texto, TimeUnit.SECONDS.toMillis(50));
+        creditos = new logicaCreditos(texto, TimeUnit.SECONDS.toMillis(500));
 
         creditos.setPosition(ANCHO/2, 0);
-        creditos.setDy(30);
+        creditos.setDy(60);
 
         escenaCreditos.addActor(creditos);
 
@@ -66,20 +66,7 @@ public class PantallaInfo extends PantallaAbstracta {
         Boton logo = new Boton("Fondos/fondoIntroBoton.png","Fondos/fondoIntroBoton.png");
         logo.setPosition(ANCHO/2-logo.getWidth()/2,ALTO*0.5f);
 
-        //Boton de refreso al menú
-        Boton botonInfo = new Boton("Botones/btnReturn.png","Botones/btnReturnP.png");
-        botonInfo.setPosition(ANCHO*0.75f,ALTO*0.05f);
 
-        botonInfo.getBtn().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                audioInfo.setEfecto("Audios/efectoBoton.mp3");
-                juego.setScreen(new PantallaMenu(juego));
-            }
-        });
-        escenaMenu.addActor(botonInfo.getBtn());
-        //escenaMenu.addActor(logo.getBtn());
 
         Gdx.input.setInputProcessor(escenaMenu);
     }
@@ -94,11 +81,29 @@ public class PantallaInfo extends PantallaAbstracta {
         if (!creditos.isAnimado()) {
             creditos.activarAnimacion();
         }
+        moverPersonaje();
+        batch.begin();
+        personaje.renderCorrer(batch);
 
+        batch.end();
         escenaCreditos.act();
         escenaCreditos.draw();
 
         escenaMenu.draw();
+    }
+
+    private void moverPersonaje() {
+        personaje.moverX(5);
+        if (personaje.sprite.getX()>=ANCHO*1.3){
+            personaje.sprite.setX(-ANCHO*0.3f);
+            switch (personaje.getAssets()){
+                case "Oso":
+                    personaje=elefante;
+                    break;
+                case "Elefante":
+                    personaje=oso;
+            }
+        }
     }
 
     @Override
@@ -114,6 +119,56 @@ public class PantallaInfo extends PantallaAbstracta {
     @Override
     public void dispose() {
         escenaCreditos.dispose();
+    }
+
+    @Override
+    public InputProcessor getInputProcessor() {
+        return new ProcesadorEntrada();
+    }
+
+    private class ProcesadorEntrada implements InputProcessor {
+
+        @Override
+        public boolean keyDown(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyUp(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyTyped(char character) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            audioInfo.setEfecto("Audios/efectoBoton.mp3");
+            juego.setScreen(new PantallaMenu(juego));
+            return false;
+        }
+
+        @Override
+        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
+            return false;
+        }
+
+        @Override
+        public boolean mouseMoved(int screenX, int screenY) {
+            return false;
+        }
+
+        @Override
+        public boolean scrolled(int amount) {
+            return false;
+        }
     }
 
 }

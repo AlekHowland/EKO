@@ -33,7 +33,9 @@ public class PantallaMenu extends PantallaAbstracta
     //Botones
     private BotonDinamico botonPlay;
     private BotonDinamico botonInfo;
+    private Boton botonScores;
     private BotonDinamico start;
+    float timerBoton=0;
 
 
     //Sistema de partículas
@@ -115,7 +117,7 @@ public class PantallaMenu extends PantallaAbstracta
 
 
         //Boton Scores
-        Boton botonScores = new Boton("Botones/trofeo.png","Botones/trofeoP.png");
+        botonScores = new Boton("Botones/trofeo.png","Botones/trofeoP.png");
         botonScores.setPosition(ANCHO*0.18f-botonScores.getWidth()/2,ALTO*0.21f);
         botonScores.getBtn().addListener(new ClickListener() {
             @Override
@@ -178,6 +180,7 @@ public class PantallaMenu extends PantallaAbstracta
         batch.setProjectionMatrix(camara.combined);
         sistemaParticulas.update(delta);
         batch.begin();
+        moverBoton();
         batch.draw(texturaFondo,0,0);
         sistemaParticulas.draw(batch);
 
@@ -189,6 +192,19 @@ public class PantallaMenu extends PantallaAbstracta
         batch.end();
 
         escenaMenu.draw();
+    }
+
+    private void moverBoton() {
+        timerBoton+=0.001;
+        if (timerBoton<=0.1) {
+            botonScores.setPosition(botonScores.getBtn().getX()+0.07f, botonScores.getBtn().getY() + 0.1f);
+        }
+        else if(timerBoton<=0.2){
+            botonScores.setPosition(botonScores.getBtn().getX()-0.07f, botonScores.getBtn().getY() - 0.1f);
+        }
+        else {
+            timerBoton=0;
+        }
     }
 
     @Override

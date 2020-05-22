@@ -102,6 +102,7 @@ public class PantallaMenu extends PantallaAbstracta
             }
             if (!settings.musicaPrendida()){
                 juego.stopMusica();
+                juego.changeMusicaUsuario(false);
             }
 
 

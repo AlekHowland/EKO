@@ -100,7 +100,7 @@ public class PantallaMenu extends PantallaAbstracta
 
         //Boton Jugar
         Boton botonJugar = new Boton("Botones/btnPlayTria.png","Botones/btnPlayTriaP.png");
-        botonJugar.setPosition(ANCHO/2-(botonJugar.getWidth()/2)+10,ALTO*0.21f);
+        botonJugar.setPosition(ANCHO/2-(botonJugar.getWidth()/2)+10,ALTO*0.10f);
         botonJugar.getBtn().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

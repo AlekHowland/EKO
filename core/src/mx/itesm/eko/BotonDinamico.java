@@ -14,15 +14,12 @@ public class BotonDinamico {
     private float timerAnimacion;//frames en tiempos definidos
     private float x, y;
     private EstadoMovimiento estado=EstadoMovimiento.SUELTO;//QUIETO,CAMINANDO
-    private TextureRegion[][] texturaPartida;
     private TextureRegion[][] texturaPartidaP;
 
-    public BotonDinamico(Texture textura, Texture texturaP,int alto, int ancho,float x, float y) {
+    public BotonDinamico(Texture textura,int alto, int ancho,float x, float y) {
         this.x=x;
         this.y=y;
         TextureRegion region=new TextureRegion(textura);
-        TextureRegion regionP=new TextureRegion(texturaP);
-        texturaPartida=region.split(ancho,alto);
         texturaPartidaP=region.split(ancho,alto);
 
     }
@@ -48,10 +45,12 @@ public class BotonDinamico {
         timerAnimacion=0;
     }
 
-    public void cargarEnemigo1(){
-        animacion = new Animation(0.1f,texturaPartidaP[0][0],texturaPartidaP[0][1],texturaPartidaP[0][2]);
+    public void cargarItem(){
+
+        animacion=new Animation(0.1f,texturaPartidaP[0][0],texturaPartidaP[0][1],texturaPartidaP[0][2],texturaPartidaP[0][3],texturaPartidaP[0][4],texturaPartidaP[0][5],texturaPartidaP[0][6],texturaPartidaP[0][7]);
+
         animacion.setPlayMode(Animation.PlayMode.LOOP);
-        timerAnimacion = 0;
+        timerAnimacion=0;
     }
 
     public void cargarStart(){

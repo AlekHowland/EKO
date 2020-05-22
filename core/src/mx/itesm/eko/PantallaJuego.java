@@ -48,7 +48,6 @@ class PantallaJuego extends PantallaAbstracta {
     private Texture texturaEnemigo2;
     private Texture texturaEnemigo3;
     private Texture texturaPersonajeAbajo;
-    private Texture texturaEnMov;
     private Texture texturaHuevo;
 
 
@@ -58,7 +57,6 @@ class PantallaJuego extends PantallaAbstracta {
     private Enemigo enemigo1;
     private Enemigo enemigo2;
     private Enemigo enemigo3;
-    private BotonDinamico enemigoMov;
     private Item huevo;
 
     //Fondo
@@ -192,11 +190,12 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void createEnemigo() {
-        enemigo1 = new Enemigo(texturaEnemigo1, ANCHO, ALTO * 0.05f, 1);
-        enemigo2 = new Enemigo(texturaEnemigo2, ANCHO, ALTO * 0.05f, 2);
-        enemigo3 = new Enemigo(texturaEnemigo3, ANCHO, ALTO * 0.05f, 3);
-        enemigoMov = new BotonDinamico(texturaEnMov, texturaEnMov, 65, 110, ANCHO, ALTO);
-        enemigoMov.cargarEnemigo1();
+        enemigo1 = new Enemigo(texturaEnemigo1, ANCHO, ALTO * 0.05f, 1,assets);
+        enemigo1.cargarTexturas();
+        enemigo2 = new Enemigo(texturaEnemigo2, ANCHO, ALTO * 0.05f, 2,assets);
+        enemigo2.cargarTexturas();
+        enemigo3 = new Enemigo(texturaEnemigo3, ANCHO, ALTO * 0.05f, 3,assets);
+        enemigo3.cargarTexturas();
         cambiarEnemigo();
     }
 
@@ -206,7 +205,6 @@ class PantallaJuego extends PantallaAbstracta {
         texturaEnemigo2 = new Texture("Enemigos/enemigo" + assets + "2.png");
         texturaEnemigo3 = new Texture("Enemigos/enemigo" + assets + "3.png");
         texturaPersonajeAbajo = new Texture("Personajes/asset" + assets + "Abajo.png");
-        texturaEnMov = new Texture("Enemigos/enemigo" + assets + "Animado1.png");
         texturaHuevo = new Texture("Personajes/huevo.png");
     }
 
@@ -230,23 +228,21 @@ class PantallaJuego extends PantallaAbstracta {
         personaje.render(batch);
         if (estadoJuego == EstadoJuego.JUGANDO) {
             actualizar(delta);
+            enemigo.render(batch);
+            enemigo.renderAnimacion(batch);
             moverEnemigo(delta);
             moverFondo(delta);
             probarColisiones();
             hayItem();
             moverPersonaje(delta);
-        }
-        if (enemigo == enemigo1) {
-            enemigoMov.render(batch, enemigo.sprite.getX(), enemigo.sprite.getY());
-        } else {
-            enemigo.render(batch);
+            if (hayItem() > 10) {
+                huevo.renderAnimacion(batch);
+                moverItem(delta);
+                probarColisionesHuevo();
+            }
         }
 
-        if (hayItem() > 995) {
-            huevo.render(batch);
-            moverItem(delta);
-            probarColisionesHuevo();
-        }
+
         if (estadoJuego == EstadoJuego.JUGANDO) {
             vidas.render(batch);
             marcador.render(batch);

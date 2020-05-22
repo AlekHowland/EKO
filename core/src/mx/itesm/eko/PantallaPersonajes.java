@@ -33,11 +33,11 @@ public class PantallaPersonajes extends PantallaAbstracta {
         texturaPersonaje=new Texture("Personajes/asset"+assets+"Dormido.png");
         switch (assets){
             case "Oso":
-                personaje = new BotonDinamico(texturaPersonaje, texturaPersonaje, 170, 462, ANCHO * 0.3f, ALTO * 0.3f);
+                personaje = new BotonDinamico(texturaPersonaje,  170, 462, ANCHO * 0.3f, ALTO * 0.3f);
                 personaje.cargarTexturasOso();
                 break;
             case "Elefante":
-                personaje = new BotonDinamico(texturaPersonaje, texturaPersonaje, 189, 406, ANCHO * 0.3f, ALTO * 0.3f);
+                personaje = new BotonDinamico(texturaPersonaje,  189, 406, ANCHO * 0.3f, ALTO * 0.3f);
                 personaje.cargarTexturasElefante();
         }
         crearMenu();

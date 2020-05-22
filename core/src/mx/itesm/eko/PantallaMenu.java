@@ -62,9 +62,9 @@ public class PantallaMenu extends PantallaAbstracta
     }
 
     private void crearBotones() {
-        botonPlay = new BotonDinamico(texturaBtnPlay,texturaBtnPlay,332,331,ANCHO/2-(texturaBtnPlay.getHeight()/2)+10,ALTO*0.21f);
+        botonPlay = new BotonDinamico(texturaBtnPlay,332,331,ANCHO/2-(texturaBtnPlay.getHeight()/2)+10,ALTO*0.21f);
         botonPlay.cargarTexturasBtnPlay();
-        start = new BotonDinamico(texturaStart,texturaStart,23,287,ANCHO/2-(texturaBtnPlay.getHeight()/2)+40,ALTO*0.135f);
+        start = new BotonDinamico(texturaStart,23,287,ANCHO/2-(texturaBtnPlay.getHeight()/2)+40,ALTO*0.135f);
         start.cargarStart();
     }
 

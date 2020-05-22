@@ -19,7 +19,7 @@ public class PantallaSettings extends PantallaAbstracta {
 
     private EstadoMusica estadoMusica;
     private Texture texturaON=new Texture("Botones/botonON.png");
-    private Texture texturaOFF=new Texture("Botones/botonOFF.png");
+    private Texture texturaOFF=new Texture("Botones/botonOff.png");
     private Objeto imagenBtnMusica;
 
 

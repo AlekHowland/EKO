@@ -204,4 +204,8 @@ public class ControlJuego implements ApplicationListener
 
     public static class FondoDinamico {
     }
+
+    public boolean isMusicaOn(){
+        return musicaUsuario;
+    }
 }

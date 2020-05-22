@@ -17,6 +17,12 @@ public class PantallaSettings extends PantallaAbstracta {
     private Texture texturaFondo;
     private Stage escenaMenu;
 
+    private EstadoMusica estadoMusica;
+    private Texture texturaON=new Texture("Botones/botonON.png");
+    private Texture texturaOFF=new Texture("Botones/botonOFF.png");
+    private Objeto imagenBtnMusica;
+
+
 
     @Override
     public InputProcessor getInputProcessor() {
@@ -37,6 +43,15 @@ public class PantallaSettings extends PantallaAbstracta {
     private void crearMenu() {
         escenaMenu = new Stage(vista);
 
+        if (juego.isMusicaOn()){
+            imagenBtnMusica=new Objeto(texturaON,ANCHO*0.55f,ALTO*0.37f);
+            estadoMusica=EstadoMusica.ON;
+        }
+        else {
+            imagenBtnMusica=new Objeto(texturaOFF,ANCHO*0.55f,ALTO*0.37f);
+            estadoMusica=EstadoMusica.OFF;
+        }
+
 
 
 
@@ -54,37 +69,33 @@ public class PantallaSettings extends PantallaAbstracta {
         escenaMenu.addActor(botonInfo.getBtn());
 
         //Boton on
-        Boton botonON= new Boton("Botones/botonON.png","Botones/botonONP.png");
-        botonON.setPosition(ANCHO*0.55f,ALTO*0.45f);
+        Boton botonON= new Boton("Botones/botonMusica.png","Botones/botonMusicaP.png");
+        botonON.setPosition(ANCHO*0.55f,ALTO*0.37f);
 
         botonON.getBtn().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                juego.setEfecto("Audios/efectoBoton.mp3");
-                juego.playMixer();
-                juego.changeMusicaUsuario(true);
-
+                if (estadoMusica == EstadoMusica.OFF) {
+                    super.clicked(event, x, y);
+                    juego.setEfecto("Audios/efectoBoton.mp3");
+                    juego.playMixer();
+                    juego.changeMusicaUsuario(true);
+                    imagenBtnMusica.setTexture(texturaON);
+                    estadoMusica=EstadoMusica.ON;
+                }
+                else if(estadoMusica==EstadoMusica.ON){
+                    super.clicked(event, x, y);
+                    juego.stopMusica();
+                    juego.setEfecto("Audios/efectoBoton.mp3");
+                    juego.changeMusicaUsuario(false);
+                    imagenBtnMusica.setTexture(texturaOFF);
+                    estadoMusica=EstadoMusica.OFF;
+                }
 
             }
         });
         escenaMenu.addActor(botonON.getBtn());
 
-        //Boton off
-        Boton botonOFF = new Boton("Botones/botonOff.png","Botones/botonOffP.png");
-        botonOFF.setPosition(ANCHO*0.55f,ALTO*0.3f);
-
-        botonOFF.getBtn().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                juego.stopMusica();
-                juego.setEfecto("Audios/efectoBoton.mp3");
-                juego.changeMusicaUsuario(false);
-
-            }
-        });
-        escenaMenu.addActor(botonOFF.getBtn());
 
 
         Gdx.input.setInputProcessor(escenaMenu);
@@ -97,6 +108,7 @@ public class PantallaSettings extends PantallaAbstracta {
 
         batch.begin();
         batch.draw(texturaFondo,0,0);
+        imagenBtnMusica.render(batch);
         batch.end();
 
         escenaMenu.draw();
@@ -115,6 +127,11 @@ public class PantallaSettings extends PantallaAbstracta {
     @Override
     public void dispose() {
         texturaFondo.dispose();
+    }
+
+    private enum EstadoMusica {
+        ON,
+        OFF
     }
 
 }

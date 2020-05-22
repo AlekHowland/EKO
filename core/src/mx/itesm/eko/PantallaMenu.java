@@ -42,6 +42,7 @@ public class PantallaMenu extends PantallaAbstracta
     private ParticleEffect sistemaParticulas;
     private ParticleEmitter emisorParticulas;
 
+    private Settings settings=new Settings();
     @Override
     public InputProcessor getInputProcessor() {
         return escenaMenu;
@@ -57,6 +58,7 @@ public class PantallaMenu extends PantallaAbstracta
         texturaBtnPlay=new Texture("Botones/btnPlay.png");
         texturaBtnInfo=new Texture("Botones/btnInfoDina.png");
         texturaStart=new Texture("Botones/pressToStart.png");
+
 
         crearBotones();
         crearMenu();
@@ -88,11 +90,19 @@ public class PantallaMenu extends PantallaAbstracta
             scores.crearArchivo();
         }
 
+        if (!settings.comprobarArchivo()){
+            settings.crearArchivo();
+        }
+
+
+
         //Música
             if(juego.getMusicaUsaurio() == true){
                 juego.setMusica("Audios/demoNatura.mp3", true, true);
             }
-
+            if (!settings.musicaPrendida()){
+                juego.stopMusica();
+            }
 
 
         //Transición

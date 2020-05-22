@@ -24,6 +24,8 @@ public class PantallaSettings extends PantallaAbstracta {
 
     private Scores scores;
 
+    private Settings settings;
+
 
 
     @Override
@@ -40,13 +42,14 @@ public class PantallaSettings extends PantallaAbstracta {
     public void show() {
         texturaFondo = new Texture("Fondos/fondoSettings.png");
         scores=new Scores(ANCHO/2,ALTO-10);
+        settings=new Settings();
         crearMenu();
     }
 
     private void crearMenu() {
         escenaMenu = new Stage(vista);
 
-        if (juego.isMusicaOn()){
+        if (settings.musicaPrendida()){
             imagenBtnMusica=new Objeto(texturaON,ANCHO*0.55f,ALTO*0.37f);
             estadoMusica=EstadoMusica.ON;
         }
@@ -85,6 +88,7 @@ public class PantallaSettings extends PantallaAbstracta {
                     juego.changeMusicaUsuario(true);
                     imagenBtnMusica.setTexture(texturaON);
                     estadoMusica=EstadoMusica.ON;
+                    settings.escribirArchivo("1");
                 }
                 else if(estadoMusica==EstadoMusica.ON){
                     super.clicked(event, x, y);
@@ -93,6 +97,7 @@ public class PantallaSettings extends PantallaAbstracta {
                     juego.changeMusicaUsuario(false);
                     imagenBtnMusica.setTexture(texturaOFF);
                     estadoMusica=EstadoMusica.OFF;
+                    settings.escribirArchivo("0");
                 }
 
             }
@@ -111,6 +116,7 @@ public class PantallaSettings extends PantallaAbstracta {
                 juego.setEfecto("Audios/efectoBoton.mp3");
 
                 scores.crearArchivo();
+
 
 
             }

@@ -18,7 +18,7 @@ import java.util.Scanner;
 
 public class Scores {
     private FileHandle fileEscr = Gdx.files.local("Scores.txt");
-    private FileHandle fileLect = Gdx.files.internal("Scores.txt");
+    private FileHandle fileLect = Gdx.files.local("Scores.txt");
 
     public float x,y;
     public Texto texto;
@@ -134,6 +134,10 @@ public class Scores {
             texto.render(batch, arr[1], x * 2, y);
         }
 
+    }
+
+    public void borrarArchivo(){
+        fileEscr.delete();;
     }
 
 

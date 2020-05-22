@@ -22,6 +22,8 @@ public class PantallaSettings extends PantallaAbstracta {
     private Texture texturaOFF=new Texture("Botones/botonOff.png");
     private Objeto imagenBtnMusica;
 
+    private Scores scores;
+
 
 
     @Override
@@ -37,6 +39,7 @@ public class PantallaSettings extends PantallaAbstracta {
     @Override
     public void show() {
         texturaFondo = new Texture("Fondos/fondoSettings.png");
+        scores=new Scores(ANCHO/2,ALTO-10);
         crearMenu();
     }
 
@@ -96,6 +99,23 @@ public class PantallaSettings extends PantallaAbstracta {
         });
         escenaMenu.addActor(botonON.getBtn());
 
+
+        //Boton reset
+        Boton botonReset= new Boton("Botones/botonContinue.png","Botones/botonOffP.png");
+        botonReset.setPosition(ANCHO*0.55f,ALTO*0.50f);
+
+        botonReset.getBtn().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                juego.setEfecto("Audios/efectoBoton.mp3");
+
+                scores.crearArchivo();
+
+
+            }
+        });
+        escenaMenu.addActor(botonReset.getBtn());
 
 
         Gdx.input.setInputProcessor(escenaMenu);

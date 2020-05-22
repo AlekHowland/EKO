@@ -41,6 +41,10 @@ public class PantallaInfo extends PantallaAbstracta {
         this.juego=juego;
     }
 
+    //Imagen créditos
+    public Texture texturaCreditos=new Texture("Fondos/fondoOsoTiempo.png");
+    public Objeto creditosImagen=new Objeto(texturaCreditos,0,-texturaCreditos.getHeight());
+
 
     @Override
     public void show() {
@@ -82,14 +86,22 @@ public class PantallaInfo extends PantallaAbstracta {
             creditos.activarAnimacion();
         }
         moverPersonaje();
+        moverImagen();
         batch.begin();
+        creditosImagen.render(batch);
         personaje.renderCorrer(batch);
-
         batch.end();
         escenaCreditos.act();
         escenaCreditos.draw();
 
         escenaMenu.draw();
+    }
+
+    private void moverImagen() {
+        creditosImagen.sprite.setY(creditosImagen.sprite.getY()+10);
+        if (creditosImagen.sprite.getY()>=ALTO){
+            creditosImagen.sprite.setY(-creditosImagen.sprite.getHeight());
+        }
     }
 
     private void moverPersonaje() {

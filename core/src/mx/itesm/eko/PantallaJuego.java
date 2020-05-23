@@ -1,6 +1,7 @@
 package mx.itesm.eko;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -113,6 +114,9 @@ class PantallaJuego extends PantallaAbstracta {
         texturaFondo = new Texture("Fondos/fondo" + assets + ".jpg");
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
+
+        //Vamos a atrapar la tecla de back
+        Gdx.input.setCatchKey(Input.Keys.BACK,true);
     }
 
     private void createItem() {
@@ -277,8 +281,9 @@ class PantallaJuego extends PantallaAbstracta {
     private int hayItem() {
         int z = 0;
         int x = marcador.getContador();
-        if(x > 250) z = (int) (Math.random() * 1000);
-        else{
+        if(x > 250) {
+            z = (int) (Math.random() * 1000);
+        }else{
             z = 20;
         }
         return z;
@@ -506,6 +511,9 @@ class PantallaJuego extends PantallaAbstracta {
 
         @Override
         public boolean keyDown(int keycode) {
+            if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
+                juego.setScreen(new PantallaMenu(juego));
+            }
             return false;
         }
 

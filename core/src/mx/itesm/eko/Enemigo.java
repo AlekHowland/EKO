@@ -51,6 +51,19 @@ public class Enemigo extends Objeto {
                         break;
                 }
                 break;
+            case "Tortuga":
+                switch (tipoEnemigo){
+                    case 1:
+                        texturaEnemigo = regionEnemigo1.split(110, 65);
+                        break;
+                    case 2:
+                        texturaEnemigo = regionEnemigo1.split(200, 119);
+                        break;
+                    case 3:
+                        texturaEnemigo = regionEnemigo1.split(200, 119);
+                        break;
+                }
+                break;
         }
     }
 
@@ -88,6 +101,19 @@ public class Enemigo extends Objeto {
                 switch (tipoEnemigo){
                     case 1:
                         animacionEnemigo = new Animation(0.075f, texturaEnemigo[0][0], texturaEnemigo[0][1], texturaEnemigo[0][2]);
+                        break;
+                    case 2:
+                        animacionEnemigo = new Animation(0.075f, texturaEnemigo[0][0]);
+                        break;
+                    case 3:
+                        animacionEnemigo = new Animation(0.075f, texturaEnemigo[0][0]);
+                        break;
+
+                }
+            case "Tortuga":
+                switch (tipoEnemigo){
+                    case 1:
+                        animacionEnemigo = new Animation(0.1f, texturaEnemigo[0][0], texturaEnemigo[0][1], texturaEnemigo[0][2]);
                         break;
                     case 2:
                         animacionEnemigo = new Animation(0.075f, texturaEnemigo[0][0]);

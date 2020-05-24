@@ -41,6 +41,11 @@ public class Personaje extends Objeto {
                 texturaPAgachado = regionAgachado.split(260, 90);
                 texturaPSaltando= regionCorriendo.split(392, 266);
                 break;
+            case "Tortuga":
+                texturaPCorriendo = regionCorriendo.split(250, 153);
+                texturaPAgachado = regionAgachado.split(469, 287);
+                texturaPSaltando= regionCorriendo.split(469, 287);
+                break;
         }
 
     }
@@ -61,6 +66,10 @@ public class Personaje extends Objeto {
                 break;
             case "Elefante":
                 animacionCorriendo = new Animation(0.075f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4], texturaPCorriendo[0][5], texturaPCorriendo[0][6]);
+                animacionAgachado = new Animation(0.1f, texturaPAgachado[0][0], texturaPAgachado[0][1], texturaPAgachado[0][2],texturaPAgachado[0][3]);
+                break;
+            case "Tortuga":
+                animacionCorriendo = new Animation(0.075f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4], texturaPCorriendo[0][5], texturaPCorriendo[0][6], texturaPCorriendo[0][7], texturaPCorriendo[0][8], texturaPCorriendo[0][7], texturaPCorriendo[0][6], texturaPCorriendo[0][5], texturaPCorriendo[0][4], texturaPCorriendo[0][3], texturaPCorriendo[0][2], texturaPCorriendo[0][1]);
                 animacionAgachado = new Animation(0.1f, texturaPAgachado[0][0], texturaPAgachado[0][1], texturaPAgachado[0][2],texturaPAgachado[0][3]);
                 break;
 
@@ -102,6 +111,13 @@ public class Personaje extends Objeto {
                 }
                 animacionSaltando = new Animation(0.1f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4], texturaPCorriendo[0][5], texturaPCorriendo[0][6]);
                 break;
+            case "Tortuga":
+                if (timerAnimacion>=1.75f){
+                    timerAnimacion=0;
+                }
+                animacionSaltando = new Animation(0.1f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4], texturaPCorriendo[0][5], texturaPCorriendo[0][6]);
+                break;
+
         }
         animacionSaltando.setPlayMode(Animation.PlayMode.NORMAL);
         timerAnimacion += Gdx.graphics.getDeltaTime();

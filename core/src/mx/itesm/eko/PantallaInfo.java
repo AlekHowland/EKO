@@ -33,6 +33,8 @@ public class PantallaInfo extends PantallaAbstracta {
     private Personaje personaje;
     private Personaje elefante= new Personaje(texturaPersonaje, -ANCHO*0.3f, 0, "Elefante");
     private Personaje oso= new Personaje(texturaPersonaje, -ANCHO*0.3f, 0, "Oso");
+    private Personaje tortuga= new Personaje(texturaPersonaje, -ANCHO*0.3f, 0, "Tortuga");
+
     // Audio
     private ControladorAudio audioInfo = new ControladorAudio();
 
@@ -42,7 +44,7 @@ public class PantallaInfo extends PantallaAbstracta {
     }
 
     //Imagen créditos
-    public Texture texturaCreditos=new Texture("Fondos/fondoOsoTiempo.png");
+    public Texture texturaCreditos=new Texture("Creditos/imagenCreditos.png");
     public Objeto creditosImagen=new Objeto(texturaCreditos,0,-texturaCreditos.getHeight());
 
 
@@ -51,6 +53,7 @@ public class PantallaInfo extends PantallaAbstracta {
         crearMenu();
         oso.cargarTexturas();
         elefante.cargarTexturas();
+        tortuga.cargarTexturas();
         personaje=oso;
     }
 
@@ -113,7 +116,11 @@ public class PantallaInfo extends PantallaAbstracta {
                     personaje=elefante;
                     break;
                 case "Elefante":
+                    personaje=tortuga;
+                    break;
+                case "Tortuga":
                     personaje=oso;
+                    break;
             }
         }
     }

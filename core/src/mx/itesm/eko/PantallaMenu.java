@@ -84,6 +84,7 @@ public class PantallaMenu extends PantallaAbstracta
     private void crearMenu() {
 
         escenaMenu = new Stage(vista);
+
         //Scores
         scores=new Scores(ANCHO/2,ALTO-10);
         if (!scores.comprobarArchivo()){
@@ -94,17 +95,15 @@ public class PantallaMenu extends PantallaAbstracta
             settings.crearArchivo();
         }
 
-
-
         //Música
-            if(juego.getMusicaUsaurio() == true){
-                juego.setMusica("Audios/demoNatura.mp3", true, true);
-            }
-            if (!settings.musicaPrendida()){
-                juego.stopMusica();
-                juego.changeMusicaUsuario(false);
-            }
+        if(juego.getMusicaUsaurio() == true){
+            juego.setMusica("Audios/demoNatura.mp3", true, true);
+        }
 
+        if (!settings.musicaPrendida()){
+            juego.stopMusica();
+            juego.changeMusicaUsuario(false);
+        }
 
         //Transición
         final TransicionPantalla transicion = efectoTransicion.inicializacion(2.0f);
@@ -148,7 +147,7 @@ public class PantallaMenu extends PantallaAbstracta
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 juego.setEfecto("Audios/efectoBoton.mp3");
-                juego.setScreen(new PantallaHowToPlay(juego,1));
+                juego.setScreen(new PantallaHowToPlay(juego,1), transicion);
             }
         });
         escenaMenu.addActor(botonHowToPlay.getBtn());
@@ -161,7 +160,7 @@ public class PantallaMenu extends PantallaAbstracta
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 juego.setEfecto("Audios/efectoBoton.mp3");
-                juego.setScreen(new PantallaSettings(juego));
+                juego.setScreen(new PantallaSettings(juego), transicion);
             }
         });
         escenaMenu.addActor(botonSettings.getBtn());
@@ -181,8 +180,6 @@ public class PantallaMenu extends PantallaAbstracta
 
 
         Gdx.input.setInputProcessor(escenaMenu);
-
-
     }
 
     @Override
@@ -197,8 +194,6 @@ public class PantallaMenu extends PantallaAbstracta
 
         botonPlay.render(batch);
         start.render(batch);
-
-
 
         batch.end();
 

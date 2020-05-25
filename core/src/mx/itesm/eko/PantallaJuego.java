@@ -37,11 +37,6 @@ class PantallaJuego extends PantallaAbstracta {
     private final String assets;
     private EstadoJuego estadoJuego = EstadoJuego.JUGANDO;
 
-    // Física
-    private World mundoFisica;
-    private Body bodyPersonaje;
-    private static final float ANCHO_PERSONAJE = 20;
-
     // Texturas
     private Texture texturaPersonaje;
     private Texture texturaFondo;
@@ -99,9 +94,6 @@ class PantallaJuego extends PantallaAbstracta {
 
     @Override
     public void show() {
-        createMundoFisica();
-        fisicaObjetos();
-        crearParedes();
         cargarTexturas();
         createPersonaje();
         createEnemigo();
@@ -121,10 +113,6 @@ class PantallaJuego extends PantallaAbstracta {
 
     private void createItem() {
         huevo = new Item(texturaHuevo, ANCHO, ALTO * 0.05f);
-    }
-
-    private void crearParedes() {
-        Bordes.crearBordes(mundoFisica);
     }
 
     private void createFondo() {
@@ -150,42 +138,6 @@ class PantallaJuego extends PantallaAbstracta {
 
     private void createMarcador() {
         marcador = new Marcador(ANCHO / 2, 0.95f * ALTO);
-    }
-
-    private void fisicaObjetos() {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(0, ALTO * 0.15f);
-        bodyPersonaje = mundoFisica.createBody(bodyDef);
-
-        PolygonShape cajaFisica = new PolygonShape();
-        cajaFisica.setAsBox(ANCHO_PERSONAJE, ANCHO_PERSONAJE * 2);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = cajaFisica;
-
-        //Se hacen físicas diferentes para cada asset
-        if (assets.equals("assetOso.png")) {
-            fixtureDef.density = 0.3f;
-            fixtureDef.restitution = 0;
-        } else if (assets.equals("assetElefante.png")) {
-            fixtureDef.density = 0.5f;
-            fixtureDef.restitution = 0.0f;
-        } else if (assets.equals("assetTortuga.png")) {
-            fixtureDef.density = 0.1f;
-            fixtureDef.restitution = 0.2f;
-        }
-
-        bodyPersonaje.createFixture(fixtureDef);
-        cajaFisica.dispose();
-
-        bodyPersonaje.setFixedRotation(true);
-    }
-
-    private void createMundoFisica() {
-        Box2D.init();
-        Vector2 gravedad = new Vector2(0, -7.5f);
-        mundoFisica = new World(gravedad, true);
     }
 
     private void createPersonaje() {
@@ -215,12 +167,7 @@ class PantallaJuego extends PantallaAbstracta {
     @Override
     public void render(float delta) {
         //ACTUALIZACIONES (MOVER OBJETOS,COLISIONES.ETC)
-
-
-        float x = bodyPersonaje.getPosition().x - ANCHO_PERSONAJE;
-        float y = bodyPersonaje.getPosition().y - ANCHO_PERSONAJE * 2;
-
-        personaje.getSprite().setPosition(x, y);
+        actualizarSaltoPersonaje(delta);
 
         borrarPantalla(0, 0, 0);
         batch.setProjectionMatrix(camara.combined);
@@ -266,10 +213,6 @@ class PantallaJuego extends PantallaAbstracta {
             score = marcador.getScore();
             juego.setScreen(new PantallaMuerto(vista, batch, score, juego));
         }
-
-        //La simulación física se actualiza
-        mundoFisica.step(1 / 11f, 6, 2);
-
     }
 
     private void moverEnemigoPausa(float delta) {
@@ -287,7 +230,6 @@ class PantallaJuego extends PantallaAbstracta {
             z = 20;
         }
         return z;
-
     }
 
     private void moverItem(float delta) {
@@ -422,6 +364,10 @@ class PantallaJuego extends PantallaAbstracta {
         }
     }
 
+    private void actualizarSaltoPersonaje(float delta) {
+        personaje.actualizarSalto(delta);
+    }
+
     private void moverEnemigo(float delta) {
         switch (enemigo.getTipo()) {
             case 1:
@@ -530,19 +476,10 @@ class PantallaJuego extends PantallaAbstracta {
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-            float x = bodyPersonaje.getPosition().x;
-            float y = bodyPersonaje.getPosition().y;
-
-
             Vector3 v = new Vector3(screenX, screenY, 0);
             camara.unproject(v);
             if (v.y >= ALTO / 2 && !(v.y >= ALTO * 0.85f && v.x >= ANCHO * 0.9f)) {
-                //audio.setEfecto("salto.mp3");
-                //movimientoPersonaje = Movimiento.ARRIBA;
-                if (personaje.sprite.getY() <= ALTO * 0.11f) {
-                    bodyPersonaje.applyLinearImpulse(0, 10000000, x, y, true);
-                }
-
+                personaje.saltar();
             }
             //Detectar pausa
             if (v.y >= ALTO * 0.85f && v.x >= ANCHO * 0.9f) {
@@ -553,7 +490,7 @@ class PantallaJuego extends PantallaAbstracta {
                     juego.setEfecto("Audios/efectoPausa.mp3");
                     escenaPausa = new EscenaPausa(vista, batch);
                 }
-            } else if (v.y < ALTO / 2) {
+            } else if (v.y < ALTO / 2 && !(personaje.estaSaltando())) {
                 //audio.setEfecto("agacharse.mp3");
                 movimientoPersonaje = Movimiento.ABAJO;
             }

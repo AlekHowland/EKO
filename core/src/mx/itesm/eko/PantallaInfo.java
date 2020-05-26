@@ -94,8 +94,8 @@ public class PantallaInfo extends PantallaAbstracta {
         creditosImagen.render(batch);
         personaje.renderCorrer(batch);
         batch.end();
-        escenaCreditos.act();
-        escenaCreditos.draw();
+        //escenaCreditos.act();
+        //escenaCreditos.draw();
 
         escenaMenu.draw();
     }

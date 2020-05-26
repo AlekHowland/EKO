@@ -53,7 +53,12 @@ class PantallaJuego extends PantallaAbstracta {
     private Enemigo enemigo1;
     private Enemigo enemigo2;
     private Enemigo enemigo3;
+
+    //Item
     private Item huevo;
+    private int x;
+    private int z;
+    private boolean boolItem=false;
 
     //Fondo
     private FondoDinamico fondo1;
@@ -85,6 +90,9 @@ class PantallaJuego extends PantallaAbstracta {
     private Objeto botonPausa;
     private Texture texturaBotonPausa;
 
+    //Dificultad
+    private final float MAXDIF=25;
+    private float dificultad=0.005f;
 
     // Constructor
     public PantallaJuego(ControlJuego juego, String assets) {
@@ -123,7 +131,7 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void createVidas() {
-        vidas = new Vidas(0, 0.9f * ALTO, 100, assets);
+        vidas = new Vidas(0, 0.9f * ALTO, 3, assets);
     }
 
 
@@ -167,7 +175,7 @@ class PantallaJuego extends PantallaAbstracta {
     @Override
     public void render(float delta) {
         //ACTUALIZACIONES (MOVER OBJETOS,COLISIONES.ETC)
-        actualizarSaltoPersonaje(delta);
+
 
         borrarPantalla(0, 0, 0);
         batch.setProjectionMatrix(camara.combined);
@@ -176,17 +184,25 @@ class PantallaJuego extends PantallaAbstracta {
 
         batch.draw(texturaFondo, 0, 0);
         renderFondo(batch);
-        personaje.render(batch);
-        if (estadoJuego == EstadoJuego.JUGANDO) {
-            actualizar(delta);
+
+        //Hitbox
+        if (true) {
+            personaje.render(batch);
             enemigo.render(batch);
+            huevo.render(batch);
+        }
+
+
+        if (estadoJuego == EstadoJuego.JUGANDO) {
+            actualizarSaltoPersonaje(delta);
+            actualizar(delta);
             enemigo.renderAnimacion(batch);
             moverEnemigo(delta);
             moverFondo(delta);
             probarColisiones();
             hayItem();
             moverPersonaje(delta);
-            if (hayItem() > 10) {
+            if (boolItem) {
                 huevo.renderAnimacion(batch);
                 moverItem(delta);
                 probarColisionesHuevo();
@@ -221,15 +237,19 @@ class PantallaJuego extends PantallaAbstracta {
         enemigo.setPosition(a,b);
     }
 
-    private int hayItem() {
-        int z = 0;
-        int x = marcador.getContador();
-        if(x > 250) {
+    private void hayItem() {
+        z = 0;
+        x = marcador.getContador();
+        if(x % 250==0) {
             z = (int) (Math.random() * 1000);
+            Gdx.app.log("Huevo", Float.toString(z));
         }else{
             z = 20;
         }
-        return z;
+
+        if (z>850){
+            boolItem=true;
+        }
     }
 
     private void moverItem(float delta) {
@@ -247,13 +267,14 @@ class PantallaJuego extends PantallaAbstracta {
         if (huevo.sprite.getY() >= 0.25f * ALTO) {
             timerItem = 0;
             pasoItem = -15;
-        }
+    }
         if (huevo.sprite.getX() >= ANCHO * 0.45f) {
             huevo.moverVertical(pasoItem);
         }
 
         if (huevo.sprite.getX() < -300) {
             huevo.sprite.setPosition(ANCHO, rnd.nextFloat() * ALTO / 4);
+            boolItem=false;
         }
     }
 
@@ -326,8 +347,8 @@ class PantallaJuego extends PantallaAbstracta {
     private void actualizar(float delta) {
         marcador.marcar(1);
         marcador.contar(1);
-        if (velocidadEnemigo <= 25) {
-            velocidadEnemigo = 15 + marcador.getScore() * 0.0005f;
+        if (velocidadEnemigo <= MAXDIF) {
+            velocidadEnemigo = 15 + marcador.getScore() * dificultad;
 
         }
         sistemaParticulas.update(delta);
@@ -348,7 +369,7 @@ class PantallaJuego extends PantallaAbstracta {
             case QUIETO:
                 if (personaje.sprite.getY() >= ALTO * 0.11f) {
                     personaje.setTexture(texturaPersonajeAbajo);
-                    if (personaje.timerAnimacion >= 1.75f) {
+                    if (personaje.timerAnimacion >= 1) {
                         personaje.timerAnimacion = 0;
                     }
                     personaje.renderSaltar(batch);
@@ -365,6 +386,7 @@ class PantallaJuego extends PantallaAbstracta {
     }
 
     private void actualizarSaltoPersonaje(float delta) {
+
         personaje.actualizarSalto(delta);
     }
 
@@ -599,6 +621,7 @@ class PantallaJuego extends PantallaAbstracta {
             vidas.sumar(1);
             marcador.resetContador();
             huevo.sprite.setX(ANCHO);
+            boolItem=false;
         }
     }
     // Colisiones de enemigos

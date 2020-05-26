@@ -116,7 +116,7 @@ public class Personaje extends Objeto {
                 if (timerAnimacion>=1.75f){
                     timerAnimacion=0;
                 }
-                animacionSaltando = new Animation(0.35f, texturaPSaltando[0][0], texturaPSaltando[0][1], texturaPSaltando[0][2], texturaPSaltando[0][3], texturaPSaltando[0][4]);
+                animacionSaltando = new Animation(0.2f, texturaPSaltando[0][0], texturaPSaltando[0][1], texturaPSaltando[0][2], texturaPSaltando[0][3], texturaPSaltando[0][4]);
                 break;
             case "Elefante":
                 if (timerAnimacion>=1.75f){
@@ -161,7 +161,7 @@ public class Personaje extends Objeto {
         //Cálculo de la nueva posición
         if(estadoSalto == EstadoSalto.SALTANDO){
             tiempoVuelo += delta*5;
-            alturaVuelo = velocidadInicial * tiempoVuelo - 0.5f * gravedad * tiempoVuelo * tiempoVuelo;
+            alturaVuelo = (velocidadInicial * tiempoVuelo - 0.5f * gravedad * tiempoVuelo * tiempoVuelo)*0.7f;
             if(tiempoVuelo < tiempoTotalVuelo){
                 //Sigue en el aire
                 sprite.setY(yInicial + alturaVuelo);

@@ -52,7 +52,7 @@ public class Personaje extends Objeto {
             case "Elefante":
                 texturaPCorriendo = regionCorriendo.split(250, 170);
                 texturaPAgachado = regionAgachado.split(260, 90);
-                texturaPSaltando= regionCorriendo.split(392, 266);
+                texturaPSaltando= regionSaltando.split(260, 185);
                 break;
             case "Tortuga":
                 texturaPCorriendo = regionCorriendo.split(250, 153);
@@ -122,13 +122,13 @@ public class Personaje extends Objeto {
                 if (timerAnimacion>=1.75f){
                     timerAnimacion=0;
                 }
-                animacionSaltando = new Animation(0.1f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4], texturaPCorriendo[0][5], texturaPCorriendo[0][6]);
+                animacionSaltando = new Animation(0.2f, texturaPSaltando[0][0], texturaPSaltando[0][1], texturaPSaltando[0][2], texturaPSaltando[0][3], texturaPSaltando[0][4]);
                 break;
             case "Tortuga":
                 if (timerAnimacion>=1.75f){
                     timerAnimacion=0;
                 }
-                animacionSaltando = new Animation(0.1f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4], texturaPCorriendo[0][5], texturaPCorriendo[0][6]);
+                animacionSaltando = new Animation(0.2f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4]);
                 break;
 
         }

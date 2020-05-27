@@ -31,7 +31,7 @@ public class Enemigo extends Objeto {
                         texturaEnemigo = regionEnemigo1.split(110, 65);
                         break;
                     case 2:
-                        texturaEnemigo = regionEnemigo1.split(200, 119);
+                        texturaEnemigo = regionEnemigo1.split(336, 200);
                         break;
                     case 3:
                         texturaEnemigo = regionEnemigo1.split(200, 119);
@@ -44,7 +44,7 @@ public class Enemigo extends Objeto {
                         texturaEnemigo = regionEnemigo1.split(110, 65);
                         break;
                     case 2:
-                        texturaEnemigo = regionEnemigo1.split(200, 119);
+                        texturaEnemigo = regionEnemigo1.split(200, 166);
                         break;
                     case 3:
                         texturaEnemigo = regionEnemigo1.split(200, 119);

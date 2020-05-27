@@ -61,7 +61,7 @@ public class PantallaSettings extends PantallaAbstracta {
             estadoMusica=EstadoMusica.OFF;
         }
 
-        Boton botonInfo = new Boton("Botones/botonReturnSinFondo.png","Botones/botonReturnSinFondo.png");
+        Boton botonInfo = new Boton("Botones/botonReturnSinFondo.png","Botones/botonReturnSinFondoP.png");
         botonInfo.setPosition(ANCHO/2-botonInfo.getWidth()/2,ALTO*0.115f);
 
         botonInfo.getBtn().addListener(new ClickListener() {
@@ -107,11 +107,11 @@ public class PantallaSettings extends PantallaAbstracta {
 
         //Boton reset
 
-        final Boton botonResetYes= new Boton("Settings/yes.png","Settings/yes.png");
+        final Boton botonResetYes= new Boton("Settings/yes.png","Settings/yesP.png");
         botonResetYes.setPosition(ANCHO,ALTO);
-        final Boton botonResetNo= new Boton("Settings/no.png","Settings/no.png");
+        final Boton botonResetNo= new Boton("Settings/no.png","Settings/noP.png");
         botonResetNo.setPosition(ANCHO,ALTO);
-        final Boton botonReset= new Boton("Settings/botonReset.png","Settings/botonReset.png");
+        final Boton botonReset= new Boton("Settings/botonReset.png","Settings/botonResetP.png");
         botonReset.setPosition(ANCHO/2-botonReset.getBtn().getWidth()/2,ALTO*0.3f);
 
         botonResetYes.getBtn().addListener(new ClickListener() {

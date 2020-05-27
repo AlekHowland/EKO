@@ -513,6 +513,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
     public boolean fling(float velocityX, float velocityY, int button) {
         if(velocityY<0){
             personaje.saltar();
+            movimientoPersonaje = Movimiento.QUIETO;
         }
         if(velocityY>0 && !(personaje.estaSaltando())){
             timerPersonaje=0;

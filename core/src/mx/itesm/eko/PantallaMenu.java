@@ -33,13 +33,16 @@ public class PantallaMenu extends PantallaAbstracta
     //Botones
     private BotonDinamico botonPlay;
     private BotonDinamico botonInfo;
+    private Boton botonScores;
     private BotonDinamico start;
+    float timerBoton=0;
 
 
     //Sistema de partículas
     private ParticleEffect sistemaParticulas;
     private ParticleEmitter emisorParticulas;
 
+    private Settings settings=new Settings();
     @Override
     public InputProcessor getInputProcessor() {
         return escenaMenu;
@@ -56,15 +59,16 @@ public class PantallaMenu extends PantallaAbstracta
         texturaBtnInfo=new Texture("Botones/btnInfoDina.png");
         texturaStart=new Texture("Botones/pressToStart.png");
 
+
         crearBotones();
         crearMenu();
         createParticulas();
     }
 
     private void crearBotones() {
-        botonPlay = new BotonDinamico(texturaBtnPlay,texturaBtnPlay,332,331,ANCHO/2-(texturaBtnPlay.getHeight()/2)+10,ALTO*0.21f);
+        botonPlay = new BotonDinamico(texturaBtnPlay,332,331,ANCHO/2-(texturaBtnPlay.getHeight()/2)+10,ALTO*0.21f);
         botonPlay.cargarTexturasBtnPlay();
-        start = new BotonDinamico(texturaStart,texturaStart,23,287,ANCHO/2-(texturaBtnPlay.getHeight()/2)+40,ALTO*0.135f);
+        start = new BotonDinamico(texturaStart,23,287,ANCHO/2-(texturaBtnPlay.getHeight()/2)+40,ALTO*0.135f);
         start.cargarStart();
     }
 
@@ -80,25 +84,33 @@ public class PantallaMenu extends PantallaAbstracta
     private void crearMenu() {
 
         escenaMenu = new Stage(vista);
+
         //Scores
         scores=new Scores(ANCHO/2,ALTO-10);
         if (!scores.comprobarArchivo()){
             scores.crearArchivo();
         }
 
+        if (!settings.comprobarArchivo()){
+            settings.crearArchivo();
+        }
+
         //Música
-            if(juego.getMusicaUsaurio() == true){
-                juego.setMusica("Audios/demoNatura.mp3", true, true);
-            }
+        if(juego.getMusicaUsaurio() == true){
+            juego.setMusica("Audios/demoNatura.mp3", true, true);
+        }
 
-
+        if (!settings.musicaPrendida()){
+            juego.stopMusica();
+            juego.changeMusicaUsuario(false);
+        }
 
         //Transición
         final TransicionPantalla transicion = efectoTransicion.inicializacion(2.0f);
 
         //Boton Jugar
         Boton botonJugar = new Boton("Botones/btnPlayTria.png","Botones/btnPlayTriaP.png");
-        botonJugar.setPosition(ANCHO/2-(botonJugar.getWidth()/2)+10,ALTO*0.21f);
+        botonJugar.setPosition(ANCHO/2-(botonJugar.getWidth()/2)+10,ALTO*0.10f);
         botonJugar.getBtn().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -115,7 +127,7 @@ public class PantallaMenu extends PantallaAbstracta
 
 
         //Boton Scores
-        Boton botonScores = new Boton("Botones/trofeo.png","Botones/trofeoP.png");
+        botonScores = new Boton("Botones/trofeo.png","Botones/trofeoP.png");
         botonScores.setPosition(ANCHO*0.18f-botonScores.getWidth()/2,ALTO*0.21f);
         botonScores.getBtn().addListener(new ClickListener() {
             @Override
@@ -135,7 +147,7 @@ public class PantallaMenu extends PantallaAbstracta
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 juego.setEfecto("Audios/efectoBoton.mp3");
-                juego.setScreen(new PantallaHowToPlay(juego,1));
+                juego.setScreen(new PantallaHowToPlay(juego,1), transicion);
             }
         });
         escenaMenu.addActor(botonHowToPlay.getBtn());
@@ -148,7 +160,7 @@ public class PantallaMenu extends PantallaAbstracta
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 juego.setEfecto("Audios/efectoBoton.mp3");
-                juego.setScreen(new PantallaSettings(juego));
+                juego.setScreen(new PantallaSettings(juego), transicion);
             }
         });
         escenaMenu.addActor(botonSettings.getBtn());
@@ -168,8 +180,6 @@ public class PantallaMenu extends PantallaAbstracta
 
 
         Gdx.input.setInputProcessor(escenaMenu);
-
-
     }
 
     @Override
@@ -178,17 +188,29 @@ public class PantallaMenu extends PantallaAbstracta
         batch.setProjectionMatrix(camara.combined);
         sistemaParticulas.update(delta);
         batch.begin();
+        moverBoton();
         batch.draw(texturaFondo,0,0);
         sistemaParticulas.draw(batch);
 
         botonPlay.render(batch);
         start.render(batch);
 
-
-
         batch.end();
 
         escenaMenu.draw();
+    }
+
+    private void moverBoton() {
+        timerBoton+=0.001;
+        if (timerBoton<=0.1) {
+            botonScores.setPosition(botonScores.getBtn().getX()+0.07f, botonScores.getBtn().getY() + 0.1f);
+        }
+        else if(timerBoton<=0.2){
+            botonScores.setPosition(botonScores.getBtn().getX()-0.07f, botonScores.getBtn().getY() - 0.1f);
+        }
+        else {
+            timerBoton=0;
+        }
     }
 
     @Override

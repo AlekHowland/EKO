@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Personaje extends Objeto {
+
     private Animation animacionCorriendo;
     private Animation animacionAgachado;
     private Animation animacionSaltando;
@@ -18,6 +19,18 @@ public class Personaje extends Objeto {
     private TextureRegion[][] texturaPAgachado;
     private TextureRegion[][] texturaPSaltando;
     private float x, y;
+
+    //Variables de salto
+    private final float gravedad = 98.1f;
+    private final float velocidadInicial = 250;
+    private float alturaMaxima;
+    private float tiempoTotalVuelo;
+    private float alturaVuelo;
+    private float tiempoVuelo;
+    private float yInicial;
+    private EstadoSalto estadoSalto = EstadoSalto.EN_PISO;
+
+
 
     public Personaje(Texture textura, float x, float y, String assets) {
         super(textura, x, y);
@@ -41,6 +54,11 @@ public class Personaje extends Objeto {
                 texturaPAgachado = regionAgachado.split(260, 90);
                 texturaPSaltando= regionCorriendo.split(392, 266);
                 break;
+            case "Tortuga":
+                texturaPCorriendo = regionCorriendo.split(250, 153);
+                texturaPAgachado = regionAgachado.split(177, 80);
+                texturaPSaltando= regionCorriendo.split(469, 287);
+                break;
         }
 
     }
@@ -62,6 +80,10 @@ public class Personaje extends Objeto {
             case "Elefante":
                 animacionCorriendo = new Animation(0.075f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4], texturaPCorriendo[0][5], texturaPCorriendo[0][6]);
                 animacionAgachado = new Animation(0.1f, texturaPAgachado[0][0], texturaPAgachado[0][1], texturaPAgachado[0][2],texturaPAgachado[0][3]);
+                break;
+            case "Tortuga":
+                animacionCorriendo = new Animation(0.075f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4], texturaPCorriendo[0][5], texturaPCorriendo[0][6], texturaPCorriendo[0][7], texturaPCorriendo[0][8], texturaPCorriendo[0][7], texturaPCorriendo[0][6], texturaPCorriendo[0][5], texturaPCorriendo[0][4], texturaPCorriendo[0][3], texturaPCorriendo[0][2], texturaPCorriendo[0][1]);
+                animacionAgachado = new Animation(0.1f, texturaPAgachado[0][0]);
                 break;
 
         }
@@ -102,6 +124,13 @@ public class Personaje extends Objeto {
                 }
                 animacionSaltando = new Animation(0.1f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4], texturaPCorriendo[0][5], texturaPCorriendo[0][6]);
                 break;
+            case "Tortuga":
+                if (timerAnimacion>=1.75f){
+                    timerAnimacion=0;
+                }
+                animacionSaltando = new Animation(0.1f, texturaPCorriendo[0][0], texturaPCorriendo[0][1], texturaPCorriendo[0][2], texturaPCorriendo[0][3], texturaPCorriendo[0][4], texturaPCorriendo[0][5], texturaPCorriendo[0][6]);
+                break;
+
         }
         animacionSaltando.setPlayMode(Animation.PlayMode.NORMAL);
         timerAnimacion += Gdx.graphics.getDeltaTime();
@@ -109,11 +138,52 @@ public class Personaje extends Objeto {
         batch.draw(region,sprite.getX(), sprite.getY()-sprite.getY()/3);
     }
 
+    public void saltar() {
+        if(estadoSalto != EstadoSalto.SALTANDO){
+            //Inicia el salto
+            alturaMaxima = (velocidadInicial * velocidadInicial) / (2 * gravedad);
+            tiempoTotalVuelo = (2 * velocidadInicial) / gravedad;
+            alturaVuelo = 0;
+            tiempoVuelo = 0;
+            yInicial = sprite.getY();
+            estadoSalto = EstadoSalto.SALTANDO;
+        }
+    }
+
+    public boolean estaSaltando() {
+        if(estadoSalto == EstadoSalto.EN_PISO){
+            return false;
+        }
+        return true;
+    }
+
+    public void actualizarSalto(float delta) {
+        //Cálculo de la nueva posición
+        if(estadoSalto == EstadoSalto.SALTANDO){
+            tiempoVuelo += delta*5;
+            alturaVuelo = velocidadInicial * tiempoVuelo - 0.5f * gravedad * tiempoVuelo * tiempoVuelo;
+            if(tiempoVuelo < tiempoTotalVuelo){
+                //Sigue en el aire
+                sprite.setY(yInicial + alturaVuelo);
+            } else {
+                //Termina el salto
+                sprite.setY(yInicial);
+                estadoSalto = EstadoSalto.EN_PISO;
+            }
+        }
+    }
+
+
     public void setAssets(String assetsS){
         assets=assetsS;
     }
 
     public String getAssets(){
         return assets;
+    }
+
+    public enum EstadoSalto {
+        EN_PISO,
+        SALTANDO                //Enum referente a un salto general
     }
 }

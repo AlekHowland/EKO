@@ -1,6 +1,7 @@
 package mx.itesm.eko;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -36,11 +37,6 @@ class PantallaJuego extends PantallaAbstracta {
     private final String assets;
     private EstadoJuego estadoJuego = EstadoJuego.JUGANDO;
 
-    // Física
-    private World mundoFisica;
-    private Body bodyPersonaje;
-    private static final float ANCHO_PERSONAJE = 20;
-
     // Texturas
     private Texture texturaPersonaje;
     private Texture texturaFondo;
@@ -48,7 +44,6 @@ class PantallaJuego extends PantallaAbstracta {
     private Texture texturaEnemigo2;
     private Texture texturaEnemigo3;
     private Texture texturaPersonajeAbajo;
-    private Texture texturaEnMov;
     private Texture texturaHuevo;
 
 
@@ -58,7 +53,6 @@ class PantallaJuego extends PantallaAbstracta {
     private Enemigo enemigo1;
     private Enemigo enemigo2;
     private Enemigo enemigo3;
-    private BotonDinamico enemigoMov;
     private Item huevo;
 
     //Fondo
@@ -100,9 +94,6 @@ class PantallaJuego extends PantallaAbstracta {
 
     @Override
     public void show() {
-        createMundoFisica();
-        fisicaObjetos();
-        crearParedes();
         cargarTexturas();
         createPersonaje();
         createEnemigo();
@@ -115,14 +106,13 @@ class PantallaJuego extends PantallaAbstracta {
         texturaFondo = new Texture("Fondos/fondo" + assets + ".jpg");
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
+
+        //Vamos a atrapar la tecla de back
+        Gdx.input.setCatchKey(Input.Keys.BACK,true);
     }
 
     private void createItem() {
         huevo = new Item(texturaHuevo, ANCHO, ALTO * 0.05f);
-    }
-
-    private void crearParedes() {
-        Bordes.crearBordes(mundoFisica);
     }
 
     private void createFondo() {
@@ -150,53 +140,18 @@ class PantallaJuego extends PantallaAbstracta {
         marcador = new Marcador(ANCHO / 2, 0.95f * ALTO);
     }
 
-    private void fisicaObjetos() {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(0, ALTO * 0.15f);
-        bodyPersonaje = mundoFisica.createBody(bodyDef);
-
-        PolygonShape cajaFisica = new PolygonShape();
-        cajaFisica.setAsBox(ANCHO_PERSONAJE, ANCHO_PERSONAJE * 2);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = cajaFisica;
-
-        //Se hacen físicas diferentes para cada asset
-        if (assets.equals("assetOso.png")) {
-            fixtureDef.density = 0.3f;
-            fixtureDef.restitution = 0;
-        } else if (assets.equals("assetElefante.png")) {
-            fixtureDef.density = 0.5f;
-            fixtureDef.restitution = 0.0f;
-        } else if (assets.equals("assetTortuga.png")) {
-            fixtureDef.density = 0.1f;
-            fixtureDef.restitution = 0.2f;
-        }
-
-        bodyPersonaje.createFixture(fixtureDef);
-        cajaFisica.dispose();
-
-        bodyPersonaje.setFixedRotation(true);
-    }
-
-    private void createMundoFisica() {
-        Box2D.init();
-        Vector2 gravedad = new Vector2(0, -7.5f);
-        mundoFisica = new World(gravedad, true);
-    }
-
     private void createPersonaje() {
         personaje = new Personaje(texturaPersonaje, 0, ALTO * 0.05f, assets);
         personaje.cargarTexturas();
     }
 
     private void createEnemigo() {
-        enemigo1 = new Enemigo(texturaEnemigo1, ANCHO, ALTO * 0.05f, 1);
-        enemigo2 = new Enemigo(texturaEnemigo2, ANCHO, ALTO * 0.05f, 2);
-        enemigo3 = new Enemigo(texturaEnemigo3, ANCHO, ALTO * 0.05f, 3);
-        enemigoMov = new BotonDinamico(texturaEnMov, texturaEnMov, 65, 110, ANCHO, ALTO);
-        enemigoMov.cargarEnemigo1();
+        enemigo1 = new Enemigo(texturaEnemigo1, ANCHO, ALTO * 0.05f, 1,assets);
+        enemigo1.cargarTexturas();
+        enemigo2 = new Enemigo(texturaEnemigo2, ANCHO, ALTO * 0.05f, 2,assets);
+        enemigo2.cargarTexturas();
+        enemigo3 = new Enemigo(texturaEnemigo3, ANCHO, ALTO * 0.05f, 3,assets);
+        enemigo3.cargarTexturas();
         cambiarEnemigo();
     }
 
@@ -206,19 +161,13 @@ class PantallaJuego extends PantallaAbstracta {
         texturaEnemigo2 = new Texture("Enemigos/enemigo" + assets + "2.png");
         texturaEnemigo3 = new Texture("Enemigos/enemigo" + assets + "3.png");
         texturaPersonajeAbajo = new Texture("Personajes/asset" + assets + "Abajo.png");
-        texturaEnMov = new Texture("Enemigos/enemigo" + assets + "Animado1.png");
         texturaHuevo = new Texture("Personajes/huevo.png");
     }
 
     @Override
     public void render(float delta) {
         //ACTUALIZACIONES (MOVER OBJETOS,COLISIONES.ETC)
-
-
-        float x = bodyPersonaje.getPosition().x - ANCHO_PERSONAJE;
-        float y = bodyPersonaje.getPosition().y - ANCHO_PERSONAJE * 2;
-
-        personaje.getSprite().setPosition(x, y);
+        actualizarSaltoPersonaje(delta);
 
         borrarPantalla(0, 0, 0);
         batch.setProjectionMatrix(camara.combined);
@@ -230,23 +179,21 @@ class PantallaJuego extends PantallaAbstracta {
         personaje.render(batch);
         if (estadoJuego == EstadoJuego.JUGANDO) {
             actualizar(delta);
+            enemigo.render(batch);
+            enemigo.renderAnimacion(batch);
             moverEnemigo(delta);
             moverFondo(delta);
             probarColisiones();
             hayItem();
             moverPersonaje(delta);
-        }
-        if (enemigo == enemigo1) {
-            enemigoMov.render(batch, enemigo.sprite.getX(), enemigo.sprite.getY());
-        } else {
-            enemigo.render(batch);
+            if (hayItem() > 10) {
+                huevo.renderAnimacion(batch);
+                moverItem(delta);
+                probarColisionesHuevo();
+            }
         }
 
-        if (hayItem() > 995) {
-            huevo.render(batch);
-            moverItem(delta);
-            probarColisionesHuevo();
-        }
+
         if (estadoJuego == EstadoJuego.JUGANDO) {
             vidas.render(batch);
             marcador.render(batch);
@@ -266,10 +213,6 @@ class PantallaJuego extends PantallaAbstracta {
             score = marcador.getScore();
             juego.setScreen(new PantallaMuerto(vista, batch, score, juego));
         }
-
-        //La simulación física se actualiza
-        mundoFisica.step(1 / 11f, 6, 2);
-
     }
 
     private void moverEnemigoPausa(float delta) {
@@ -281,12 +224,12 @@ class PantallaJuego extends PantallaAbstracta {
     private int hayItem() {
         int z = 0;
         int x = marcador.getContador();
-        if(x > 250) z = (int) (Math.random() * 1000);
-        else{
+        if(x > 250) {
+            z = (int) (Math.random() * 1000);
+        }else{
             z = 20;
         }
         return z;
-
     }
 
     private void moverItem(float delta) {
@@ -421,6 +364,10 @@ class PantallaJuego extends PantallaAbstracta {
         }
     }
 
+    private void actualizarSaltoPersonaje(float delta) {
+        personaje.actualizarSalto(delta);
+    }
+
     private void moverEnemigo(float delta) {
         switch (enemigo.getTipo()) {
             case 1:
@@ -510,6 +457,9 @@ class PantallaJuego extends PantallaAbstracta {
 
         @Override
         public boolean keyDown(int keycode) {
+            if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
+                juego.setScreen(new PantallaMenu(juego));
+            }
             return false;
         }
 
@@ -526,19 +476,10 @@ class PantallaJuego extends PantallaAbstracta {
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-            float x = bodyPersonaje.getPosition().x;
-            float y = bodyPersonaje.getPosition().y;
-
-
             Vector3 v = new Vector3(screenX, screenY, 0);
             camara.unproject(v);
             if (v.y >= ALTO / 2 && !(v.y >= ALTO * 0.85f && v.x >= ANCHO * 0.9f)) {
-                //audio.setEfecto("salto.mp3");
-                //movimientoPersonaje = Movimiento.ARRIBA;
-                if (personaje.sprite.getY() <= ALTO * 0.11f) {
-                    bodyPersonaje.applyLinearImpulse(0, 10000000, x, y, true);
-                }
-
+                personaje.saltar();
             }
             //Detectar pausa
             if (v.y >= ALTO * 0.85f && v.x >= ANCHO * 0.9f) {
@@ -549,7 +490,7 @@ class PantallaJuego extends PantallaAbstracta {
                     juego.setEfecto("Audios/efectoPausa.mp3");
                     escenaPausa = new EscenaPausa(vista, batch);
                 }
-            } else if (v.y < ALTO / 2) {
+            } else if (v.y < ALTO / 2 && !(personaje.estaSaltando())) {
                 //audio.setEfecto("agacharse.mp3");
                 movimientoPersonaje = Movimiento.ABAJO;
             }

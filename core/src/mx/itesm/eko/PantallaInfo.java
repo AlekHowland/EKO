@@ -33,6 +33,8 @@ public class PantallaInfo extends PantallaAbstracta {
     private Personaje personaje;
     private Personaje elefante= new Personaje(texturaPersonaje, -ANCHO*0.3f, 0, "Elefante");
     private Personaje oso= new Personaje(texturaPersonaje, -ANCHO*0.3f, 0, "Oso");
+    private Personaje tortuga= new Personaje(texturaPersonaje, -ANCHO*0.3f, 0, "Tortuga");
+
     // Audio
     private ControladorAudio audioInfo = new ControladorAudio();
 
@@ -41,12 +43,17 @@ public class PantallaInfo extends PantallaAbstracta {
         this.juego=juego;
     }
 
+    //Imagen créditos
+    public Texture texturaCreditos=new Texture("Creditos/imagenCreditos.png");
+    public Objeto creditosImagen=new Objeto(texturaCreditos,0,-texturaCreditos.getHeight());
+
 
     @Override
     public void show() {
         crearMenu();
         oso.cargarTexturas();
         elefante.cargarTexturas();
+        tortuga.cargarTexturas();
         personaje=oso;
     }
 
@@ -82,14 +89,22 @@ public class PantallaInfo extends PantallaAbstracta {
             creditos.activarAnimacion();
         }
         moverPersonaje();
+        moverImagen();
         batch.begin();
+        creditosImagen.render(batch);
         personaje.renderCorrer(batch);
-
         batch.end();
         escenaCreditos.act();
         escenaCreditos.draw();
 
         escenaMenu.draw();
+    }
+
+    private void moverImagen() {
+        creditosImagen.sprite.setY(creditosImagen.sprite.getY()+10);
+        if (creditosImagen.sprite.getY()>=ALTO){
+            creditosImagen.sprite.setY(-creditosImagen.sprite.getHeight());
+        }
     }
 
     private void moverPersonaje() {
@@ -101,7 +116,11 @@ public class PantallaInfo extends PantallaAbstracta {
                     personaje=elefante;
                     break;
                 case "Elefante":
+                    personaje=tortuga;
+                    break;
+                case "Tortuga":
                     personaje=oso;
+                    break;
             }
         }
     }

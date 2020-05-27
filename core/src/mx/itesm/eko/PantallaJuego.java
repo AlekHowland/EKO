@@ -118,13 +118,11 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
         texturaFondo = new Texture("Fondos/fondo" + assets + ".jpg");
 
         //Gdx.input.setInputProcessor(new ProcesadorEntrada());
-        //Gestos
         gestureDetector = new GestureDetector(this);
-        //Gdx.input.setInputProcessor(new GestureDetector(this));  // GESTOS
         Gdx.input.setInputProcessor(gestureDetector);
 
         //Vamos a atrapar la tecla de back
-        Gdx.input.setCatchKey(Input.Keys.BACK,true);
+        //Gdx.input.setCatchKey(Input.Keys.BACK,true);
     }
 
     private void createItem() {
@@ -478,30 +476,21 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
 
     }
 
-    //@Override
-    //public InputProcessor getInputProcessor() {
-    //    return new GestureDetector();
-    //}
+    @Override
+    public InputProcessor getInputProcessor() {
+        return gestureDetector;
+    }
 
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
         return false;
     }
-//Gestos
+
     @Override
     public boolean tap(float x, float y, int count, int button) {
         Vector3 touchPos = new Vector3(x,y,0);
         camara.unproject(touchPos);
-        //Detectar pausa
-        //       if (v.y >= ALTO * 0.85f && v.x >= ANCHO * 0.9f) {
-        //             estadoJuego = EstadoJuego.PAUSADO;
-        //              //audio.setEfecto("pausa.mp3");
-        //              if (escenaPausa == null) {
-        //                  juego.setVolumen(0.3f);
-//                    juego.setEfecto("Audios/efectoPausa.mp3");
-        //                   escenaPausa = new EscenaPausa(vista, batch);
-        //              }
-        if(touchPos.y>=ALTO*0.85f && touchPos.x >= ANCHO*0.9f){
+        if(touchPos.y >= ALTO * 0.85f && touchPos.x >= ANCHO * 0.9f){
             estadoJuego = EstadoJuego.PAUSADO;
             if(escenaPausa == null){
                 juego.setVolumen(0.3f);
@@ -509,7 +498,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
                 escenaPausa = new EscenaPausa(vista,batch);
             }
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -519,18 +508,18 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
 
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
-        if(velocityY>0){
+        if(velocityY<0){
             personaje.saltar();
         }
-        if(velocityY<0 && !(personaje.estaSaltando())){
+        if(velocityY>0 && !(personaje.estaSaltando())){
             movimientoPersonaje = Movimiento.ABAJO;
+
         }
         return true;
     }
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
-
         return false;
     }
 
@@ -554,76 +543,23 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
 
     }
 
-    @Override
-    public InputProcessor getInputProcessor() {
-        return null;
-    }
-//Procesador, solo taps
-//    private class ProcesadorEntrada implements InputProcessor {
+    //@Override
+    //public InputProcessor getInputProcessor() {
+    //    return new InputProcessor() {
+    //    };
+    //}
 
-//        @Override
-//        public boolean keyDown(int keycode) {
-//            if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
-//                juego.setScreen(new PantallaMenu(juego));
-//            }
-//            return false;
-//        }
+    //@Override
+    //public boolean touchDown(float x, float y, int pointer, int button) {
+    //    return false;
+    //}
 
-//        @Override
-//        public boolean keyUp(int keycode) {
-//            return false;
-//        }
 
-//        @Override
-//*        public boolean keyTyped(char character) {
-//        return false;
-//        }
-        //Aqui decimos que movimiento se llevará a cabo
-//        @Override
-//        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//
- //           Vector3 v = new Vector3(screenX, screenY, 0);
-//            camara.unproject(v);
-//            if (v.y >= ALTO / 2 && !(v.y >= ALTO * 0.85f && v.x >= ANCHO * 0.9f)) {
- //               personaje.saltar();
-   //         }
-            //Detectar pausa
-     //       if (v.y >= ALTO * 0.85f && v.x >= ANCHO * 0.9f) {
-   //             estadoJuego = EstadoJuego.PAUSADO;
-  //              //audio.setEfecto("pausa.mp3");
-  //              if (escenaPausa == null) {
-  //                  juego.setVolumen(0.3f);
-//                    juego.setEfecto("Audios/efectoPausa.mp3");
- //                   escenaPausa = new EscenaPausa(vista, batch);
-  //              }
- //           } else if (v.y < ALTO / 2 && !(personaje.estaSaltando())) {
-                //audio.setEfecto("agacharse.mp3");
-//                movimientoPersonaje = Movimiento.ABAJO;
-  //          }
-  //          return true;
-  //      }
+    //@Override
+    //public InputProcessor getInputProcessor() {
+    //    return null;
+    //}
 
-//        @Override
- //       public boolean touchUp(int screenX, int screenY, int pointer, int button) {
- //           movimientoPersonaje = Movimiento.QUIETO;
- //           return true;
- //       }
-
-//        @Override
-//        public boolean touchDragged(int screenX, int screenY, int pointer) {
-//            return false;
- //       }
-
-//        @Override
-//        public boolean mouseMoved(int screenX, int screenY) {
-//            return false;
-//        }
-
-//        @Override
-//        public boolean scrolled(int amount) {
-//            return false;
-//        }
-//    }
 
     //Clase Pausa (Ventana que se muestra cuando el usuario pausa la app)
     class EscenaPausa extends Stage {
@@ -663,7 +599,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
                     juego.setEfecto("Audios/efectoBoton.mp3");
                     juego.setVolumen100();
                     //Gdx.input.setInputProcessor(new ProcesadorEntrada());
-                    Gdx.input.setInputProcessor(gestureDetector);
+                    Gdx.input.setInputProcessor(getInputProcessor());
 
                 }
             });
@@ -672,6 +608,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
             this.addActor(botonBack.getBtn());
             this.addActor(botonMenu.getBtn());
 
+            //Gdx.input.setInputProcessor(this);
             Gdx.input.setInputProcessor(this);
         }
     }

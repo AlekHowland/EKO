@@ -97,13 +97,14 @@ public class Enemigo extends Objeto {
                         animacionEnemigo = new Animation(0.075f, texturaEnemigo[0][0]);
                         break;
                 }
+                break;
             case "Elefante":
                 switch (tipoEnemigo){
                     case 1:
                         animacionEnemigo = new Animation(0.075f, texturaEnemigo[0][0], texturaEnemigo[0][1], texturaEnemigo[0][2]);
                         break;
                     case 2:
-                        animacionEnemigo = new Animation(0.0002f, texturaEnemigo[0][0],  texturaEnemigo[0][1], texturaEnemigo[0][2],
+                        animacionEnemigo = new Animation(0.07f, texturaEnemigo[0][0],  texturaEnemigo[0][1], texturaEnemigo[0][2],
                                 texturaEnemigo[0][3], texturaEnemigo[0][4], texturaEnemigo[0][5]);
                         break;
                     case 3:
@@ -111,6 +112,7 @@ public class Enemigo extends Objeto {
                         break;
 
                 }
+                break;
             case "Tortuga":
                 switch (tipoEnemigo){
                     case 1:
@@ -123,6 +125,7 @@ public class Enemigo extends Objeto {
                         animacionEnemigo = new Animation(0.075f, texturaEnemigo[0][0]);
                         break;
                 }
+                break;
         }
 
         animacionEnemigo.setPlayMode(Animation.PlayMode.LOOP);

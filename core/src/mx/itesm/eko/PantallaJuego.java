@@ -248,7 +248,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
         x = marcador.getContador();
         if(x % 250==0) {
             z = (int) (Math.random() * 1000);
-            Gdx.app.log("Huevo", Float.toString(z));
+
         }else{
             z = 20;
         }
@@ -365,12 +365,15 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
     }
 
     private void moverPersonaje(float delta) {
-        timerPersonaje = delta;
+        timerPersonaje += delta;
+
         switch (movimientoPersonaje) {
             case ABAJO:
                 personaje.renderAgachar(batch);
                 personaje.setTexture(texturaPersonajeAbajo);
-
+                if (timerPersonaje>=0.7f){
+                    movimientoPersonaje=Movimiento.QUIETO;
+                }
                 break;
             case QUIETO:
                 if (personaje.sprite.getY() >= ALTO * 0.11f) {
@@ -512,6 +515,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
             personaje.saltar();
         }
         if(velocityY>0 && !(personaje.estaSaltando())){
+            timerPersonaje=0;
             movimientoPersonaje = Movimiento.ABAJO;
 
         }

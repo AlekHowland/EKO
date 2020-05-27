@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
@@ -30,7 +31,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.Random;
 import mx.itesm.eko.musica.ControladorAudio;
 
-class PantallaJuego extends PantallaAbstracta {
+class PantallaJuego extends PantallaAbstracta implements GestureDetector.GestureListener {
     // Juego
     private final ControlJuego juego;
     private Random rnd = new Random();
@@ -94,6 +95,9 @@ class PantallaJuego extends PantallaAbstracta {
     private final float MAXDIF=25;
     private float dificultad=0.005f;
 
+    //Gestos
+    private GestureDetector gestureDetector;
+
     // Constructor
     public PantallaJuego(ControlJuego juego, String assets) {
         this.juego = juego;
@@ -113,7 +117,11 @@ class PantallaJuego extends PantallaAbstracta {
 
         texturaFondo = new Texture("Fondos/fondo" + assets + ".jpg");
 
-        Gdx.input.setInputProcessor(new ProcesadorEntrada());
+        //Gdx.input.setInputProcessor(new ProcesadorEntrada());
+        //Gestos
+        gestureDetector = new GestureDetector(this);
+        //Gdx.input.setInputProcessor(new GestureDetector(this));  // GESTOS
+        Gdx.input.setInputProcessor(gestureDetector);
 
         //Vamos a atrapar la tecla de back
         Gdx.input.setCatchKey(Input.Keys.BACK,true);
@@ -470,76 +478,152 @@ class PantallaJuego extends PantallaAbstracta {
 
     }
 
+    //@Override
+    //public InputProcessor getInputProcessor() {
+    //    return new GestureDetector();
+    //}
+
+    @Override
+    public boolean touchDown(float x, float y, int pointer, int button) {
+        return false;
+    }
+//Gestos
+    @Override
+    public boolean tap(float x, float y, int count, int button) {
+        Vector3 touchPos = new Vector3(x,y,0);
+        camara.unproject(touchPos);
+        //Detectar pausa
+        //       if (v.y >= ALTO * 0.85f && v.x >= ANCHO * 0.9f) {
+        //             estadoJuego = EstadoJuego.PAUSADO;
+        //              //audio.setEfecto("pausa.mp3");
+        //              if (escenaPausa == null) {
+        //                  juego.setVolumen(0.3f);
+//                    juego.setEfecto("Audios/efectoPausa.mp3");
+        //                   escenaPausa = new EscenaPausa(vista, batch);
+        //              }
+        if(touchPos.y>=ALTO*0.85f && touchPos.x >= ANCHO*0.9f){
+            estadoJuego = EstadoJuego.PAUSADO;
+            if(escenaPausa == null){
+                juego.setVolumen(0.3f);
+                juego.setEfecto("Audios/efectoPausa.mp3");
+                escenaPausa = new EscenaPausa(vista,batch);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean longPress(float x, float y) {
+        return false;
+    }
+
+    @Override
+    public boolean fling(float velocityX, float velocityY, int button) {
+        if(velocityY>0){
+            personaje.saltar();
+        }
+        if(velocityY<0 && !(personaje.estaSaltando())){
+            movimientoPersonaje = Movimiento.ABAJO;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean pan(float x, float y, float deltaX, float deltaY) {
+
+        return false;
+    }
+
+    @Override
+    public boolean panStop(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean zoom(float initialDistance, float distance) {
+        return false;
+    }
+
+    @Override
+    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
+        return false;
+    }
+
+    @Override
+    public void pinchStop() {
+
+    }
+
     @Override
     public InputProcessor getInputProcessor() {
-        return new ProcesadorEntrada();
+        return null;
     }
+//Procesador, solo taps
+//    private class ProcesadorEntrada implements InputProcessor {
 
-    private class ProcesadorEntrada implements InputProcessor {
+//        @Override
+//        public boolean keyDown(int keycode) {
+//            if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
+//                juego.setScreen(new PantallaMenu(juego));
+//            }
+//            return false;
+//        }
 
-        @Override
-        public boolean keyDown(int keycode) {
-            if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
-                juego.setScreen(new PantallaMenu(juego));
-            }
-            return false;
-        }
+//        @Override
+//        public boolean keyUp(int keycode) {
+//            return false;
+//        }
 
-        @Override
-        public boolean keyUp(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyTyped(char character) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-            Vector3 v = new Vector3(screenX, screenY, 0);
-            camara.unproject(v);
-            if (v.y >= ALTO / 2 && !(v.y >= ALTO * 0.85f && v.x >= ANCHO * 0.9f)) {
-                personaje.saltar();
-            }
+//        @Override
+//*        public boolean keyTyped(char character) {
+//        return false;
+//        }
+        //Aqui decimos que movimiento se llevará a cabo
+//        @Override
+//        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+//
+ //           Vector3 v = new Vector3(screenX, screenY, 0);
+//            camara.unproject(v);
+//            if (v.y >= ALTO / 2 && !(v.y >= ALTO * 0.85f && v.x >= ANCHO * 0.9f)) {
+ //               personaje.saltar();
+   //         }
             //Detectar pausa
-            if (v.y >= ALTO * 0.85f && v.x >= ANCHO * 0.9f) {
-                estadoJuego = EstadoJuego.PAUSADO;
-                //audio.setEfecto("pausa.mp3");
-                if (escenaPausa == null) {
-                    juego.setVolumen(0.3f);
-                    juego.setEfecto("Audios/efectoPausa.mp3");
-                    escenaPausa = new EscenaPausa(vista, batch);
-                }
-            } else if (v.y < ALTO / 2 && !(personaje.estaSaltando())) {
+     //       if (v.y >= ALTO * 0.85f && v.x >= ANCHO * 0.9f) {
+   //             estadoJuego = EstadoJuego.PAUSADO;
+  //              //audio.setEfecto("pausa.mp3");
+  //              if (escenaPausa == null) {
+  //                  juego.setVolumen(0.3f);
+//                    juego.setEfecto("Audios/efectoPausa.mp3");
+ //                   escenaPausa = new EscenaPausa(vista, batch);
+  //              }
+ //           } else if (v.y < ALTO / 2 && !(personaje.estaSaltando())) {
                 //audio.setEfecto("agacharse.mp3");
-                movimientoPersonaje = Movimiento.ABAJO;
-            }
-            return true;
-        }
+//                movimientoPersonaje = Movimiento.ABAJO;
+  //          }
+  //          return true;
+  //      }
 
-        @Override
-        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            movimientoPersonaje = Movimiento.QUIETO;
-            return true;
-        }
+//        @Override
+ //       public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+ //           movimientoPersonaje = Movimiento.QUIETO;
+ //           return true;
+ //       }
 
-        @Override
-        public boolean touchDragged(int screenX, int screenY, int pointer) {
-            return false;
-        }
+//        @Override
+//        public boolean touchDragged(int screenX, int screenY, int pointer) {
+//            return false;
+ //       }
 
-        @Override
-        public boolean mouseMoved(int screenX, int screenY) {
-            return false;
-        }
+//        @Override
+//        public boolean mouseMoved(int screenX, int screenY) {
+//            return false;
+//        }
 
-        @Override
-        public boolean scrolled(int amount) {
-            return false;
-        }
-    }
+//        @Override
+//        public boolean scrolled(int amount) {
+//            return false;
+//        }
+//    }
 
     //Clase Pausa (Ventana que se muestra cuando el usuario pausa la app)
     class EscenaPausa extends Stage {
@@ -578,7 +662,8 @@ class PantallaJuego extends PantallaAbstracta {
                     escenaPausa = null;
                     juego.setEfecto("Audios/efectoBoton.mp3");
                     juego.setVolumen100();
-                    Gdx.input.setInputProcessor(new ProcesadorEntrada());
+                    //Gdx.input.setInputProcessor(new ProcesadorEntrada());
+                    Gdx.input.setInputProcessor(gestureDetector);
 
                 }
             });

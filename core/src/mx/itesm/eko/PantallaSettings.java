@@ -24,7 +24,7 @@ public class PantallaSettings extends PantallaAbstracta {
 
     //Scores
     private Scores scores;
-    private Texture texturaContinue=new Texture("Botones/botonNext.png");
+    private Texture texturaContinue=new Texture("Settings/continue.png");
     private Objeto objContinue;
     private Settings settings;
 
@@ -61,7 +61,7 @@ public class PantallaSettings extends PantallaAbstracta {
             estadoMusica=EstadoMusica.OFF;
         }
 
-        Boton botonInfo = new Boton("Botones/btnReturn.png","Botones/btnReturnP.png");
+        Boton botonInfo = new Boton("Botones/botonReturnSinFondo.png","Botones/botonReturnSinFondo.png");
         botonInfo.setPosition(ANCHO/2-botonInfo.getWidth()/2,ALTO*0.115f);
 
         botonInfo.getBtn().addListener(new ClickListener() {
@@ -107,12 +107,12 @@ public class PantallaSettings extends PantallaAbstracta {
 
         //Boton reset
 
-        final Boton botonResetYes= new Boton("Botones/botonON.png","Botones/botonONP.png");
+        final Boton botonResetYes= new Boton("Settings/yes.png","Settings/yes.png");
         botonResetYes.setPosition(ANCHO,ALTO);
-        final Boton botonResetNo= new Boton("Botones/botonOff.png","Botones/botonOffP.png");
+        final Boton botonResetNo= new Boton("Settings/no.png","Settings/no.png");
         botonResetNo.setPosition(ANCHO,ALTO);
-        final Boton botonReset= new Boton("Botones/botonContinue.png","Botones/botonOffP.png");
-        botonReset.setPosition(ANCHO/2-botonReset.getBtn().getWidth()/2,ALTO*0.2f);
+        final Boton botonReset= new Boton("Settings/botonReset.png","Settings/botonReset.png");
+        botonReset.setPosition(ANCHO/2-botonReset.getBtn().getWidth()/2,ALTO*0.3f);
 
         botonResetYes.getBtn().addListener(new ClickListener() {
             @Override
@@ -122,7 +122,7 @@ public class PantallaSettings extends PantallaAbstracta {
                 scores.crearArchivo();
                 botonResetYes.setPosition(ANCHO,ALTO);
                 botonResetNo.setPosition(ANCHO,ALTO);
-                botonReset.setPosition(ANCHO/2-botonReset.getBtn().getWidth()/2,ALTO*0.2f);
+                botonReset.setPosition(ANCHO/2-botonReset.getBtn().getWidth()/2,ALTO*0.3f);
                 objContinue.sprite.setPosition(ANCHO,ALTO);
 
             }
@@ -136,7 +136,7 @@ public class PantallaSettings extends PantallaAbstracta {
                 juego.setEfecto("Audios/efectoBoton.mp3");
                 botonResetYes.setPosition(ANCHO,ALTO);
                 botonResetNo.setPosition(ANCHO,ALTO);
-                botonReset.setPosition(ANCHO/2-botonReset.getBtn().getWidth()/2,ALTO*0.2f);
+                botonReset.setPosition(ANCHO/2-botonReset.getBtn().getWidth()/2,ALTO*0.3f);
                 objContinue.sprite.setPosition(ANCHO,ALTO);
             }
         });
@@ -146,10 +146,10 @@ public class PantallaSettings extends PantallaAbstracta {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 juego.setEfecto("Audios/efectoBoton.mp3");
-                botonResetYes.setPosition(ANCHO*0.15f,ALTO*0.20f);
-                botonResetNo.setPosition(ANCHO*0.55f,ALTO*0.20f);
+                botonResetYes.setPosition(ANCHO*0.25f,ALTO*0.3f);
+                botonResetNo.setPosition(ANCHO*0.5f,ALTO*0.3f);
                 botonReset.setPosition(ANCHO,ALTO);
-                objContinue.sprite.setPosition(ANCHO/2-objContinue.sprite.getWidth()/2,ALTO*0.35f);
+                objContinue.sprite.setPosition(ANCHO/2-objContinue.sprite.getWidth()/2,ALTO*0.4f);
 
             }
         });

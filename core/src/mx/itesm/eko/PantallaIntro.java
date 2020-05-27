@@ -29,7 +29,7 @@ public class PantallaIntro extends PantallaAbstracta {
 
     @Override
     public void show() {
-        texturaLogo = new Texture(Gdx.files.internal("Fondos/fondoIntro1.jpg"));
+        texturaLogo = new Texture(Gdx.files.internal("Fondos/fondoIntro.jpg"));
         spriteLogo = new Sprite(texturaLogo);
         spriteLogo.setPosition(ANCHO/2-spriteLogo.getWidth()/2, ALTO/2-spriteLogo.getHeight()/2);
         escalarLogo();

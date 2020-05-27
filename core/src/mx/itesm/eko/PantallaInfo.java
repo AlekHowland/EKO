@@ -70,8 +70,8 @@ public class PantallaInfo extends PantallaAbstracta {
         escenaCreditos.addActor(creditos);
 
         //Dibujo logo
-        Boton logo = new Boton("Fondos/fondoIntroBoton.png","Fondos/fondoIntroBoton.png");
-        logo.setPosition(ANCHO/2-logo.getWidth()/2,ALTO*0.5f);
+        //Boton logo = new Boton("Fondos/fondoIntroBoton.png","Fondos/fondoIntroBoton.png");
+      //  logo.setPosition(ANCHO/2-logo.getWidth()/2,ALTO*0.5f);
 
 
 
@@ -101,7 +101,7 @@ public class PantallaInfo extends PantallaAbstracta {
     }
 
     private void moverImagen() {
-        creditosImagen.sprite.setY(creditosImagen.sprite.getY()+10);
+        creditosImagen.sprite.setY(creditosImagen.sprite.getY()+1);
         if (creditosImagen.sprite.getY()>=ALTO){
             creditosImagen.sprite.setY(-creditosImagen.sprite.getHeight());
         }

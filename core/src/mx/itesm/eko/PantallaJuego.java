@@ -139,7 +139,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
     }
 
     private void createVidas() {
-        vidas = new Vidas(0, 0.9f * ALTO, 3, assets);
+        vidas = new Vidas(0, 0.9f * ALTO, 1000, assets);
     }
 
 

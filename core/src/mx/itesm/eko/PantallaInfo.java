@@ -1,6 +1,7 @@
 package mx.itesm.eko;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import mx.itesm.eko.musica.ControladorAudio;
 
-public class PantallaInfo extends PantallaAbstracta {
+public class PantallaInfo extends PantallaAbstracta implements InputProcessor{
 
     private final ControlJuego juego;
 
@@ -55,6 +56,8 @@ public class PantallaInfo extends PantallaAbstracta {
         elefante.cargarTexturas();
         tortuga.cargarTexturas();
         personaje=oso;
+        Gdx.input.setInputProcessor(this);
+        Gdx.input.setCatchKey(Input.Keys.BACK,true);
     }
 
     private void crearMenu() {
@@ -98,6 +101,9 @@ public class PantallaInfo extends PantallaAbstracta {
         //escenaCreditos.draw();
 
         escenaMenu.draw();
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            juego.setScreen(new PantallaMenu(juego));
+        }
     }
 
     private void moverImagen() {
@@ -143,6 +149,46 @@ public class PantallaInfo extends PantallaAbstracta {
     @Override
     public InputProcessor getInputProcessor() {
         return new ProcesadorEntrada();
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 
     private class ProcesadorEntrada implements InputProcessor {

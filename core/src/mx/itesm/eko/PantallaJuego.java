@@ -145,7 +145,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
     }
 
     private void createVidas() {
-        vidas = new Vidas(0, 0.9f * ALTO, 1000, assets);
+        vidas = new Vidas(0, 0.9f * ALTO, 3, assets);
     }
 
 
@@ -683,7 +683,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
         Rectangle rectPersonaje = personaje.sprite.getBoundingRectangle();
         Rectangle rectEnemigo = enemigo.sprite.getBoundingRectangle();
         if (rectPersonaje.overlaps(rectEnemigo)) {
-            juego.setEfecto("Audios/efectoGolpe.mp3");
+            juego.setEfecto("Audios/efectoGolpe" + assets + ".mp3");
             cambiarEnemigo();
             enemigo.sprite.setX(ANCHO);
             vidas.restar(1);

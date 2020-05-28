@@ -1,6 +1,7 @@
 package mx.itesm.eko;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -8,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import mx.itesm.eko.transiciones.TransicionPantalla;
 import mx.itesm.eko.transiciones.efectoTransicion;
 
-public class PantallaIntro extends PantallaAbstracta {
+public class PantallaIntro extends PantallaAbstracta implements InputProcessor{
 
     private final ControlJuego juego;
     private float tiempoVisible = 2.5f;
@@ -33,6 +34,8 @@ public class PantallaIntro extends PantallaAbstracta {
         spriteLogo = new Sprite(texturaLogo);
         spriteLogo.setPosition(ANCHO/2-spriteLogo.getWidth()/2, ALTO/2-spriteLogo.getHeight()/2);
         escalarLogo();
+        Gdx.input.setInputProcessor(this);
+        Gdx.input.setCatchKey(Input.Keys.BACK,true);
     }
 
     private void escalarLogo() {
@@ -57,6 +60,9 @@ public class PantallaIntro extends PantallaAbstracta {
         if (tiempoVisible<=0) {
             juego.setScreen(new PantallaMenu(juego));
         }
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            juego.setScreen(new PantallaMenu(juego));
+        }
     }
 
     @Override
@@ -75,6 +81,44 @@ public class PantallaIntro extends PantallaAbstracta {
     }
 
 
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
 
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
 
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        juego.setScreen(new PantallaMenu(juego));
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
 }

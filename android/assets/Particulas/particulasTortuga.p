@@ -5,8 +5,8 @@ active: false
 lowMin: 3000.0
 lowMax: 3000.0
 - Count - 
-min: 10
-max: 50
+min: 100
+max: 250
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
@@ -62,10 +62,10 @@ scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
 - X Scale - 
-lowMin: 82.0
-lowMax: 82.0
-highMin: 50.0
-highMax: 50.0
+lowMin: 5.0
+lowMax: 5.0
+highMin: 5.0
+highMax: 5.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -116,9 +116,9 @@ timeline0: 0.0
 active: false
 - Tint - 
 colorsCount: 3
-colors0: 0.84313726
-colors1: 0.972549
-colors2: 1.0
+colors0: 0.9882353
+colors1: 1.0
+colors2: 0.84313726
 timelineCount: 1
 timeline0: 0.0
 - Transparency - 
@@ -146,5 +146,5 @@ behind: false
 premultipliedAlpha: false
 spriteMode: single
 - Image Paths -
-partTortuga.png
+partElefante.png
 

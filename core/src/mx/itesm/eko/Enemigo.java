@@ -41,7 +41,7 @@ public class Enemigo extends Objeto {
             case "Elefante":
                 switch (tipoEnemigo){
                     case 1:
-                        texturaEnemigo = regionEnemigo1.split(230, 140);
+                        texturaEnemigo = regionEnemigo1.split(115, 70);
                         break;
                     case 2:
                         texturaEnemigo = regionEnemigo1.split(218, 153);
@@ -54,13 +54,13 @@ public class Enemigo extends Objeto {
             case "Tortuga":
                 switch (tipoEnemigo){
                     case 1:
-                        texturaEnemigo = regionEnemigo1.split(110, 65);
+                        texturaEnemigo = regionEnemigo1.split(126, 70);
                         break;
                     case 2:
-                        texturaEnemigo = regionEnemigo1.split(200, 119);
+                        texturaEnemigo = regionEnemigo1.split(196, 147);
                         break;
                     case 3:
-                        texturaEnemigo = regionEnemigo1.split(230, 140);
+                        texturaEnemigo = regionEnemigo1.split(273, 154);
                         break;
                 }
                 break;
@@ -94,7 +94,7 @@ public class Enemigo extends Objeto {
                         animacionEnemigo = new Animation(0.075f, texturaEnemigo[0][0]);
                         break;
                     case 3:
-                        animacionEnemigo = new Animation(0.15f, texturaEnemigo[0][0], texturaEnemigo[0][1], texturaEnemigo[0][2],
+                        animacionEnemigo = new Animation(0.1f, texturaEnemigo[0][0], texturaEnemigo[0][1], texturaEnemigo[0][2],
                                 texturaEnemigo[0][3]);
                         break;
                 }
@@ -118,13 +118,13 @@ public class Enemigo extends Objeto {
             case "Tortuga":
                 switch (tipoEnemigo){
                     case 1:
-                        animacionEnemigo = new Animation(0.1f, texturaEnemigo[0][0], texturaEnemigo[0][1], texturaEnemigo[0][2]);
+                        animacionEnemigo = new Animation(0.1f, texturaEnemigo[0][0]);
                         break;
                     case 2:
-                        animacionEnemigo = new Animation(0.075f, texturaEnemigo[0][0]);
+                        animacionEnemigo = new Animation(0.3f, texturaEnemigo[0][0],texturaEnemigo[0][1],texturaEnemigo[0][2],texturaEnemigo[0][1]);
                         break;
                     case 3:
-                        animacionEnemigo = new Animation(0.075f, texturaEnemigo[0][0]);
+                        animacionEnemigo = new Animation(0.3f, texturaEnemigo[0][0],texturaEnemigo[0][1],texturaEnemigo[0][2],texturaEnemigo[0][1]);
                         break;
                 }
                 break;

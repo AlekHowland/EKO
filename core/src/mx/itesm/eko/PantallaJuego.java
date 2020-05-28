@@ -192,7 +192,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
         renderFondo(batch);
 
         //Hitbox
-        if (true) {
+        if (false) {
             personaje.render(batch);
             enemigo.render(batch);
             huevo.render(batch);

@@ -94,7 +94,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
     private float timerPausa=2;
 
     //Dificultad
-    private final float MAXDIF = 25;
+    private final float MAXDIF = 22;
     private float dificultad = 0.005f;
 
     //Gestos
@@ -685,7 +685,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
         if (rectPersonaje.overlaps(rectEnemigo)) {
             juego.setEfecto("Audios/efectoGolpe" + assets + ".mp3");
             cambiarEnemigo();
-            enemigo.sprite.setX(ANCHO);
+            enemigo.sprite.setX(ANCHO*2);
             vidas.restar(1);
         }
 

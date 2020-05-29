@@ -56,7 +56,7 @@ public class Personaje extends Objeto {
                 break;
             case "Tortuga":
                 texturaPCorriendo = regionCorriendo.split(250, 153);
-                texturaPAgachado = regionAgachado.split(177, 93);
+                texturaPAgachado = regionAgachado.split(162, 85);
                 texturaPSaltando= regionCorriendo.split(469, 287);
                 break;
         }

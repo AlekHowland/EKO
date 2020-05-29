@@ -40,9 +40,11 @@ public class PantallaPersonajes extends PantallaAbstracta implements InputProces
             case "Elefante":
                 personaje = new BotonDinamico(texturaPersonaje,  189, 406, ANCHO * 0.3f, ALTO * 0.3f);
                 personaje.cargarTexturasElefante();
+                break;
             case "Tortuga":
-                personaje = new BotonDinamico(texturaPersonaje,  189, 406, ANCHO * 0.3f, ALTO * 0.3f);
+                personaje = new BotonDinamico(texturaPersonaje,  301, 532, ANCHO * 0.3f, ALTO * 0.3f);
                 personaje.cargarTexturasElefante();
+                break;
         }
         crearMenu();
         Gdx.input.setInputProcessor(this);

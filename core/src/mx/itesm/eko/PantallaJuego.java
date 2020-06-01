@@ -94,7 +94,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
     private float timerPausa=2;
 
     //Dificultad
-    private final float MAXDIF = 22;
+    private final float MAXDIF = 15;
     private float dificultad = 0.005f;
 
     //Gestos
@@ -145,7 +145,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
     }
 
     private void createVidas() {
-        vidas = new Vidas(0, 0.9f * ALTO, 1000, assets);
+        vidas = new Vidas(0, 0.9f * ALTO, 3, assets);
     }
 
 

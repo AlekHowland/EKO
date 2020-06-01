@@ -46,7 +46,7 @@ public class PantallaInfo extends PantallaAbstracta implements InputProcessor{
 
     //Imagen créditos
     public Texture texturaCreditos=new Texture("Creditos/imagenCreditos.png");
-    public Objeto creditosImagen=new Objeto(texturaCreditos,0,-texturaCreditos.getHeight());
+    public Objeto creditosImagen=new Objeto(texturaCreditos,ANCHO/2-texturaCreditos.getWidth()/2,-texturaCreditos.getHeight());
 
 
     @Override

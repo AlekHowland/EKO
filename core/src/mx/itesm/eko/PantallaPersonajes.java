@@ -58,7 +58,7 @@ public class PantallaPersonajes extends PantallaAbstracta implements InputProces
 
         //Boton cambio derecha
         Boton btnDer=new Boton("Botones/btnSelDer.png","Botones/btnSelDerP.png");
-        btnDer.setPosition(ANCHO-btnDer.getWidth(),ALTO/2-btnDer.getHeight()/2);
+        btnDer.setPosition(ANCHO-btnDer.getWidth()-35,ALTO/2-btnDer.getHeight()/2);
         btnDer.getBtn().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -76,7 +76,7 @@ public class PantallaPersonajes extends PantallaAbstracta implements InputProces
 
         //Boton cambio izquierda
         Boton btnIzq=new Boton("Botones/btnSelIzq.png","Botones/btnSelIzqP.png");
-        btnIzq.setPosition(0,ALTO/2-btnIzq.getHeight()/2);
+        btnIzq.setPosition(35,ALTO/2-btnIzq.getHeight()/2);
         btnIzq.getBtn().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

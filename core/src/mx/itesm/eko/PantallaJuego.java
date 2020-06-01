@@ -603,7 +603,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
             imgPausa.setPosition(0, 0);
 
             //Boton pantalla muerto
-            Boton botonMenu = new Boton("Botones/btnReturn.png", "Botones/btnReturnP.png");
+            Boton botonMenu = new Boton("Botones/btnMenuFondo.png", "Botones/btnMenuFondo.png");
             botonMenu.setPosition(ANCHO / 3 - botonMenu.getWidth() / 2, ALTO * 0.2f);
             botonMenu.getBtn().addListener(new ClickListener() {
                 @Override

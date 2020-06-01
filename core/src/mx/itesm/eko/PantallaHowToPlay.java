@@ -42,14 +42,14 @@ public class PantallaHowToPlay extends PantallaAbstracta implements InputProcess
     private void crearMenu() {
         escenaMenu = new Stage(vista);
         Boton botonNext = new Boton("Botones/botonNext.png","Botones/botonNextP.png");
-        botonNext.setPosition(ANCHO*0.65f,ALTO*0.69f);
+        /*.setPosition(ANCHO*0.65f,ALTO*0.69f);
         if(numero == 1 || numero == 2 || numero == 3){
             botonNext.setPosition(ANCHO*0.65f,ALTO*0.69f);
         }else if(numero == 4 ){
             botonNext.setPosition(ANCHO/2-botonNext.getWidth()+170,ALTO*0.4f);
-        }else{
+        }else{*/
             botonNext.setPosition(ANCHO-botonNext.getWidth()- 50,30);
-        }
+        //}
         botonNext.getBtn().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -74,13 +74,13 @@ public class PantallaHowToPlay extends PantallaAbstracta implements InputProcess
 
         //Boton Exit
         Boton botonExit = new Boton("Botones/botonExit.png","Botones/botonExitP.png");
-        if(numero == 1 || numero == 2 || numero == 3){
+        /*if(numero == 1 || numero == 2 || numero == 3){
             botonExit.setPosition(ANCHO*0.65f,ALTO*0.57f);
         }else if(numero == 4 ){
             botonExit.setPosition(ANCHO/2-botonExit.getWidth()+170,ALTO*0.3f);
-        }else{
+        }else{*/
             botonExit.setPosition(0,16);
-        }
+        //}
         botonExit.getBtn().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

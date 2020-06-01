@@ -48,7 +48,7 @@ public class PantallaHowToPlay extends PantallaAbstracta implements InputProcess
         }else if(numero == 4 ){
             botonNext.setPosition(ANCHO/2-botonNext.getWidth()+170,ALTO*0.4f);
         }else{*/
-            botonNext.setPosition(ANCHO-botonNext.getWidth()- 50,30);
+            botonNext.setPosition(ANCHO-botonNext.getWidth()- 50,10);
         //}
         botonNext.getBtn().addListener(new ClickListener() {
             @Override
@@ -79,7 +79,7 @@ public class PantallaHowToPlay extends PantallaAbstracta implements InputProcess
         }else if(numero == 4 ){
             botonExit.setPosition(ANCHO/2-botonExit.getWidth()+170,ALTO*0.3f);
         }else{*/
-            botonExit.setPosition(0,16);
+            botonExit.setPosition(35,8);
         //}
         botonExit.getBtn().addListener(new ClickListener() {
             @Override

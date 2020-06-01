@@ -145,7 +145,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
     }
 
     private void createVidas() {
-        vidas = new Vidas(0, 0.9f * ALTO, 3, assets);
+        vidas = new Vidas(0, 0.9f * ALTO, 1000, assets);
     }
 
 
@@ -603,7 +603,7 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
             imgPausa.setPosition(0, 0);
 
             //Boton pantalla muerto
-            Boton botonMenu = new Boton("Botones/btnMenuFondo.png", "Botones/btnMenuFondo.png");
+            Boton botonMenu = new Boton("Botones/btnMenuFondo.png", "Botones/btnMenuFondoP.png");
             botonMenu.setPosition(ANCHO / 3 - botonMenu.getWidth() / 2, ALTO * 0.2f);
             botonMenu.getBtn().addListener(new ClickListener() {
                 @Override

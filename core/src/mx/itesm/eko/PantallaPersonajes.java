@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import mx.itesm.eko.musica.ControladorAudio;
+import mx.itesm.eko.transiciones.TransicionPantalla;
+import mx.itesm.eko.transiciones.efectoTransicion;
 
 public class PantallaPersonajes extends PantallaAbstracta implements InputProcessor{
 

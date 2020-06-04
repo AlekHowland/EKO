@@ -3,6 +3,7 @@ package mx.itesm.eko;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -12,7 +13,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import mx.itesm.eko.musica.ControladorAudio;
 import mx.itesm.eko.transiciones.TransicionPantalla;
 
-public class ControlJuego implements ApplicationListener
+public class ControlJuego implements ApplicationListener, InputProcessor
 {
     private boolean inicio;
     private PantallaAbstracta pantallaActual;
@@ -49,9 +50,10 @@ public class ControlJuego implements ApplicationListener
 
         if (pantallaActual != null) pantallaActual.pause();
         pantallaSiguiente.pause();
-        Gdx.input.setInputProcessor(null);
+        Gdx.input.setInputProcessor(this);
         this.transicionPantalla = transicion;
         duracion = 0;
+        Gdx.input.setCatchKey(Input.Keys.BACK,true);
     }
 
 
@@ -198,6 +200,46 @@ public class ControlJuego implements ApplicationListener
 
     public boolean getMusicaUsaurio(){
         return this.musicaUsuario;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 
     //Termina metodos mixer

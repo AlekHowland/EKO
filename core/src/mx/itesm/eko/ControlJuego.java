@@ -29,17 +29,10 @@ public class ControlJuego implements ApplicationListener
     private boolean musicaUsuario = true;
 
     public void setScreen(PantallaAbstracta pantalla){
-        setScreen(pantalla, null, true);
+        setScreen(pantalla, null);
     }
 
-    public void setScreen(PantallaAbstracta pantalla, TransicionPantalla transicion,
-                          boolean bloquearBack){
-
-        if(Gdx.input.isKeyPressed(BACK)) {
-            this.bloquearBack = bloquearBack;
-            Gdx.input.setCatchKey(BACK, this.bloquearBack);
-        }
-
+    public void setScreen(PantallaAbstracta pantalla, TransicionPantalla transicion){
         int ancho = Gdx.graphics.getWidth();
         int alto = Gdx.graphics.getHeight();
 
@@ -88,7 +81,11 @@ public class ControlJuego implements ApplicationListener
               pantallaSiguiente = null;
               transicionPantalla = null;
             } else {
-                Gdx.input.setCatchKey(BACK, bloquearBack);
+                if(Gdx.input.isKeyPressed(BACK)) {
+                    //this.bloquearBack = bloquearBack;
+                    Gdx.input.setCatchKey(BACK, bloquearBack);
+                }
+                //Gdx.input.setCatchKey(BACK, bloquearBack);
                 // Se hace el render de las pantallas a los buffers
                 actualFrameBuffer.begin();
                 if (pantallaActual != null) pantallaActual.render(tiempoDelta);

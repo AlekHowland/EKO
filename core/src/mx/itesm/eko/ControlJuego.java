@@ -81,11 +81,10 @@ public class ControlJuego implements ApplicationListener
               pantallaSiguiente = null;
               transicionPantalla = null;
             } else {
+                // Si se aprieta back, no hay nada
                 if(Gdx.input.isKeyPressed(BACK)) {
-                    //this.bloquearBack = bloquearBack;
                     Gdx.input.setCatchKey(BACK, bloquearBack);
                 }
-                //Gdx.input.setCatchKey(BACK, bloquearBack);
                 // Se hace el render de las pantallas a los buffers
                 actualFrameBuffer.begin();
                 if (pantallaActual != null) pantallaActual.render(tiempoDelta);

@@ -49,7 +49,6 @@ public class ControlJuego implements ApplicationListener
             batch = new SpriteBatch();
             inicio = true;
         }
-
         // Aquí es donde inicia la transición
         pantallaSiguiente = pantalla;
         pantallaSiguiente.show();       //Se activa la siguiente pantalla

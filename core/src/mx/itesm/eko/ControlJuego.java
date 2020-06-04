@@ -24,6 +24,7 @@ public class ControlJuego implements ApplicationListener
     private float duracion;
     private TransicionPantalla transicionPantalla;
     private ControladorAudio mixer;
+    private boolean bloquearBack = true;
     private final int BACK = 4;
     private boolean musicaUsuario = true;
 
@@ -35,7 +36,8 @@ public class ControlJuego implements ApplicationListener
                           boolean bloquearBack){
 
         if(Gdx.input.isKeyPressed(BACK)) {
-            Gdx.input.setCatchKey(BACK, bloquearBack);
+            this.bloquearBack = bloquearBack;
+            Gdx.input.setCatchKey(BACK, this.bloquearBack);
         }
 
         int ancho = Gdx.graphics.getWidth();
@@ -99,6 +101,11 @@ public class ControlJuego implements ApplicationListener
               transicionPantalla.render(batch, actualFrameBuffer.getColorBufferTexture(),
                       siguienteFrameBuffer.getColorBufferTexture(), alpha);
             }
+
+            while(pantallaActual != null){
+                Gdx.input.setCatchKey(BACK, bloquearBack);
+            }
+
         }
     }
 

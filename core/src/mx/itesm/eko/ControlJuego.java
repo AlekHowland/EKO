@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import mx.itesm.eko.musica.ControladorAudio;
 import mx.itesm.eko.transiciones.TransicionPantalla;
 
-public class ControlJuego implements ApplicationListener, InputProcessor
+public class ControlJuego implements ApplicationListener
 {
     private boolean inicio;
     private PantallaAbstracta pantallaActual;
@@ -24,16 +24,22 @@ public class ControlJuego implements ApplicationListener, InputProcessor
     private float duracion;
     private TransicionPantalla transicionPantalla;
     private ControladorAudio mixer;
+    private final int BACK = 4;
     private boolean musicaUsuario = true;
 
     public void setScreen(PantallaAbstracta pantalla){
-        setScreen(pantalla, null);
+        setScreen(pantalla, null, true);
     }
 
-    public void setScreen(PantallaAbstracta pantalla, TransicionPantalla transicion){
+    public void setScreen(PantallaAbstracta pantalla, TransicionPantalla transicion,
+                          boolean bloquearBack){
+
+        if(Gdx.input.isKeyPressed(BACK)) {
+            Gdx.input.setCatchKey(BACK, bloquearBack);
+        }
+
         int ancho = Gdx.graphics.getWidth();
         int alto = Gdx.graphics.getHeight();
-        Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
         if (!inicio) {
             actualFrameBuffer = new FrameBuffer(Format.RGBA8888, ancho, alto, false);
@@ -50,19 +56,13 @@ public class ControlJuego implements ApplicationListener, InputProcessor
 
         if (pantallaActual != null) pantallaActual.pause();
         pantallaSiguiente.pause();
-        Gdx.input.setInputProcessor(this);
         this.transicionPantalla = transicion;
         duracion = 0;
-        Gdx.input.setCatchKey(Input.Keys.BACK,true);
     }
-
 
 
     @Override
     public void render() {
-        Gdx.input.setCatchKey(Input.Keys.BACK, true);
-        //Gdx.input.setCatchBackKey(true);
-
         // Se establece el límite del tiempo a 1/60 segundos
         float tiempoDelta = Math.min(Gdx.graphics.getDeltaTime(), 1.0f/60.0f);
 
@@ -165,14 +165,6 @@ public class ControlJuego implements ApplicationListener, InputProcessor
         efecto.play();
     }
 
-    public void disposeAudio(){
-        mixer.manager.clear();
-    }
-
-    public void setVolumenMitad(){
-        mixer.musica.setVolume(0.5f);
-    }
-
     public void setVolumen100(){
         mixer.musica.setVolume(1);
     }
@@ -181,17 +173,8 @@ public class ControlJuego implements ApplicationListener, InputProcessor
         mixer.musica.setVolume(v);
     }
 
-
-    public ControladorAudio getMixerReference(){
-        return this.mixer;
-    }
-
     public void playMixer(){
         mixer.musica.play();
-    }
-
-    public boolean mixerPlaying(){
-        return mixer.musica.isPlaying();
     }
 
     public void changeMusicaUsuario(boolean f){
@@ -200,58 +183,5 @@ public class ControlJuego implements ApplicationListener, InputProcessor
 
     public boolean getMusicaUsaurio(){
         return this.musicaUsuario;
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
-
-    //Termina metodos mixer
-
-
-
-
-
-    public static class FondoDinamico {
-    }
-
-    public boolean isMusicaOn(){
-        return musicaUsuario;
     }
 }

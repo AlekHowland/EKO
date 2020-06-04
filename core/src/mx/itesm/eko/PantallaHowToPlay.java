@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import mx.itesm.eko.musica.ControladorAudio;
 
-public class PantallaHowToPlay extends PantallaAbstracta implements InputProcessor{
+public class PantallaHowToPlay extends PantallaAbstracta{
 
     private final ControlJuego juego;
 
@@ -35,8 +35,6 @@ public class PantallaHowToPlay extends PantallaAbstracta implements InputProcess
     public void show() {
         texturaFondo = new Texture("Fondos/fondoHowToPlay"+ numero +".png");
         crearMenu();
-        Gdx.input.setInputProcessor(this);
-        Gdx.input.setCatchKey(Input.Keys.BACK,true);
     }
 
     private void crearMenu() {
@@ -121,46 +119,6 @@ public class PantallaHowToPlay extends PantallaAbstracta implements InputProcess
 
     @Override
     public void dispose() {
-        texturaFondo.dispose();
-    }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
     }
 }

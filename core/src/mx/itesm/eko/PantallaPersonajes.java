@@ -12,7 +12,7 @@ import mx.itesm.eko.musica.ControladorAudio;
 import mx.itesm.eko.transiciones.TransicionPantalla;
 import mx.itesm.eko.transiciones.efectoTransicion;
 
-public class PantallaPersonajes extends PantallaAbstracta implements InputProcessor{
+public class PantallaPersonajes extends PantallaAbstracta{
 
     private final ControlJuego juego;
     private Texture texturaFondo;
@@ -49,14 +49,10 @@ public class PantallaPersonajes extends PantallaAbstracta implements InputProces
                 break;
         }
         crearMenu();
-        Gdx.input.setInputProcessor(this);
-        Gdx.input.setCatchKey(Input.Keys.BACK,true);
     }
 
     private void crearMenu() {
         escenaMenu = new Stage(vista);
-
-
 
         //Boton cambio derecha
         Boton btnDer=new Boton("Botones/btnSelDer.png","Botones/btnSelDerP.png");
@@ -108,11 +104,7 @@ public class PantallaPersonajes extends PantallaAbstracta implements InputProces
             }
         });
         escenaMenu.addActor(btnSelect.getBtn());
-
-
         Gdx.input.setInputProcessor(escenaMenu);
-
-
     }
 
     @Override
@@ -151,43 +143,4 @@ public class PantallaPersonajes extends PantallaAbstracta implements InputProces
         return escenaMenu;
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
 }

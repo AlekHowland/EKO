@@ -14,6 +14,6 @@ public class EkoMain extends ControlJuego
 	public void create () {
 		TransicionPantalla transicion = efectoTransicion.inicializacion(2.0f);
 		setMixer(mixer);
-		setScreen(new PantallaIntro(this), transicion);
+		setScreen(new PantallaIntro(this), transicion, true);
 	}
 }

@@ -14,7 +14,7 @@ import mx.itesm.eko.musica.ControladorAudio;
 import mx.itesm.eko.transiciones.TransicionPantalla;
 import mx.itesm.eko.transiciones.efectoTransicion;
 
-public class PantallaScores extends PantallaAbstracta implements InputProcessor {
+public class PantallaScores extends PantallaAbstracta{
 
     private final ControlJuego juego;
     private Texture texturaFondo;
@@ -40,9 +40,6 @@ public class PantallaScores extends PantallaAbstracta implements InputProcessor 
         texturaFondo = new Texture("Fondos/fondoScores.jpg");
         crearMenu();
         crearScores();
-
-        Gdx.input.setInputProcessor(this);
-        Gdx.input.setCatchKey(Input.Keys.BACK,true);
     }
 
     private void crearScores() {
@@ -88,6 +85,7 @@ public class PantallaScores extends PantallaAbstracta implements InputProcessor 
         batch.end();
 
         escenaMenu.draw();
+
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
             juego.setScreen(new PantallaMenu(juego));
         }
@@ -102,46 +100,5 @@ public class PantallaScores extends PantallaAbstracta implements InputProcessor 
     @Override
     public void dispose() {
         texturaFondo.dispose();
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
     }
 }

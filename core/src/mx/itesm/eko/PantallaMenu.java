@@ -120,7 +120,7 @@ public class PantallaMenu extends PantallaAbstracta
                 if(juego.getMusicaUsaurio() == true){
                     juego.setMusica("Audios/Expectation of a Journey.mp3", true, true);
                 }
-                juego.setScreen(new PantallaPersonajes(juego,"Oso"), transicion, true);
+                juego.setScreen(new PantallaPersonajes(juego,"Oso"), transicion);
             }
         });
         escenaMenu.addActor(botonJugar.getBtn());
@@ -134,7 +134,7 @@ public class PantallaMenu extends PantallaAbstracta
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 juego.setEfecto("Audios/efectoBoton.mp3");
-                juego.setScreen(new PantallaScores(juego), transicion, true);
+                juego.setScreen(new PantallaScores(juego), transicion);
             }
         });
         escenaMenu.addActor(botonScores.getBtn());
@@ -147,7 +147,7 @@ public class PantallaMenu extends PantallaAbstracta
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 juego.setEfecto("Audios/efectoBoton.mp3");
-                juego.setScreen(new PantallaHowToPlay(juego,1), transicion, true);
+                juego.setScreen(new PantallaHowToPlay(juego,1), transicion);
             }
         });
         escenaMenu.addActor(botonHowToPlay.getBtn());
@@ -160,7 +160,7 @@ public class PantallaMenu extends PantallaAbstracta
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 juego.setEfecto("Audios/efectoBoton.mp3");
-                juego.setScreen(new PantallaSettings(juego), transicion, true);
+                juego.setScreen(new PantallaSettings(juego), transicion);
             }
         });
         escenaMenu.addActor(botonSettings.getBtn());

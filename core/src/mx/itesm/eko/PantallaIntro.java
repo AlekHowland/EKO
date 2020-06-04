@@ -35,7 +35,6 @@ public class PantallaIntro extends PantallaAbstracta implements InputProcessor{
         spriteLogo.setPosition(ANCHO/2-spriteLogo.getWidth()/2, ALTO/2-spriteLogo.getHeight()/2);
         escalarLogo();
         Gdx.input.setInputProcessor(this);
-        Gdx.input.setCatchKey(Input.Keys.BACK,true);
     }
 
     private void escalarLogo() {
@@ -58,9 +57,6 @@ public class PantallaIntro extends PantallaAbstracta implements InputProcessor{
         // Actualizar para cambiar pantalla
         tiempoVisible -= delta;
         if (tiempoVisible<=0) {
-            juego.setScreen(new PantallaMenu(juego));
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
             juego.setScreen(new PantallaMenu(juego));
         }
     }

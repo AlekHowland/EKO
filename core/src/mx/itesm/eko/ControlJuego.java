@@ -2,6 +2,7 @@ package mx.itesm.eko;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -92,6 +93,10 @@ public class ControlJuego implements ApplicationListener
               float alpha = duracion / duracionTransicion;
               transicionPantalla.render(batch, actualFrameBuffer.getColorBufferTexture(),
                       siguienteFrameBuffer.getColorBufferTexture(), alpha);
+            }
+            //Se atrapa la tecla BACK
+            if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+                setScreen(pantallaActual);
             }
         }
     }

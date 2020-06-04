@@ -574,24 +574,6 @@ class PantallaJuego extends PantallaAbstracta implements GestureDetector.Gesture
 
     }
 
-    //@Override
-    //public InputProcessor getInputProcessor() {
-    //    return new InputProcessor() {
-    //    };
-    //}
-
-    //@Override
-    //public boolean touchDown(float x, float y, int pointer, int button) {
-    //    return false;
-    //}
-
-
-    //@Override
-    //public InputProcessor getInputProcessor() {
-    //    return null;
-    //}
-
-
     //Clase Pausa (Ventana que se muestra cuando el usuario pausa la app)
     class EscenaPausa extends Stage {
         public EscenaPausa(final Viewport vista, final SpriteBatch batch) {

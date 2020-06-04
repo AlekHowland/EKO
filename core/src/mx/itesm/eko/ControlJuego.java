@@ -89,23 +89,19 @@ public class ControlJuego implements ApplicationListener
               pantallaSiguiente = null;
               transicionPantalla = null;
             } else {
-              // Se hace el render de las pantallas a los buffers
-              actualFrameBuffer.begin();
-              if (pantallaActual != null) pantallaActual.render(tiempoDelta);
-              actualFrameBuffer.end();
-              siguienteFrameBuffer.begin();
-              pantallaSiguiente.render(tiempoDelta);
-              siguienteFrameBuffer.end();
-              //  Efecto de transición
-              float alpha = duracion / duracionTransicion;
-              transicionPantalla.render(batch, actualFrameBuffer.getColorBufferTexture(),
-                      siguienteFrameBuffer.getColorBufferTexture(), alpha);
-            }
-
-            while(pantallaActual != null){
                 Gdx.input.setCatchKey(BACK, bloquearBack);
+                // Se hace el render de las pantallas a los buffers
+                actualFrameBuffer.begin();
+                if (pantallaActual != null) pantallaActual.render(tiempoDelta);
+                actualFrameBuffer.end();
+                siguienteFrameBuffer.begin();
+                pantallaSiguiente.render(tiempoDelta);
+                siguienteFrameBuffer.end();
+                //  Efecto de transición
+                float alpha = duracion / duracionTransicion;
+                transicionPantalla.render(batch, actualFrameBuffer.getColorBufferTexture(),
+                        siguienteFrameBuffer.getColorBufferTexture(), alpha);
             }
-
         }
     }
 

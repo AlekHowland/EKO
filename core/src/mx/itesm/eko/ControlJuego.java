@@ -32,7 +32,7 @@ public class ControlJuego implements ApplicationListener
     public void setScreen(PantallaAbstracta pantalla, TransicionPantalla transicion){
         int ancho = Gdx.graphics.getWidth();
         int alto = Gdx.graphics.getHeight();
-
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
         if (!inicio) {
             actualFrameBuffer = new FrameBuffer(Format.RGBA8888, ancho, alto, false);
@@ -58,10 +58,9 @@ public class ControlJuego implements ApplicationListener
 
     @Override
     public void render() {
-        //Se atrapa la tecla BACK
-        if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
-            //setScreen(pantallaActual);
-        }
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+        //Gdx.input.setCatchBackKey(true);
+
         // Se establece el límite del tiempo a 1/60 segundos
         float tiempoDelta = Math.min(Gdx.graphics.getDeltaTime(), 1.0f/60.0f);
 

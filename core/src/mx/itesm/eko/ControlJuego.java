@@ -58,6 +58,10 @@ public class ControlJuego implements ApplicationListener
 
     @Override
     public void render() {
+        //Se atrapa la tecla BACK
+        if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+            //setScreen(pantallaActual);
+        }
         // Se establece el límite del tiempo a 1/60 segundos
         float tiempoDelta = Math.min(Gdx.graphics.getDeltaTime(), 1.0f/60.0f);
 
@@ -94,10 +98,6 @@ public class ControlJuego implements ApplicationListener
               transicionPantalla.render(batch, actualFrameBuffer.getColorBufferTexture(),
                       siguienteFrameBuffer.getColorBufferTexture(), alpha);
             }
-        }
-        //Se atrapa la tecla BACK
-        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
-            //setScreen(pantallaActual);
         }
     }
 

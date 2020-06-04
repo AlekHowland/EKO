@@ -95,9 +95,7 @@ public class ControlJuego implements ApplicationListener
                       siguienteFrameBuffer.getColorBufferTexture(), alpha);
             }
             //Se atrapa la tecla BACK
-            if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
-                setScreen(pantallaActual);
-            }
+            if(Gdx.input.isKeyPressed(Input.Keys.BACK)){ }
         }
     }
 

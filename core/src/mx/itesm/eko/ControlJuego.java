@@ -84,15 +84,14 @@ public class ControlJuego implements ApplicationListener
                 //Gdx.input.setCatchKey(BACK, bloquearBack);
                 // Se hace el render de las pantallas a los buffers
                 actualFrameBuffer.begin();
-                Gdx.input.setCatchKey(BACK, bloquearBack);
                 if (pantallaActual != null) {
                     Gdx.input.setCatchKey(BACK, bloquearBack);
                     pantallaActual.render(tiempoDelta);
                 }
                 actualFrameBuffer.end();
                 siguienteFrameBuffer.begin();
-                Gdx.input.setCatchKey(BACK, bloquearBack);
                 pantallaSiguiente.render(tiempoDelta);
+                Gdx.input.setCatchKey(BACK, bloquearBack);
                 siguienteFrameBuffer.end();
                 //  Efecto de transición
                 float alpha = duracion / duracionTransicion;

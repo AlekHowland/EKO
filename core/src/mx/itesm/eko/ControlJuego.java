@@ -65,16 +65,16 @@ public class ControlJuego implements ApplicationListener
             if(pantallaActual != null) pantallaActual.render(tiempoDelta);
         } else {
             // Hay una transición
+            // Si se aprieta back, no hace nada
+            if(Gdx.input.isKeyPressed(BACK)) {
+                Gdx.input.setCatchKey(BACK, bloquearBack);
+            }
             float duracionTransicion = 0;
             if (transicionPantalla != null)
                 duracionTransicion = transicionPantalla.getDuration();
             // Se actualiza el proceso de la transición en curso
             duracion = Math.min(duracion + tiempoDelta, duracionTransicion);
             if (transicionPantalla == null || duracion >= duracionTransicion) {
-                // Si se aprieta back, no hace nada
-                if(Gdx.input.isKeyPressed(BACK)) {
-                    Gdx.input.setCatchKey(BACK, bloquearBack);
-                }
               // Se acaba de terminar la transición o no hay
               if (pantallaActual != null) pantallaActual.hide();
               pantallaSiguiente.resume();

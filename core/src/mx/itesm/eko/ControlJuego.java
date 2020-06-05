@@ -65,10 +65,6 @@ public class ControlJuego implements ApplicationListener
             if(pantallaActual != null) pantallaActual.render(tiempoDelta);
         } else {
             // Hay una transición
-            // Si se aprieta back, no hace nada
-            if(Gdx.input.isKeyPressed(BACK)) {
-                Gdx.input.setCatchKey(BACK, bloquearBack);
-            }
             float duracionTransicion = 0;
             if (transicionPantalla != null)
                 duracionTransicion = transicionPantalla.getDuration();
@@ -87,7 +83,7 @@ public class ControlJuego implements ApplicationListener
             } else {
                 // Si se aprieta back, no hace nada
                 if(Gdx.input.isKeyPressed(BACK)) {
-                    Gdx.input.setCatchKey(BACK, bloquearBack);
+                    //Gdx.input.setCatchKey(BACK, bloquearBack);
                 }
                 // Se hace el render de las pantallas a los buffers
                 actualFrameBuffer.begin();

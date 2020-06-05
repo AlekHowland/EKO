@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import mx.itesm.eko.musica.ControladorAudio;
 import mx.itesm.eko.transiciones.TransicionPantalla;
 
-public class ControlJuego implements ApplicationListener
+public class ControlJuego implements ApplicationListener, InputProcessor
 {
     private boolean inicio;
     private PantallaAbstracta pantallaActual;
@@ -47,7 +47,8 @@ public class ControlJuego implements ApplicationListener
         pantallaSiguiente.show();       //Se activa la siguiente pantalla
         pantallaSiguiente.resize(ancho, alto);
         pantallaSiguiente.render(0);
-
+        Gdx.input.setInputProcessor(this);
+        Gdx.input.setCatchKey(Input.Keys.BACK,true);
         if (pantallaActual != null) pantallaActual.pause();
         pantallaSiguiente.pause();
         this.transicionPantalla = transicion;
@@ -94,8 +95,12 @@ public class ControlJuego implements ApplicationListener
                 siguienteFrameBuffer.end();
                 //  Efecto de transición
                 float alpha = duracion / duracionTransicion;
-                transicionPantalla.render(batch, actualFrameBuffer.getColorBufferTexture(),
-                        siguienteFrameBuffer.getColorBufferTexture(), alpha);
+                try {
+                    transicionPantalla.render(batch, actualFrameBuffer.getColorBufferTexture(),
+                            siguienteFrameBuffer.getColorBufferTexture(), alpha);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -134,7 +139,10 @@ public class ControlJuego implements ApplicationListener
     }
 
     @Override
-    public void create() { }
+    public void create() {
+        Gdx.input.setInputProcessor(this);
+        Gdx.input.setCatchKey(Input.Keys.BACK,true);
+    }
 
     //Creacion y metodos de la mixer
 
@@ -181,5 +189,45 @@ public class ControlJuego implements ApplicationListener
 
     public boolean getMusicaUsaurio(){
         return this.musicaUsuario;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }

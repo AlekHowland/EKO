@@ -24,7 +24,7 @@ public class ControlJuego implements ApplicationListener
     private float duracion;
     private TransicionPantalla transicionPantalla;
     private ControladorAudio mixer;
-    private boolean bloquearBack = true;
+    private final boolean bloquearBack = true;
     private final int BACK = 4;
     private boolean musicaUsuario = true;
 
@@ -71,6 +71,10 @@ public class ControlJuego implements ApplicationListener
             // Se actualiza el proceso de la transición en curso
             duracion = Math.min(duracion + tiempoDelta, duracionTransicion);
             if (transicionPantalla == null || duracion >= duracionTransicion) {
+                // Si se aprieta back, no hace nada
+                if(Gdx.input.isKeyPressed(BACK)) {
+                    Gdx.input.setCatchKey(BACK, bloquearBack);
+                }
               // Se acaba de terminar la transición o no hay
               if (pantallaActual != null) pantallaActual.hide();
               pantallaSiguiente.resume();
@@ -81,7 +85,7 @@ public class ControlJuego implements ApplicationListener
               pantallaSiguiente = null;
               transicionPantalla = null;
             } else {
-                // Si se aprieta back, no hay nada
+                // Si se aprieta back, no hace nada
                 if(Gdx.input.isKeyPressed(BACK)) {
                     Gdx.input.setCatchKey(BACK, bloquearBack);
                 }
